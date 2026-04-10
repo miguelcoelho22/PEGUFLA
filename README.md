@@ -1,61 +1,92 @@
 # Pegufla 🚗
 
-## 1. Identificação do projeto
+## 1. Identificação do problema
 
-**Nome do projeto:** Pegufla  
-**Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas  
-**Turma/Semestre:** 14A/2026.1  
-**Docente:** Prof. Johnatan Oliveira  
-
-### Integrantes do grupo
-- Gracielle Ázara — Product Owner
-- Matheus Cunha — Scrum Master
-- Miguel Coelho — Desenvolvedor Back-end
-- Nicolas Matheus — Desenvolvedor Fron-end
+**Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas
 
 ---
 
-## 2. Objetivo do trabalho
+## 2. Contextualização do problema
 
-Desenvolver uma aplicação web que conecte estudantes da UFLA interessados em compartilhar caronas, facilitando o deslocamento de forma econômica, prática e segura.
+Estudantes da Universidade Federal de Lavras (UFLA) enfrentam dificuldades no deslocamento diário, especialmente aqueles que não possuem veículo próprio.
 
-O projeto será desenvolvido de forma incremental utilizando Scrum, aplicando conceitos de:
+Atualmente, a organização de caronas ocorre de forma informal, por meio de grupos de WhatsApp e redes sociais, o que gera:
 
-- requisitos
-- modelagem
-- projeto
-- arquitetura
-- padrões
-- testes
+* falta de organização
+* dificuldade de comunicação
+* insegurança entre os usuários
+* dificuldade em encontrar rotas compatíveis
 
 ---
 
-## 3. Organização do repositório
+## 3. Justificativa da proposta de solução
 
-```text
-.
-├── README.md
-├── .gitignore
-├── .github
-│   └── ISSUE_TEMPLATE
-│       ├── user-story.md
-│       ├── sprint-task.md
-│       └── bug-report.md
-├── docs
-│   ├── 01_problema_e_visao_do_produto.md
-│   ├── 02_scrum_e_organizacao_do_grupo.md
-│   ├── 03_product_backlog.md
-│   ├── 04_requisitos.md
-│   ├── 05_modelagem.md
-│   ├── 06_arquitetura_e_projeto.md
-│   ├── 07_padroes_de_projeto.md
-│   ├── 08_testes.md
-│   ├── 09_entregas_incrementais.md
-│   └── 10_apresentacao_final.md
-├── sprints
-│   ├── sprint_01.md
-│   ├── sprint_02.md
-│   └── sprint_review_retro_template.md
-└── entregas
-    └── entrega_template.md
-```
+A criação de uma aplicação web específica para compartilhamento de caronas permite centralizar as informações, melhorar a organização e aumentar a segurança.
+
+Além disso, a solução contribui para:
+
+* redução de custos com transporte
+* maior integração entre estudantes
+* otimização do deslocamento
+
+---
+
+## 4. Definição preliminar do produto
+
+O Pegufla será uma aplicação web que permitirá que estudantes:
+
+* se cadastrem no sistema
+* realizem login
+* ofereçam caronas
+* busquem caronas disponíveis
+* visualizem informações das viagens
+
+A proposta é criar uma plataforma simples, intuitiva e acessível.
+
+---
+
+## 5. Composição do grupo
+
+* Gracielle Ázara — Product Owner
+* Matheus Cunha — Scrum Master
+* Miguel Coelho — Desenvolvedor Back-end
+* Nicolas Matheus — Desenvolvedor Front-end
+
+---
+
+## 6. Organização inicial do projeto (Scrum)
+
+O projeto será desenvolvido utilizando a metodologia ágil Scrum, de forma simplificada.
+
+Papéis definidos:
+
+* Product Owner: responsável pela visão do produto e priorização do backlog
+* Scrum Master: responsável pela organização das sprints
+* Time de desenvolvimento: responsável pela implementação e documentação
+
+O trabalho será dividido em sprints semanais, com planejamento, execução e revisão contínua.
+
+---
+
+## 7. Escopo inicial da aplicação web
+
+### Funcionalidades incluídas:
+
+* Cadastro de usuários
+* Login
+* Criação de caronas
+* Busca de caronas
+* Visualização de informações
+
+### Funcionalidades não incluídas:
+
+* Sistema de pagamento
+* Aplicativo mobile
+* Sistema avançado de avaliação
+
+### Limitações:
+
+* Projeto acadêmico
+* Tempo limitado de desenvolvimento
+
+O objetivo é entregar uma versão funcional básica do sistema.
