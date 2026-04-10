@@ -19,11 +19,11 @@ Itens foram priorizados com base em:
 
 | ID | Tipo | Item | Descrição | Prioridade | Critérios | Estimativa | Sprint |
 |----|------|------|----------|-----------|----------|-----------|--------|
-| PB01 | História | Cadastro | Como usuário, quero me cadastrar para usar o sistema | Alta | Cadastro válido | 3 pts | 1 |
-| PB02 | História | Login | Como usuário, quero fazer login | Alta | Login funcional | 3 pts | 1 |
-| PB03 | História | Criar carona | Oferecer carona | Alta | Cadastro de rota | 5 pts | 2 |
-| PB04 | História | Buscar carona | Encontrar carona | Alta | Lista de caronas | 5 pts | 2 |
-| PB05 | Melhoria | Chat | Comunicação | Média | Troca de mensagens | 3 pts | 3 |
+| PB01 | História | Cadastro | Como usuário, quero me cadastrar para usar o sistema | Alta | Cadastro válido | 3 pts | 2 |
+| PB02 | História | Login | Como usuário, quero fazer login | Alta | Login funcional | 3 pts | 2 |
+| PB03 | História | Criar carona | Oferecer carona | Alta | Cadastro de rota | 5 pts | 3 |
+| PB04 | História | Buscar carona | Encontrar carona | Alta | Lista de caronas | 5 pts | 4 |
+| PB05 | Melhoria | Chat | Comunicação | Média | Troca de mensagens | 3 pts | 5 |
 
 ---
 
