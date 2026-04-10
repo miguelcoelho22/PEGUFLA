@@ -29,3 +29,33 @@ O projeto será desenvolvido de forma incremental utilizando Scrum, aplicando co
 - testes
 
 ---
+
+## 3. Organização do repositório
+
+```text
+.
+├── README.md
+├── .gitignore
+├── .github
+│   └── ISSUE_TEMPLATE
+│       ├── user-story.md
+│       ├── sprint-task.md
+│       └── bug-report.md
+├── docs
+│   ├── 01_problema_e_visao_do_produto.md
+│   ├── 02_scrum_e_organizacao_do_grupo.md
+│   ├── 03_product_backlog.md
+│   ├── 04_requisitos.md
+│   ├── 05_modelagem.md
+│   ├── 06_arquitetura_e_projeto.md
+│   ├── 07_padroes_de_projeto.md
+│   ├── 08_testes.md
+│   ├── 09_entregas_incrementais.md
+│   └── 10_apresentacao_final.md
+├── sprints
+│   ├── sprint_01.md
+│   ├── sprint_02.md
+│   └── sprint_review_retro_template.md
+└── entregas
+    └── entrega_template.md
+```
