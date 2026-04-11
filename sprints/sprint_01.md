@@ -69,9 +69,11 @@ Nesta sprint não houve desenvolvimento da aplicação em si, sendo o foco na de
   - Visão inicial do produto  
   - Criação do repositório  
   - Organização inicial do projeto  
-  - Backlog inicial  
+  - Backlog inicial
+  - Planejamento da Sprint 2 
 
 - O que ficou pendente:
+  - Execução da Sprint 2 
   - Detalhamento completo dos requisitos  
   - Priorização mais refinada do backlog  
 
@@ -105,4 +107,4 @@ Além disso, houve adaptação inicial ao uso do Scrum e às exigências da disc
 ### Resultados
 A sprint foi concluída com sucesso, atingindo seus objetivos principais.
 
-O grupo conseguiu definir o problema, estabelecer a visão do produto, criar o repositório no GitHub e elaborar o backlog inicial, fornecendo uma base sólida para as próximas etapas do projeto.
+O grupo conseguiu definir o problema, estabelecer a visão do produto, criar o repositório no GitHub e elaborar o backlog inicial. Além disso, foi realizado o planejamento da Sprint 2, preparando o grupo para a próxima etapa do projeto.
