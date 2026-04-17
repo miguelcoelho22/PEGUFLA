@@ -24,7 +24,7 @@ Os requisitos foram identificados por meio de:
 | RF07 | Visualizar caronas | Listar caronas disponíveis | Alta |
 | RF08 | Cancelar participação | Usuário pode sair da carona | Média |
 | RF09 | Excluir carona | Motorista pode excluir carona criada | Média |
-| RF10 | Chat entre usuários | Comunicação entre motorista e passageiro aprovado | Alta |
+| RF10 | Chat entre usuários | Comunicação entre motorista e passageiro aprovado | Baixa |
 
 ---
 
