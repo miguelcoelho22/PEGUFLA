@@ -46,6 +46,7 @@ Os requisitos do sistema foram identificados a partir de:
 | RN02 | Limite de vagas | Cada carona possui número limitado de vagas          |
 | RN03 | Não duplicidade | Usuário não pode solicitar a mesma carona duas vezes |
 | RN04 | Cancelamento    | Usuário pode cancelar apenas suas próprias caronas   |
+| RN05 | Email institucional obrigatório | O usuário deve se cadastrar utilizando um email institucional da UFLA |
 
 ---
 
