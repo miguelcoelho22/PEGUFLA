@@ -40,18 +40,20 @@ O grupo escolheu esse problema por ser uma realidade comum no ambiente universit
 
 ## 3. Visão do produto
 
-**Nome da solução:** Pegufla
+**Nome da solução:** PegUFLA
 
 **Proposta de valor:**
 Oferecer uma plataforma centralizada e segura para conectar estudantes que desejam compartilhar caronas, facilitando o deslocamento de forma econômica e organizada.
 
 **Objetivo geral da solução:**
-Desenvolver uma aplicação web que conecte estudantes da UFLA para compartilhamento de caronas.
+Desenvolver uma aplicação web responsiva que conecte estudantes da Universidade Federal de Lavras para compartilhamento de caronas de forma segura, organizada e gratuita.
 
 **Objetivos específicos:**
-- Permitir cadastro e autenticação de usuários
-- Permitir criação e busca de caronas
+- Permitir cadastro e autenticação segura de usuários
+- Permitir publicação e busca de caronas
+- Gerenciar vagas disponíveis
 - Facilitar comunicação entre usuários
+- Melhorar mobilidade interna no campus
 
 ---
 
