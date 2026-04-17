@@ -37,8 +37,6 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB09 | História | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 4 |
 | PB10 | História | Como usuário, quero visualizar minhas caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
 | PB11 | História | Como motorista e passageiro, quero conversar via chat | Comunicação | Alta | Chat liberado após aprovação | 5 pts | 5 |
-| PB13 | Técnica | Implementar autenticação segura | Segurança | Alta | Proteção de rotas e sessão | 3 pts | 3 |
-| PB14 | Técnica | Criar API backend | Integração | Alta | Endpoints funcionando | 5 pts | 3 |
 | PB15 | Técnica | Desenvolver interface web | Frontend | Alta | Interface funcional e responsiva | 5 pts | 3 |
 
 ---
