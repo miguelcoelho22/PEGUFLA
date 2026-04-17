@@ -67,6 +67,47 @@ Os requisitos do sistema foram identificados a partir de:
 
 ## 6. Casos de uso ou cenários
 
+---
+
+### Caso de uso: Cadastro de usuário
+
+**Atores:** Usuário
+**Objetivo:** Permitir que um novo usuário se registre no sistema
+
+**Fluxo principal:**
+
+1. Usuário acessa a tela de cadastro
+2. Preenche nome, email e senha
+3. Sistema valida os dados
+4. Sistema cria a conta
+5. Usuário é redirecionado para login
+
+**Fluxos alternativos:**
+
+* Email já cadastrado → sistema exibe erro
+* Dados inválidos → sistema solicita correção
+
+---
+
+### Caso de uso: Login de usuário
+
+**Atores:** Usuário
+**Objetivo:** Permitir acesso ao sistema
+
+**Fluxo principal:**
+
+1. Usuário acessa a tela de login
+2. Informa email e senha
+3. Sistema valida credenciais
+4. Usuário acessa o sistema
+
+**Fluxos alternativos:**
+
+* Dados incorretos → sistema exibe erro
+* Usuário não cadastrado → redireciona para cadastro
+
+---
+
 ### Caso de uso: Criar carona
 
 **Atores:** Usuário (motorista)
@@ -75,14 +116,94 @@ Os requisitos do sistema foram identificados a partir de:
 **Fluxo principal:**
 
 1. Usuário faz login
-2. Acessa opção "Criar carona"
+2. Acessa "Criar carona"
 3. Informa origem, destino, horário e vagas
-4. Sistema salva a carona
+4. Sistema valida dados
+5. Sistema registra a carona
 
 **Fluxos alternativos:**
 
-* Dados inválidos → sistema exibe erro
-* Usuário não logado → redirecionamento para login
+* Dados incompletos → erro
+* Usuário não autenticado → redireciona para login
+
+---
+
+### Caso de uso: Buscar carona
+
+**Atores:** Usuário (passageiro)
+**Objetivo:** Encontrar caronas disponíveis
+
+**Fluxo principal:**
+
+1. Usuário acessa o sistema
+2. Informa origem e destino
+3. Sistema busca caronas disponíveis
+4. Sistema exibe lista de resultados
+
+**Fluxos alternativos:**
+
+* Nenhuma carona encontrada → sistema informa
+* Dados inválidos → erro
+
+---
+
+### Caso de uso: Solicitar carona
+
+**Atores:** Usuário (passageiro)
+**Objetivo:** Solicitar participação em uma carona
+
+**Fluxo principal:**
+
+1. Usuário visualiza uma carona
+2. Clica em "Solicitar carona"
+3. Sistema registra a solicitação
+4. Motorista pode visualizar a solicitação
+
+**Fluxos alternativos:**
+
+* Sem vagas disponíveis → sistema bloqueia ação
+* Usuário não logado → redireciona para login
+
+---
+
+### Caso de uso: Cancelar carona
+
+**Atores:** Usuário
+**Objetivo:** Permitir cancelar uma carona criada ou solicitada
+
+**Fluxo principal:**
+
+1. Usuário acessa suas caronas
+2. Seleciona a carona
+3. Clica em cancelar
+4. Sistema remove ou atualiza o status da carona
+
+**Fluxos alternativos:**
+
+* Usuário tenta cancelar carona de outro → erro
+* Carona já cancelada → sistema informa
+
+---
+
+### Caso de uso: Gerenciar perfil
+
+**Atores:** Usuário
+**Objetivo:** Atualizar dados pessoais
+
+**Fluxo principal:**
+
+1. Usuário acessa perfil
+2. Edita informações
+3. Salva alterações
+4. Sistema atualiza dados
+
+**Fluxos alternativos:**
+
+* Dados inválidos → erro
+* Falha no sistema → mensagem de erro
+
+---
+
 
 ---
 
