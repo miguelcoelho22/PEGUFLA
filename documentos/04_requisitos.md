@@ -50,19 +50,79 @@ Os requisitos do sistema foram identificados a partir de:
 
 ---
 
-## 5. Critérios de acessibilidade por funcionalidade
+## 5. Critérios de aceitação por funcionalidade
 
-**Funcionalidade: Cadastro de usuário**
+### Funcionalidade: Cadastro de usuário
 
-* Campos obrigatórios claramente identificados
-* Mensagens de erro compreensíveis
-* Interface responsiva
+* Deve permitir cadastro com nome, email e senha
+* Email deve ser válido e no domínio @ufla.br
+* Senha deve possuir mínimo de caracteres
+* Não permitir cadastro com email já existente
+* Sistema deve confirmar cadastro com sucesso
 
-**Funcionalidade: Buscar carona**
+---
 
-* Filtros simples (origem/destino)
-* Lista clara de resultados
-* Navegação intuitiva
+### Funcionalidade: Login
+
+* Deve permitir login com email e senha
+* Deve validar credenciais corretamente
+* Deve impedir acesso com dados inválidos
+* Deve redirecionar usuário autenticado
+
+---
+
+### Funcionalidade: Criar carona
+
+* Deve permitir informar origem, destino, horário e vagas
+* Todos os campos obrigatórios devem ser preenchidos
+* Sistema deve salvar a carona corretamente
+* Carona criada deve aparecer para outros usuários
+
+---
+
+### Funcionalidade: Buscar carona
+
+* Deve permitir buscar por origem e destino
+* Deve exibir lista de caronas disponíveis
+* Deve indicar quando não houver resultados
+* Deve permitir acessar detalhes da carona
+
+---
+
+### Funcionalidade: Solicitar carona
+
+* Deve permitir solicitar vaga em uma carona
+* Deve verificar disponibilidade de vagas
+* Deve registrar a solicitação
+* Deve impedir múltiplas solicitações duplicadas
+
+---
+
+### Funcionalidade: Cancelar/Excluir carona
+
+* Deve permitir que o usuário cancele uma carona criada
+* Deve permitir que o usuário cancele uma solicitação de carona
+* Deve impedir que o usuário cancele caronas de outros usuários
+* Sistema deve atualizar o status da carona após cancelamento
+* Sistema deve refletir a alteração para outros usuários
+
+---
+
+### Funcionalidade: Visualizar detalhes da carona
+
+* Deve exibir origem, destino, horário e vagas disponíveis
+* Deve exibir informações do motorista
+* Deve permitir acesso a partir da lista de caronas
+* Informações devem estar atualizadas
+
+---
+
+### Funcionalidade: Gerenciar perfil
+
+* Deve permitir visualizar dados do usuário
+* Deve permitir editar informações pessoais
+* Deve validar dados antes de salvar
+* Alterações devem ser persistidas no sistema
 
 ---
 
