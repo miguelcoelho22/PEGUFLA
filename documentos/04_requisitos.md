@@ -2,276 +2,211 @@
 
 ## 1. Levantamento de requisitos
 
-Os requisitos do sistema foram identificados a partir de:
+Os requisitos foram identificados por meio de:
 
-* análise do problema enfrentado pelos estudantes da UFLA;
-* discussão em grupo sobre necessidades reais do contexto;
-* observação de como atualmente os estudantes organizam caronas (grupos informais como WhatsApp);
-* definição das funcionalidades essenciais para viabilizar uma aplicação web funcional.
+- análise do problema enfrentado por estudantes da UFLA;
+- discussão em grupo com base na vivência acadêmica;
+- observação de soluções informais (ex: grupos de WhatsApp);
+- definição das principais necessidades dos usuários (motoristas e passageiros).
 
 ---
 
 ## 2. Requisitos funcionais
 
-| ID   | Requisito funcional | Descrição                                             | Prioridade |
-| ---- | ------------------- | ----------------------------------------------------- | ---------- |
-| RF01 | Cadastro de usuário | O sistema deve permitir que usuários se cadastrem     | Alta       |
-| RF02 | Login de usuário    | O sistema deve permitir autenticação                  | Alta       |
-| RF03 | Criar carona        | Usuário pode oferecer carona                          | Alta       |
-| RF04 | Buscar carona       | Usuário pode procurar caronas disponíveis             | Alta       |
-| RF05 | Solicitar carona    | Usuário pode solicitar participação em uma carona     | Alta       |
-| RF06 | Cancelar carona     | Usuário pode cancelar uma carona criada ou solicitada | Média      |
-| RF07 | Visualizar detalhes | Usuário pode ver informações da carona                | Média      |
-| RF08 | Gerenciar perfil    | Usuário pode editar seus dados                        | Baixa      |
+| ID | Requisito funcional | Descrição | Prioridade |
+|----|-------------------|----------|-----------|
+| RF01 | Cadastro de usuário | Permitir que usuários criem uma conta | Alta |
+| RF02 | Login | Permitir autenticação no sistema | Alta |
+| RF03 | Criar carona | Permitir que usuários ofereçam caronas | Alta |
+| RF04 | Buscar carona | Permitir que usuários encontrem caronas | Alta |
+| RF05 | Solicitar vaga | Permitir solicitar participação em carona | Alta |
+| RF06 | Aprovar/rejeitar solicitação | Motorista gerencia solicitações | Alta |
+| RF07 | Visualizar caronas | Listar caronas disponíveis | Alta |
+| RF08 | Cancelar participação | Usuário pode sair da carona | Média |
+| RF09 | Excluir carona | Motorista pode excluir carona criada | Média |
+| RF10 | Chat entre usuários | Comunicação entre motorista e passageiro aprovado | Alta |
 
 ---
 
 ## 3. Requisitos não funcionais
 
-| ID    | Requisito não funcional | Descrição                          | Categoria      |
-| ----- | ----------------------- | ---------------------------------- | -------------- |
-| RNF01 | Acesso web              | Sistema acessível via navegador    | Usabilidade    |
-| RNF02 | Tempo de resposta       | Sistema deve responder rapidamente | Desempenho     |
-| RNF03 | Autenticação            | Ações restritas exigem login       | Segurança      |
-| RNF04 | Persistência de dados   | Dados devem ser armazenados        | Confiabilidade |
-| RNF05 | Interface intuitiva     | Sistema fácil de usar              | Usabilidade    |
+| ID | Requisito não funcional | Descrição | Categoria |
+|----|------------------------|----------|----------|
+| RNF01 | Acesso via navegador | Sistema deve ser web | Usabilidade |
+| RNF02 | Autenticação obrigatória | Ações protegidas exigem login | Segurança |
+| RNF03 | Persistência de dados | Dados devem ser armazenados | Confiabilidade |
+| RNF04 | Interface responsiva | Funcionar em celular e desktop | Usabilidade |
+| RNF05 | Tempo de resposta | Sistema deve responder rapidamente | Desempenho |
 
 ---
 
 ## 4. Regras de negócio
 
-| ID   | Regra           | Descrição                                            |
-| ---- | --------------- | ---------------------------------------------------- |
-| RN01 | Carona válida   | Uma carona deve ter origem, destino e horário        |
-| RN02 | Limite de vagas | Cada carona possui número limitado de vagas          |
-| RN03 | Não duplicidade | Usuário não pode solicitar a mesma carona duas vezes |
-| RN04 | Cancelamento    | Usuário pode cancelar apenas suas próprias caronas   |
-| RN05 | Email institucional obrigatório | O usuário deve se cadastrar utilizando um email institucional da UFLA |
+| ID | Regra | Descrição |
+|----|------|----------|
+| RN01 | Email institucional obrigatório | O email cadastrado deve ser obrigatoriamente da UFLA |
+| RN02 | Apenas motoristas criam caronas | Apenas usuários com veículo podem oferecer caronas |
+| RN03 | Aprovação obrigatória | Passageiros só entram com aprovação do motorista |
+| RN04 | Vagas limitadas | Número de passageiros não pode exceder o limite |
+| RN05 | Chat restrito | Chat só é liberado após aprovação na carona |
 
 ---
 
 ## 5. Critérios de aceitação por funcionalidade
 
-### Funcionalidade: Cadastro de usuário
+### Cadastro de usuário
+- Deve permitir inserir nome, email e senha  
+- Email deve ser válido e da UFLA  
+- Senha deve ter tamanho mínimo  
+- Sistema deve confirmar cadastro com sucesso  
 
-* Deve permitir cadastro com nome, email e senha
-* Email deve ser válido e no domínio @ufla.br
-* Senha deve possuir mínimo de caracteres
-* Não permitir cadastro com email já existente
-* Sistema deve confirmar cadastro com sucesso
+### Login
+- Usuário deve informar email e senha  
+- Sistema deve validar credenciais  
+- Deve permitir acesso ao sistema  
 
----
+### Criar carona
+- Deve permitir definir origem e destino  
+- Deve permitir definir número de vagas  
+- Deve registrar data e horário  
+- Carona deve ser exibida no sistema  
 
-### Funcionalidade: Login
+### Buscar carona
+- Deve permitir filtrar por origem e destino  
+- Deve listar caronas disponíveis  
+- Deve exibir informações da carona  
 
-* Deve permitir login com email e senha
-* Deve validar credenciais corretamente
-* Deve impedir acesso com dados inválidos
-* Deve redirecionar usuário autenticado
+### Solicitar vaga
+- Usuário deve conseguir solicitar vaga  
+- Solicitação deve ser enviada ao motorista  
+- Status deve ficar como pendente  
 
----
+### Aprovar/rejeitar solicitação
+- Motorista deve visualizar solicitações  
+- Deve poder aprovar ou rejeitar  
+- Sistema deve atualizar status  
 
-### Funcionalidade: Criar carona
+### Cancelar participação
+- Usuário deve cancelar participação  
+- Sistema deve atualizar vagas disponíveis  
 
-* Deve permitir informar origem, destino, horário e vagas
-* Todos os campos obrigatórios devem ser preenchidos
-* Sistema deve salvar a carona corretamente
-* Carona criada deve aparecer para outros usuários
+### Excluir carona
+- Motorista deve excluir carona criada  
+- Sistema deve remover carona da lista  
 
----
-
-### Funcionalidade: Buscar carona
-
-* Deve permitir buscar por origem e destino
-* Deve exibir lista de caronas disponíveis
-* Deve indicar quando não houver resultados
-* Deve permitir acessar detalhes da carona
-
----
-
-### Funcionalidade: Solicitar carona
-
-* Deve permitir solicitar vaga em uma carona
-* Deve verificar disponibilidade de vagas
-* Deve registrar a solicitação
-* Deve impedir múltiplas solicitações duplicadas
-
----
-
-### Funcionalidade: Cancelar/Excluir carona
-
-* Deve permitir que o usuário cancele uma carona criada
-* Deve permitir que o usuário cancele uma solicitação de carona
-* Deve impedir que o usuário cancele caronas de outros usuários
-* Sistema deve atualizar o status da carona após cancelamento
-* Sistema deve refletir a alteração para outros usuários
+### Chat entre usuários
+- Chat só deve ser liberado após aprovação  
+- Usuários devem enviar e receber mensagens  
+- Mensagens devem ser exibidas em tempo real ou atualizado  
+- Histórico de mensagens deve ser mantido  
 
 ---
 
-### Funcionalidade: Visualizar detalhes da carona
-
-* Deve exibir origem, destino, horário e vagas disponíveis
-* Deve exibir informações do motorista
-* Deve permitir acesso a partir da lista de caronas
-* Informações devem estar atualizadas
-
----
-
-### Funcionalidade: Gerenciar perfil
-
-* Deve permitir visualizar dados do usuário
-* Deve permitir editar informações pessoais
-* Deve validar dados antes de salvar
-* Alterações devem ser persistidas no sistema
-
----
-
-## 6. Casos de uso ou cenários
-
----
+## 6. Casos de uso
 
 ### Caso de uso: Cadastro de usuário
-
-**Atores:** Usuário
-**Objetivo:** Permitir que um novo usuário se registre no sistema
+**Atores:** Usuário  
+**Objetivo:** Criar conta no sistema  
 
 **Fluxo principal:**
+1. Usuário acessa cadastro  
+2. Preenche dados  
+3. Sistema valida  
+4. Conta é criada  
 
-1. Usuário acessa a tela de cadastro
-2. Preenche nome, email e senha
-3. Sistema valida os dados
-4. Sistema cria a conta
-5. Usuário é redirecionado para login
-
-**Fluxos alternativos:**
-
-* Email já cadastrado → sistema exibe erro
-* Dados inválidos → sistema solicita correção
+**Fluxo alternativo:**
+- Email inválido → sistema exibe erro  
 
 ---
 
-### Caso de uso: Login de usuário
-
-**Atores:** Usuário
-**Objetivo:** Permitir acesso ao sistema
+### Caso de uso: Login
+**Atores:** Usuário  
+**Objetivo:** Acessar sistema  
 
 **Fluxo principal:**
+1. Usuário insere credenciais  
+2. Sistema valida  
+3. Acesso concedido  
 
-1. Usuário acessa a tela de login
-2. Informa email e senha
-3. Sistema valida credenciais
-4. Usuário acessa o sistema
-
-**Fluxos alternativos:**
-
-* Dados incorretos → sistema exibe erro
-* Usuário não cadastrado → redireciona para cadastro
+**Fluxo alternativo:**
+- Credenciais inválidas → erro  
 
 ---
 
 ### Caso de uso: Criar carona
-
-**Atores:** Usuário (motorista)
-**Objetivo:** Permitir oferecer uma carona
+**Atores:** Motorista  
+**Objetivo:** Oferecer carona  
 
 **Fluxo principal:**
-
-1. Usuário faz login
-2. Acessa "Criar carona"
-3. Informa origem, destino, horário e vagas
-4. Sistema valida dados
-5. Sistema registra a carona
-
-**Fluxos alternativos:**
-
-* Dados incompletos → erro
-* Usuário não autenticado → redireciona para login
+1. Motorista preenche dados  
+2. Sistema registra carona  
+3. Carona fica disponível  
 
 ---
 
 ### Caso de uso: Buscar carona
-
-**Atores:** Usuário (passageiro)
-**Objetivo:** Encontrar caronas disponíveis
+**Atores:** Usuário  
+**Objetivo:** Encontrar carona  
 
 **Fluxo principal:**
-
-1. Usuário acessa o sistema
-2. Informa origem e destino
-3. Sistema busca caronas disponíveis
-4. Sistema exibe lista de resultados
-
-**Fluxos alternativos:**
-
-* Nenhuma carona encontrada → sistema informa
-* Dados inválidos → erro
+1. Usuário informa filtros  
+2. Sistema retorna resultados  
 
 ---
 
-### Caso de uso: Solicitar carona
-
-**Atores:** Usuário (passageiro)
-**Objetivo:** Solicitar participação em uma carona
+### Caso de uso: Solicitar vaga
+**Atores:** Passageiro  
+**Objetivo:** Solicitar participação  
 
 **Fluxo principal:**
-
-1. Usuário visualiza uma carona
-2. Clica em "Solicitar carona"
-3. Sistema registra a solicitação
-4. Motorista pode visualizar a solicitação
-
-**Fluxos alternativos:**
-
-* Sem vagas disponíveis → sistema bloqueia ação
-* Usuário não logado → redireciona para login
+1. Usuário solicita vaga  
+2. Sistema registra solicitação  
 
 ---
 
-### Caso de uso: Cancelar carona
-
-**Atores:** Usuário
-**Objetivo:** Permitir cancelar uma carona criada ou solicitada
+### Caso de uso: Aprovar solicitação
+**Atores:** Motorista  
+**Objetivo:** Gerenciar solicitações  
 
 **Fluxo principal:**
-
-1. Usuário acessa suas caronas
-2. Seleciona a carona
-3. Clica em cancelar
-4. Sistema remove ou atualiza o status da carona
-
-**Fluxos alternativos:**
-
-* Usuário tenta cancelar carona de outro → erro
-* Carona já cancelada → sistema informa
+1. Motorista visualiza pedidos  
+2. Aprova ou rejeita  
+3. Sistema atualiza status  
 
 ---
 
-### Caso de uso: Gerenciar perfil
-
-**Atores:** Usuário
-**Objetivo:** Atualizar dados pessoais
+### Caso de uso: Excluir carona
+**Atores:** Motorista  
+**Objetivo:** Remover carona  
 
 **Fluxo principal:**
-
-1. Usuário acessa perfil
-2. Edita informações
-3. Salva alterações
-4. Sistema atualiza dados
-
-**Fluxos alternativos:**
-
-* Dados inválidos → erro
-* Falha no sistema → mensagem de erro
+1. Motorista seleciona carona  
+2. Sistema remove carona  
 
 ---
 
+### Caso de uso: Chat
+**Atores:** Motorista e Passageiro  
+**Objetivo:** Comunicação  
+
+**Fluxo principal:**
+1. Chat é liberado após aprovação  
+2. Usuários trocam mensagens  
+3. Sistema registra histórico  
 
 ---
 
 ## 7. Rastreabilidade
 
-| Problema                         | Backlog | Requisito | Teste |
-| -------------------------------- | ------- | --------- | ----- |
-| Dificuldade em encontrar caronas | PB01    | RF01      | CT01  |
-| Falta de organização             | PB03    | RF03      | CT02  |
-| Falta de segurança               | PB02    | RNF03     | CT03  |
+| Problema identificado | Item do Backlog | Requisito | Teste relacionado |
+|----------------------|---------------|----------|-------------------|
+| Falta de identificação dos usuários | PB01 - Cadastro | RF01 | CT01 - Teste de cadastro válido |
+| Dificuldade de acesso ao sistema | PB02 - Login | RF02 | CT02 - Teste de autenticação |
+| Falta de oferta organizada de caronas | PB03 - Criar carona | RF03 | CT03 - Teste de criação de carona |
+| Dificuldade de encontrar caronas | PB04 - Buscar carona | RF04 | CT04 - Teste de busca com filtros |
+| Falta de controle sobre participação | PB05 - Solicitar vaga | RF05 | CT05 - Teste de solicitação de vaga |
+| Falta de controle do motorista | PB06 - Aprovação | RF06 | CT06 - Teste de aprovação/rejeição |
+| Falta de visualização das opções | PB07 - Listagem | RF07 | CT07 - Teste de exibição de caronas |
+| Falta de flexibilidade para usuários | PB08 - Cancelamento | RF08 | CT08 - Teste de cancelamento |
+| Falta de controle sobre caronas criadas | PB09 - Excluir carona | RF09 | CT09 - Teste de exclusão de carona |
+| Falta de comunicação entre usuários | PB10 - Chat | RF10 | CT10 - Teste de envio de mensagens |
