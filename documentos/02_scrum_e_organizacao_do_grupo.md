@@ -4,10 +4,10 @@
 
 | Nome | Papel no Scrum | Responsabilidades principais |
 |------|--------------|----------------------------|
-| Gracielle Ázara | Product Owner | Definir visão do produto e priorizar backlog |
-| Matheus Cunha | Scrum Master | Organizar sprints e remover impedimentos |
-| Miguel Coelho | Dev - backend | Desenvolvimento e documentação |
-| Nicolas Matheus | Dev - frontend | Desenvolvimento e documentação |
+| Gracielle Ázara | Product Owner | Definir visão do produto, priorizar backlog e validar entregas |
+| Matheus Cunha | Scrum Master | Facilitar cerimônias, acompanhar progresso e remover impedimentos |
+| Miguel Coelho | Dev - backend | Implementação backend, banco de dados e documentação |
+| Nicolas Matheus | Dev - frontend | Interface, responsividade e documentação |
 
 ---
 
