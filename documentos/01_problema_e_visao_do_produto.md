@@ -59,7 +59,7 @@ Desenvolver uma aplicação web responsiva que conecte estudantes da Universidad
 
 ## 4. Stakeholders
 
-| Parte interessada | Papel | Interesse no projeto |
+| Stakeholder | Papel | Interesse no projeto |
 |------------------|------|----------------------|
 | Usuário final | Estudantes | Utilizar o sistema para encontrar/oferecer caronas |
 | Cliente/solicitante | Professor/Disciplina | Avaliar o projeto acadêmico |
