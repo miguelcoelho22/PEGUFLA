@@ -57,7 +57,7 @@ Desenvolver uma aplicação web responsiva que conecte estudantes da Universidad
 
 ---
 
-## 4. Partes Interessadas
+## 4. Stakeholders
 
 | Parte interessada | Papel | Interesse no projeto |
 |------------------|------|----------------------|
