@@ -36,15 +36,16 @@ Discussão sobre melhorias no processo.
 
 ---
 
-## 3. Definição de Concluído (DoD)
+## 3. Definition of Done (DoD)
 
 Um item será considerado concluído quando:
-- implementado ou documentado conforme planejado;
-- revisado por pelo menos um integrante;
-- registrado no GitHub;
-- sem pendências críticas;
-- validado pelo grupo;
-- alinhado ao objetivo da sprint.
+
+- estiver documentado;
+- tiver sido revisado por pelo menos um integrante do grupo;
+- atender aos critérios de aceitação definidos;
+- estiver versionado no GitHub;
+- estiver alinhado aos objetivos da sprint;
+- não possuir pendências críticas para a entrega da disciplina.
 
 ---
 
