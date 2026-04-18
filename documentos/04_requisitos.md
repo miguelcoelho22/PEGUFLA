@@ -36,8 +36,7 @@ Os requisitos foram identificados por meio de:
 | RNF02 | Autenticação obrigatória | Ações protegidas exigem login | Segurança |
 | RNF03 | Persistência de dados | Dados devem ser armazenados | Confiabilidade |
 | RNF04 | Interface responsiva | Funcionar em celular e desktop | Usabilidade |
-| RNF05 | Tempo de resposta | Sistema deve responder rapidamente | Desempenho |
-
+| RNF05 | Tempo de resposta | Principais operações devem responder em até 3 segundos em condições normais | Desempenho |
 ---
 
 ## 4. Regras de negócio
