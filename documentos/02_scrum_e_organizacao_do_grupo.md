@@ -68,14 +68,20 @@ Um item será considerado concluído quando:
 
 ---
 
-## 6. Exemplo de rituais
+## 6. Exemplo de cerimônias
 
-**Planejamento:**
-- seleção de itens
-- divisão em tarefas
+### Planejamento
+- seleção dos itens prioritários do backlog;
+- decomposição em tarefas menores;
+- estimativa de esforço;
+- definição de responsáveis.
 
-**Revisão:**
-- apresentação do que foi feito
+### Revisão
+- demonstração do que foi produzido;
+- verificação do objetivo da sprint;
+- registro dos itens concluídos e aceitos.
 
-**Retrospectiva:**
-- pontos positivos e melhorias
+### Retrospectiva
+- identificação do que funcionou bem;
+- identificação do que não funcionou;
+- definição de melhorias para a próxima sprint.
