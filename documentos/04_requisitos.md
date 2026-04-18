@@ -115,6 +115,8 @@ Os requisitos foram identificados por meio de:
 
 **Fluxo alternativo:**
 - Email inválido → sistema exibe erro  
+- Email já cadastrado → sistema informa duplicidade  
+- Senha fora do padrão → sistema solicita correção  
 
 ---
 
@@ -128,7 +130,8 @@ Os requisitos foram identificados por meio de:
 3. Acesso concedido  
 
 **Fluxo alternativo:**
-- Credenciais inválidas → erro  
+- Credenciais inválidas → sistema exibe erro  
+- Conta não cadastrada → sistema informa necessidade de cadastro  
 
 ---
 
@@ -141,6 +144,10 @@ Os requisitos foram identificados por meio de:
 2. Sistema registra carona  
 3. Carona fica disponível  
 
+**Fluxo alternativo:**
+- Dados incompletos → sistema solicita correção  
+- Quantidade de vagas inválida → sistema exibe erro  
+
 ---
 
 ### Caso de uso: Buscar carona
@@ -151,6 +158,10 @@ Os requisitos foram identificados por meio de:
 1. Usuário informa filtros  
 2. Sistema retorna resultados  
 
+**Fluxo alternativo:**
+- Nenhuma carona encontrada → sistema informa ausência de resultados  
+- Filtros inválidos → sistema solicita nova busca  
+
 ---
 
 ### Caso de uso: Solicitar vaga
@@ -160,6 +171,10 @@ Os requisitos foram identificados por meio de:
 **Fluxo principal:**
 1. Usuário solicita vaga  
 2. Sistema registra solicitação  
+
+**Fluxo alternativo:**
+- Carona sem vagas disponíveis → sistema bloqueia solicitação  
+- Usuário já solicitou participação → sistema informa solicitação existente  
 
 ---
 
@@ -172,6 +187,10 @@ Os requisitos foram identificados por meio de:
 2. Aprova ou rejeita  
 3. Sistema atualiza status  
 
+**Fluxo alternativo:**
+- Vagas esgotadas → sistema impede nova aprovação  
+- Solicitação já respondida → sistema informa status atual  
+
 ---
 
 ### Caso de uso: Excluir carona
@@ -181,6 +200,10 @@ Os requisitos foram identificados por meio de:
 **Fluxo principal:**
 1. Motorista seleciona carona  
 2. Sistema remove carona  
+
+**Fluxo alternativo:**
+- Carona não encontrada → sistema informa erro  
+- Usuário sem permissão → sistema bloqueia exclusão  
 
 ---
 
@@ -192,6 +215,10 @@ Os requisitos foram identificados por meio de:
 1. Chat é liberado após aprovação  
 2. Usuários trocam mensagens  
 3. Sistema registra histórico  
+
+**Fluxo alternativo:**
+- Usuário não aprovado na carona → chat indisponível  
+- Falha no envio da mensagem → sistema solicita nova tentativa  
 
 ---
 
