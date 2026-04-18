@@ -5,7 +5,7 @@
 **Título do problema:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas
 
 **Descrição resumida do problema:**
-Estudantes da Universidade Federal de Lavras (UFLA) enfrentam dificuldades no deslocamento diário entre o trajeto das portarias ao departamentos do campus, especialmente aqueles que não possuem veículo próprio. Atualmente, não há uma solução estruturada que organize a oferta e a procura por caronas, o que gera desorganização, insegurança e custos elevados.
+Estudantes da Universidade Federal de Lavras (UFLA) enfrentam dificuldades no deslocamento diário entre as portarias e os departamentos do campus, especialmente aqueles que não possuem veículo próprio. Atualmente, não há uma solução estruturada que organize a oferta e a procura por caronas, o que gera desorganização, insegurança e custos elevados.
 
 **Justificativa da escolha:**
 O grupo escolheu esse problema por ser uma realidade comum no ambiente universitário e impactar diretamente a rotina dos estudantes. Além disso, trata-se de um problema com potencial de solução tecnológica viável, relevante e com impacto social positivo.
