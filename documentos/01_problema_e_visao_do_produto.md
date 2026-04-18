@@ -90,3 +90,12 @@ Desenvolver uma aplicação web responsiva que conecte estudantes da Universidad
 **Premissas:**
 - Usuários possuem acesso à internet
 - Sistema será utilizado inicialmente por estudantes da UFLA
+
+---
+
+## 7. Diferenciais da solução
+
+- Foco exclusivo em estudantes da UFLA
+- Gratuito
+- Interface simples
+- Sistema voltado ao ambiente universitário
