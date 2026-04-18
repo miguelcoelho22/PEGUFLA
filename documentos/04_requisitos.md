@@ -24,7 +24,8 @@ Os requisitos foram identificados por meio de:
 | RF07 | Visualizar caronas | Listar caronas disponíveis | Alta |
 | RF08 | Cancelar participação | Usuário pode sair da carona | Média |
 | RF09 | Excluir carona | Motorista pode excluir carona criada | Média |
-| RF10 | Mensagens internas | Permitir comunicação entre motorista e passageiro aprovado | Baixa |
+| RF10 | Histórico de caronas | Permitir ao usuário visualizar caronas criadas e participadas | Média
+| RF11 | Mensagens internas | Permitir comunicação entre motorista e passageiro aprovado | Baixa |
 
 ---
 
@@ -91,7 +92,12 @@ Os requisitos foram identificados por meio de:
 
 ### Excluir carona
 - Motorista deve excluir carona criada  
-- Sistema deve remover carona da lista  
+- Sistema deve remover carona da lista
+
+### Histórico de caronas
+- Exibir caronas criadas pelo usuário
+- Exibir caronas participadas
+- Mostrar origem, destino, data e status
 
 ### Mensagens internas
 - Disponível apenas após aprovação
