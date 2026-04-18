@@ -26,17 +26,17 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 
 | ID | Tipo | Item do backlog | Descrição | Prioridade | Critérios de aceitação | Estimativa | Sprint prevista |
 |----|------|-------------------|----------|-----------|------------------------|-----------|--------|
-| PB01 | História | Como estudante, quero me cadastrar para acessar o sistema | Cadastro de usuário | Alta | Email institucional válido da UFLA, senha mínima, cadastro salvo | 3 pts | 2 |
-| PB02 | História | Como usuário, quero fazer login para acessar minha conta | Autenticação | Alta | Validação de credenciais, acesso permitido | 3 pts | 2 |
-| PB03 | História | Como motorista, quero criar uma carona para oferecer vagas | Criação de carona | Alta | Definir origem, destino, vagas e horário | 5 pts | 3 |
-| PB04 | História | Como usuário, quero buscar caronas para encontrar opções disponíveis | Busca de carona | Alta | Filtrar por origem/destino, listar resultados | 5 pts | 3 |
-| PB05 | História | Como usuário, quero visualizar detalhes da carona | Visualização | Alta | Exibir motorista, horário, vagas | 2 pts | 3 |
-| PB06 | História | Como passageiro, quero solicitar vaga em uma carona | Solicitação | Alta | Solicitação enviada ao motorista | 3 pts | 4 |
-| PB07 | História | Como motorista, quero aprovar ou rejeitar solicitações | Gerenciamento | Alta | Alterar status da solicitação | 3 pts | 4 |
-| PB08 | História | Como usuário, quero cancelar minha participação | Cancelamento | Média | Remover usuário da carona | 2 pts | 4 |
-| PB09 | História | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 5 |
-| PB10 | História | Como usuário, quero visualizar minhas caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
-| PB11 | História | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 5 pts | 6 |
+| PB01 | História de usuário | Como estudante, quero me cadastrar para acessar o sistema | Cadastro de usuário | Alta | Email institucional válido da UFLA, senha mínima, cadastro salvo | 3 pts | 2 |
+| PB02 | História de usuário | Como usuário, quero fazer login para acessar minha conta | Autenticação | Alta | Validação de credenciais, acesso permitido | 3 pts | 2 |
+| PB03 | História de usuário | Como motorista, quero criar uma carona para oferecer vagas | Criação de carona | Alta | Definir origem, destino, vagas e horário | 5 pts | 3 |
+| PB04 | História de usuário | Como usuário, quero buscar caronas para encontrar opções disponíveis | Busca de carona | Alta | Filtrar por origem/destino, listar resultados | 5 pts | 3 |
+| PB05 | História de usuário | Como usuário, quero visualizar detalhes da carona | Visualização | Alta | Exibir motorista, horário, vagas | 2 pts | 3 |
+| PB06 | História de usuário | Como passageiro, quero solicitar vaga em uma carona | Solicitação | Alta | Solicitação enviada ao motorista | 3 pts | 4 |
+| PB07 | História de usuário | Como motorista, quero aprovar ou rejeitar solicitações | Gerenciamento | Alta | Alterar status da solicitação | 3 pts | 4 |
+| PB08 | História de usuário | Como usuário, quero cancelar minha participação | Cancelamento | Média | Remover usuário da carona | 2 pts | 4 |
+| PB09 | História de usuário | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 5 |
+| PB10 | História de usuário | Como usuário, quero visualizar minhas caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
+| PB11 | História de usuário | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 5 pts | 6 |
 
 ---
 
