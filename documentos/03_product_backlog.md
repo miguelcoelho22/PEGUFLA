@@ -22,9 +22,9 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 
 ---
 
-## 3. Product Backlog detalhado
+## 3. Backlog do produto
 
-| ID | Tipo | História de usuário | Descrição | Prioridade | Critérios de aceitação | Estimativa | Sprint |
+| ID | Tipo | Item do backlog | Descrição | Prioridade | Critérios de aceitação | Estimativa | Sprint prevista |
 |----|------|-------------------|----------|-----------|------------------------|-----------|--------|
 | PB01 | História | Como estudante, quero me cadastrar para acessar o sistema | Cadastro de usuário | Alta | Email institucional válido da UFLA, senha mínima, cadastro salvo | 3 pts | 2 |
 | PB02 | História | Como usuário, quero fazer login para acessar minha conta | Autenticação | Alta | Validação de credenciais, acesso permitido | 3 pts | 2 |
