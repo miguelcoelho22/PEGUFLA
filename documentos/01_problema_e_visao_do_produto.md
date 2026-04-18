@@ -69,7 +69,7 @@ Desenvolver uma aplicação web responsiva que conecte estudantes da Universidad
 
 ## 5. Escopo inicial
 
-**Inclusão**
+**Inclui**
 - Cadastro de usuários
 - Criação de caronas
 - Busca de caronas
