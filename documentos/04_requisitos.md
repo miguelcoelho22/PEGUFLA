@@ -94,11 +94,11 @@ Os requisitos foram identificados por meio de:
 - Motorista deve excluir carona criada  
 - Sistema deve remover carona da lista  
 
-### Chat entre usuários
-- Chat só deve ser liberado após aprovação  
-- Usuários devem enviar e receber mensagens  
-- Mensagens devem ser exibidas em tempo real ou atualizado  
-- Histórico de mensagens deve ser mantido  
+### Mensagens internas
+- Disponível apenas após aprovação
+- Permitir envio e leitura de mensagens
+- Histórico mantido
+- Atualização periódica das mensagens
 
 ---
 
