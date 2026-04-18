@@ -36,7 +36,7 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB08 | História | Como usuário, quero cancelar minha participação | Cancelamento | Média | Remover usuário da carona | 2 pts | 4 |
 | PB09 | História | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 5 |
 | PB10 | História | Como usuário, quero visualizar minhas caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
-| PB11 | História | Como motorista e passageiro, quero conversar via chat | Comunicação | Alta | Chat liberado após aprovação | 5 pts | 6 |
+| PB11 | História | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 5 pts | 6 |
 
 ---
 
@@ -113,13 +113,14 @@ Como motorista, quero excluir uma carona.
 
 ---
 
-### US08 – Chat
-Como motorista e passageiro, quero conversar após aprovação.
+### US08 – Mensagens internas
+Como motorista e passageiro, quero trocar mensagens após a aprovação da carona.
 
 **Critérios de aceitação:**
-- chat liberado após aprovação  
-- envio e recebimento de mensagens  
-- histórico salvo  
+- mensagens disponíveis apenas após aprovação;
+- permitir envio e leitura de mensagens;
+- histórico vinculado à carona;
+- funcionalidade implementada apenas se concluídas as prioridades superiores.
 
 ---
 
@@ -128,4 +129,5 @@ Como motorista e passageiro, quero conversar após aprovação.
 - O backlog será atualizado continuamente ao longo das sprints  
 - Itens podem ser refinados, divididos ou priorizados novamente  
 - Novas histórias podem ser adicionadas conforme evolução do projeto  
-- As estimativas podem ser ajustadas conforme aprendizado da equipe  
+- As estimativas podem ser ajustadas conforme aprendizado da equipe
+- - Itens de baixa prioridade poderão ser implementados apenas após conclusão das funcionalidades essenciais.
