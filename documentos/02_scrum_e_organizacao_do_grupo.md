@@ -59,10 +59,11 @@ Um item será considerado concluído quando:
 
 ## 5. Convenções do repositório
 
-- Branch principal: main
-- Branches: feature/nome
-- Commits: verbo no infinitivo
-- Pull Requests com descrição
+- branch principal: `main`
+- branches de trabalho: `feature/nome-curto` ou `docs/nome-curto`
+- mensagens de commit: verbos no infinitivo, imperativo ou descrições objetivas da alteração
+- pull requests com descrição resumida e objetivo da mudança
+- registro de decisões importantes em arquivos da pasta `docs`
 
 ---
 
