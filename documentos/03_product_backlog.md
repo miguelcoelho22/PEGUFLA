@@ -130,4 +130,4 @@ Como motorista e passageiro, quero trocar mensagens após a aprovação da caron
 - Itens podem ser refinados, divididos ou priorizados novamente  
 - Novas histórias podem ser adicionadas conforme evolução do projeto  
 - As estimativas podem ser ajustadas conforme aprendizado da equipe
-- - Itens de baixa prioridade poderão ser implementados apenas após conclusão das funcionalidades essenciais.
+- Itens de baixa prioridade poderão ser implementados apenas após conclusão das funcionalidades essenciais.
