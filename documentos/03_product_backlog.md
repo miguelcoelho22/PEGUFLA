@@ -2,7 +2,7 @@
 
 ## 1. Visão geral
 
-O Product Backlog reúne todas as funcionalidades, melhorias e requisitos necessários para o desenvolvimento do sistema PegUFLA.
+O Product Backlog reúne funcionalidades, melhorias, requisitos e necessidades identificadas para o desenvolvimento do sistema PegUFLA.
 
 O backlog é dinâmico e será constantemente atualizado ao longo do projeto, conforme evolução das sprints e melhor entendimento do problema.
 
