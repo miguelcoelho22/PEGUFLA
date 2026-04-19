@@ -108,12 +108,15 @@ Os requisitos foram identificados por meio de:
 - Atualização periódica das mensagens
 
 ### Recuperar senha
-
 - Usuário deve informar e-mail cadastrado  
 - Sistema deve validar se o e-mail existe  
-- Deve permitir redefinição de senha  
+- Sistema deve enviar código de verificação para o e-mail informado  
+- Usuário deve informar código recebido  
+- Sistema deve validar código informado  
+- Sistema deve permitir redefinição de senha após validação  
 - Nova senha deve atender ao tamanho mínimo definido  
 - Usuário deve conseguir acessar o sistema com a nova senha  
+- Sistema deve informar erro para e-mail inexistente ou código inválido  
 
 ---
 
