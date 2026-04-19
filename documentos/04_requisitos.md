@@ -45,7 +45,7 @@ Os requisitos foram identificados por meio de:
 | ID | Regra | Descrição |
 |----|------|----------|
 | RN01 | Email institucional obrigatório | O email cadastrado deve ser obrigatoriamente da UFLA |
-| RN02 | Apenas motoristas criam caronas | Apenas usuários com veículo podem oferecer caronas |
+| RN02 | Usuários autenticados podem criar caronas | Qualquer usuário cadastrado e autenticado no sistema poderá oferecer caronas e também solicitar participação em caronas disponíveis |
 | RN03 | Aprovação obrigatória | Passageiros só entram com aprovação do motorista |
 | RN04 | Vagas limitadas | Número de passageiros não pode exceder o limite |
 | RN05 | Chat restrito | Chat só é liberado após aprovação na carona |
