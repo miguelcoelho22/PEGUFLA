@@ -37,6 +37,8 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB09 | História de usuário | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 5 |
 | PB10 | História de usuário | Como usuário, quero visualizar histórico de caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
 | PB11 | História de usuário | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 8 pts | 6 |
+| PB12 | História de usuário | Como usuário cadastrado, quero recuperar minha senha por código enviado ao e-mail | Recuperar senha | Média | Envio de código, validação e redefinição de senha | 3 pts | 5 |
+
 
 ---
 
@@ -161,7 +163,23 @@ Como usuário autenticado participante de uma carona aprovada, quero trocar mens
 - permitir envio de mensagens entre participantes autorizados  
 - registrar mensagens corretamente  
 - permitir consulta ao histórico da conversa  
-- impedir acesso de usuários não vinculados à carona  
+- impedir acesso de usuários não vinculados à carona
+
+---
+
+### US12 – Recuperar senha
+Como usuário cadastrado, quero recuperar minha senha por código enviado ao e-mail, para voltar a acessar minha conta caso eu a esqueça.
+
+**Critérios de aceitação:**
+- usuário deve informar e-mail cadastrado  
+- sistema deve validar se o e-mail existe  
+- sistema deve enviar código de verificação para o e-mail informado  
+- usuário deve informar código recebido  
+- sistema deve validar código informado  
+- sistema deve permitir redefinição de senha após validação  
+- nova senha deve atender ao tamanho mínimo definido  
+- usuário deve conseguir acessar o sistema com a nova senha
+
 ---
 
 ## 5. Observações
