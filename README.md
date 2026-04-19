@@ -1,4 +1,4 @@
-# Pegufla 🚗
+# PegUFLA 🚗
 
 ## 1. Identificação do problema
 
