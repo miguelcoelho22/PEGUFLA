@@ -55,7 +55,7 @@ Os requisitos foram identificados por meio de:
 ## 5. Critérios de aceitação por funcionalidade
 
 ### Cadastro de usuário
-- Deve permitir inserir nome, email e senha  
+- Deve permitir inserir nome, sobrenome, email e senha  
 - Email deve ser válido e da UFLA  
 - Senha deve ter tamanho mínimo  
 - Sistema deve confirmar cadastro com sucesso  
