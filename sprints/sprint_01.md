@@ -46,7 +46,7 @@ A sprint está relacionada aos conteúdos introdutórios de Engenharia de Softwa
   - Criação do repositório  
   - Adição da documentação inicial  
 - Tag da sprint:
-  - sprint-01  
+  - sprint 1  
 
 ---
 
