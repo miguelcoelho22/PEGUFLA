@@ -18,10 +18,10 @@ Os requisitos foram identificados por meio de:
 | RF01 | Cadastro de usuário | Permitir que usuários criem uma conta | Alta |
 | RF02 | Login | Permitir autenticação no sistema | Alta |
 | RF03 | Criar carona | Permitir que usuários ofereçam caronas | Alta |
-| RF04 | Buscar carona | Permitir que usuários encontrem caronas | Alta |
+| RF04 | Buscar carona | Permitir ao usuário pesquisar caronas disponíveis e visualizar os resultados encontrados | Alta |
 | RF05 | Solicitar vaga | Permitir solicitar participação em carona | Alta |
 | RF06 | Aprovar/rejeitar solicitação | Motorista gerencia solicitações | Alta |
-| RF07 | Visualizar caronas | Listar caronas disponíveis | Alta |
+| RF07 | Visualizar detalhes da carona | Permitir ao usuário consultar informações detalhadas de uma carona selecionada | Alta |
 | RF08 | Cancelar participação | Usuário pode sair da carona | Média |
 | RF09 | Excluir carona | Motorista pode excluir carona criada | Média |
 | RF10 | Histórico de caronas | Permitir ao usuário visualizar caronas criadas e participadas | Média
