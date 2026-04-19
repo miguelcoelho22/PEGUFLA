@@ -36,7 +36,7 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB08 | História de usuário | Como usuário, quero cancelar minha participação | Cancelamento | Média | Remover usuário da carona | 3 pts | 4 |
 | PB09 | História de usuário | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 5 |
 | PB10 | História de usuário | Como usuário, quero visualizar histórico de caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
-| PB11 | História de usuário | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 5 pts | 6 |
+| PB11 | História de usuário | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 8 pts | 6 |
 
 ---
 
