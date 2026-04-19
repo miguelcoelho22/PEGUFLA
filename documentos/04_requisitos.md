@@ -258,4 +258,5 @@ Os requisitos foram identificados por meio de:
 | Falta de visualização das opções | PB07 - Listagem | RF07 | CT07 - Teste de exibição de caronas |
 | Falta de flexibilidade para usuários | PB08 - Cancelamento | RF08 | CT08 - Teste de cancelamento |
 | Falta de controle sobre caronas criadas | PB09 - Excluir carona | RF09 | CT09 - Teste de exclusão de carona |
-| Falta de comunicação entre usuários | PB10 - Chat | RF10 | CT10 - Teste de envio de mensagens |
+| Falta de acompanhamento das caronas anteriores | PB10 - Histórico | RF10 | CT10 - Teste de visualização do histórico |
+| Falta de comunicação entre usuários | PB11 - Chat | RF11 | CT11 - Teste de envio de mensagens |
