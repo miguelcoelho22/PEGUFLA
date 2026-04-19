@@ -33,7 +33,7 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB05 | História de usuário | Como passageiro, quero solicitar vaga em uma carona | Solicitação | Alta | Solicitação enviada ao motorista | 3 pts | 4 |
 | PB06 | História de usuário | Como motorista, quero aprovar ou rejeitar solicitações | Gerenciamento | Alta | Alterar status da solicitação | 5 pts | 4 |
 | PB07 | História de usuário | Como usuário, quero visualizar detalhes da carona | Visualização | Alta | Exibir motorista, horário, vagas | 2 pts | 3 |
-| PB08 | História de usuário | Como usuário, quero cancelar minha participação | Cancelamento | Média | Remover usuário da carona | 2 pts | 5 |
+| PB08 | História de usuário | Como usuário, quero cancelar minha participação | Cancelamento | Média | Remover usuário da carona | 2 pts | 4 |
 | PB09 | História de usuário | Como motorista, quero excluir uma carona criada | Exclusão | Média | Carona removida do sistema | 2 pts | 5 |
 | PB10 | História de usuário | Como usuário, quero visualizar histórico de caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
 | PB11 | História de usuário | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 5 pts | 6 |
