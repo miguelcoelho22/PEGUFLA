@@ -35,7 +35,7 @@ Além disso, a solução contribui para:
 
 ## 4. Definição preliminar do produto
 
-O Pegufla será uma aplicação web que permitirá que estudantes:
+O PegUFLA será uma aplicação web que permitirá que estudantes:
 
 * se cadastrem no sistema
 * realizem login
