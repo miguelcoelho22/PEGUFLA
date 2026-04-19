@@ -1,9 +1,9 @@
 # Trabalho Final de Engenharia de Software
 
 ## 1. Identificação do projeto
-**Nome do projeto:**PegUFLA
-**Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas
-**Turma/Semestre:** 14A/2026.1
+**Nome do projeto:**PegUFLA <br>
+**Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas <br>
+**Turma/Semestre:** 14A/2026.1 <br>
 **Docente:** Johnatan
 
 ---
