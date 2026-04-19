@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-  
+
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col items-center justify-center p-4 relative font-sans">
       
@@ -86,7 +86,9 @@ export default function Login() {
 
         <div className="mt-8 text-center border-t border-gray-800 pt-6">
           <p className="text-gray-400 text-sm">
-            Não tem uma conta? <span className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition">Cadastre-se</span>
+            Não tem uma conta? <span onClick={() => navigate('/register')} className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition">
+     Cadastre-se
+</span>
           </p>
         </div>
       </div>

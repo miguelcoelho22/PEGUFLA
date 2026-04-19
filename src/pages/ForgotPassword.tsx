@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'; // 1. Importe aqui
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [isSent, setIsSent] = useState(false);
-  const navigate = useNavigate(); // 2. Inicialize aqui
+  const navigate = useNavigate(); 
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -32,16 +32,15 @@ export default function EmailVerification() {
 
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    const enteredCode = code.join(''); // Junta os 6 dígitos
+    const enteredCode = code.join('');
 
-    // Validação do Mock
     if (enteredCode === MOCK_VALID_CODE) {
-      alert('✅ Código verificado com sucesso! Redirecionando...');
-      navigate('/login'); // Redireciona de volta ao login (ou para uma nova senha)
+
+      navigate('/reset-password'); 
     } else {
       setHasError(true);
-      setCode(['', '', '', '', '', '']); // Limpa os campos
-      inputs.current[0]?.focus(); // Volta o foco para o primeiro quadrado
+      setCode(['', '', '', '', '', '']);
+      inputs.current[0]?.focus();
     }
   };
 
@@ -49,7 +48,7 @@ export default function EmailVerification() {
     <div className="min-h-screen bg-[#121212] flex flex-col items-center justify-center p-4 relative font-sans">
       <div className="absolute top-8 right-8">
         <img 
-          src="/src/assets/logo.png" 
+          src="/src/assets/Logo_PegUfla.png" 
           alt="Logo PegUFLA" 
           className="h-12 w-auto object-contain"
           onError={(e) => (e.currentTarget.style.display = 'none')}
