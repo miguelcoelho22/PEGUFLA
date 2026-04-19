@@ -26,6 +26,7 @@ Os requisitos foram identificados por meio de:
 | RF09 | Excluir carona | Motorista pode excluir carona criada | Média |
 | RF10 | Histórico de caronas | Permitir ao usuário visualizar caronas criadas e participadas | Média
 | RF11 | Mensagens internas | Permitir comunicação entre motorista e passageiro aprovado | Baixa |
+| RF12 | Recuperar senha | Permitir ao usuário redefinir sua senha de acesso por meio do e-mail institucional cadastrado | Média |
 
 ---
 
@@ -38,6 +39,7 @@ Os requisitos foram identificados por meio de:
 | RNF03 | Persistência de dados | Dados devem ser armazenados | Confiabilidade |
 | RNF04 | Interface responsiva | Funcionar em celular e desktop | Usabilidade |
 | RNF05 | Tempo de resposta | Principais operações devem responder em até 3 segundos em condições normais | Desempenho |
+
 ---
 
 ## 4. Regras de negócio
@@ -104,6 +106,14 @@ Os requisitos foram identificados por meio de:
 - Permitir envio e leitura de mensagens
 - Histórico mantido
 - Atualização periódica das mensagens
+
+### Recuperar senha
+
+- Usuário deve informar e-mail cadastrado  
+- Sistema deve validar se o e-mail existe  
+- Deve permitir redefinição de senha  
+- Nova senha deve atender ao tamanho mínimo definido  
+- Usuário deve conseguir acessar o sistema com a nova senha  
 
 ---
 
@@ -241,7 +251,28 @@ Os requisitos foram identificados por meio de:
 
 **Fluxo alternativo:**
 - Usuário não aprovado na carona → chat indisponível  
-- Falha no envio da mensagem → sistema solicita nova tentativa  
+- Falha no envio da mensagem → sistema solicita nova tentativa
+
+### Caso de uso: Recuperar senha
+**Atores:** Usuário  
+**Objetivo:** Redefinir a senha de acesso ao sistema por meio de verificação no e-mail cadastrado.
+
+**Fluxo principal:**
+1. Usuário acessa a opção "Esqueci minha senha"
+2. Informa o e-mail institucional cadastrado
+3. Sistema valida se o e-mail existe
+4. Sistema envia código de verificação para o e-mail informado
+5. Usuário informa o código recebido
+6. Sistema valida o código informado
+7. Sistema libera a redefinição de senha
+8. Usuário informa a nova senha
+9. Sistema salva a nova senha
+10. Usuário pode realizar login com a nova senha
+
+**Fluxo alternativo:**
+- E-mail não cadastrado → sistema exibe erro  
+- Código inválido ou expirado → sistema exibe erro e solicita novo código  
+- Nova senha inválida → sistema solicita correção  
 
 ---
 
