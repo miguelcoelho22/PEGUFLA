@@ -1,5 +1,3 @@
-<!-- user-story.md -->
-
 ---
 name: User Story
 about: Criar nova história de usuário
