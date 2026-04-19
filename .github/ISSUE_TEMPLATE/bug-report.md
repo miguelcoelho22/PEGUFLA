@@ -1,5 +1,3 @@
-<!-- bug-report.md -->
-
 ---
 name: Bug Report
 about: Reportar erro encontrado no sistema
