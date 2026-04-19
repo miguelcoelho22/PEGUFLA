@@ -256,6 +256,8 @@ Os requisitos foram identificados por meio de:
 - Usuário não aprovado na carona → chat indisponível  
 - Falha no envio da mensagem → sistema solicita nova tentativa
 
+---
+
 ### Caso de uso: Recuperar senha
 **Atores:** Usuário  
 **Objetivo:** Redefinir a senha de acesso ao sistema por meio de verificação no e-mail cadastrado.
