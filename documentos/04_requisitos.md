@@ -213,6 +213,23 @@ Os requisitos foram identificados por meio de:
 
 ---
 
+### Caso de uso: Visualizar histórico de caronas
+
+**Atores:** Usuário  
+
+**Objetivo:** Consultar caronas criadas e participadas anteriormente.
+
+**Fluxo principal:**
+1. Usuário acessa área de histórico  
+2. Sistema recupera registros vinculados ao usuário  
+3. Sistema exibe lista de caronas anteriores  
+
+**Fluxo alternativo:**
+- Nenhum registro encontrado → sistema informa ausência de histórico  
+- Usuário não autenticado → sistema solicita login
+
+---
+
 ### Caso de uso: Chat
 **Atores:** Motorista e Passageiro  
 **Objetivo:** Comunicação  
