@@ -1,5 +1,3 @@
-<!-- sprint-task.md -->
-
 ---
 name: Sprint Task
 about: Criar tarefa interna da sprint
