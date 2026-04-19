@@ -1,19 +1,20 @@
-## Tarefa da Sprint
+<!-- sprint-task.md -->
 
-**Título:** Criar README inicial
+---
+name: Sprint Task
+about: Criar tarefa interna da sprint
+title: "TASK - "
+labels: []
+assignees: []
+---
 
-**Descrição:**
-Criar o README com problema, contexto e escopo do projeto.
+## Objetivo
+Descreva a tarefa.
 
-**Responsável:**
-Matheus Cunha e Gracielle Azara
+## Checklist
+- [ ] Executar atividade
+- [ ] Revisar resultado
+- [ ] Atualizar arquivos necessários
 
-**Prioridade:**
-Alta
-
-**Status:**
-- [x] Concluído
-
-**Critérios de conclusão:**
-- README criado
-- Informações completas
+## Observações
+Detalhes adicionais (opcional).
