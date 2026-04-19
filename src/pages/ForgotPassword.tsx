@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importe aqui
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const navigate = useNavigate(); // 2. Inicialize aqui
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,9 +76,15 @@ export default function ForgotPassword() {
 
         {/* Link para voltar ao Login */}
         <div className="mt-8 text-center border-t border-gray-800 pt-6">
-          <p className="text-gray-400 text-sm">
-            Lembrou a senha? <span className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition">Voltar para o login</span>
-          </p>
+        <p className="text-gray-400 text-sm">
+            Lembrou a senha?{' '}
+            <span 
+            onClick={() => navigate('/login')} // 3. Adicione este evento de clique
+            className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition"
+            >
+            Voltar para o login
+            </span>
+        </p>
         </div>
       </div>
     </div>
