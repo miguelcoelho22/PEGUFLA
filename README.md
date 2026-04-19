@@ -1,9 +1,10 @@
 # Trabalho Final de Engenharia de Software
 
 ## 1. Identificação do projeto
-**Nome do projeto:** PegUFLA <br>
-**Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas <br>
-**Turma/Semestre:** 14A/2026.1 <br>
+
+**Nome do projeto:** PegUFLA   
+**Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas   
+**Turma/Semestre:** 14A/2026.1   
 **Docente:** Johnatan
 
 ---
@@ -58,7 +59,7 @@ A proposta é criar uma plataforma simples, intuitiva e acessível.
 
 ## 6. Organização inicial do projeto (Scrum)
 
-O projeto será desenvolvido utilizando a metodologia ágil Scrum, de forma simplificada.
+O projeto será desenvolvido utilizando a metodologia ágil Scrum, adaptada ao contexto acadêmico da disciplina.
 
 Papéis definidos:
 
@@ -84,7 +85,7 @@ O trabalho será dividido em sprints semanais, com planejamento, execução e re
 
 * Sistema de pagamento
 * Aplicativo mobile
-* Sistema avançado de avaliação
+* Sistema de reputação e avaliações entre usuários
 
 ### Limitações:
 
