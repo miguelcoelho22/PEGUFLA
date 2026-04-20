@@ -5,7 +5,7 @@
 **Nome do projeto:** PegUFLA   
 **Problema escolhido:** Dificuldade de estudantes da UFLA em encontrar caronas seguras e organizadas   
 **Turma/Semestre:** 14A/2026.1   
-**Docente:** Johnatan
+**Docente:** Johnatan Oliveira
 
 ---
 
