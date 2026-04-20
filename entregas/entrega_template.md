@@ -43,7 +43,7 @@ Explicar quais conteúdos da disciplina estão sendo aplicados nesta sprint.
   - Commit 2  
 
 - Tag da sprint:
-  - sprint-0X  
+  - Sprint X 
 
 ---
 
