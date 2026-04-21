@@ -10,3 +10,6 @@ spring:
   security:
     token:
       secret: "12345678"
+  mail:
+    email: "pegufla@gmail.com"
+    senha: "pegufla@123"

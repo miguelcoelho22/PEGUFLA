@@ -6,12 +6,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 @Table(name = "users")
 @Entity(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -35,11 +37,19 @@ public class User implements UserDetails {
 
     private UserRole role;
 
-    public User(String email, String password, UserRole role) {
+    private String verificationCode;
+
+    private boolean enabled;
+
+    private LocalDateTime verificationCodeExpiresAt;
+
+
+    public User(String name, String email, String password) {
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

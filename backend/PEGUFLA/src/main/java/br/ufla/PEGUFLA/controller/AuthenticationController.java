@@ -6,8 +6,10 @@ import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.model.user.UserRole;
 import br.ufla.PEGUFLA.model.user.request.UserRequestLoginDTO;
 import br.ufla.PEGUFLA.model.user.request.UserRequestRegisterDTO;
+import br.ufla.PEGUFLA.model.user.request.VerifyUserDTO;
 import br.ufla.PEGUFLA.model.user.response.LoginResponseDTO;
 import br.ufla.PEGUFLA.repository.UserRepository;
+import br.ufla.PEGUFLA.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
@@ -28,10 +27,13 @@ public class AuthenticationController {
 	private final AuthenticationManager authenticationManager;
 	private final UserRepository userRepository;
 	private final TokenService tokenService;
+	private final AuthenticationService authenticationService;
 
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid UserRequestLoginDTO userRequestLoginDTO) {
-		var usernamePassword = new UsernamePasswordAuthenticationToken(userRequestLoginDTO.login(),
+		this.authenticationService.authenticate(userRequestLoginDTO);
+
+		var usernamePassword = new UsernamePasswordAuthenticationToken(userRequestLoginDTO.email(),
 				userRequestLoginDTO.password());
 
 		var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -43,15 +45,32 @@ public class AuthenticationController {
 
 	@PostMapping("/register")
 	public ResponseEntity register(@RequestBody @Valid UserRequestRegisterDTO userRequestRegisterDTO) {
-		if (this.userRepository.findByLogin(userRequestRegisterDTO.email()) != null) {
+		if (this.userRepository.findByEmail(userRequestRegisterDTO.email()).isPresent()) {
 			throw new ModelException("Email ja cadastrado no sistema");
 		}
 
-		String encryptedPassword = new BCryptPasswordEncoder().encode(userRequestRegisterDTO.password());
-		User user = new User(userRequestRegisterDTO.email(), encryptedPassword, UserRole.USER);
-
-		this.userRepository.save(user);
+		this.authenticationService.signup(userRequestRegisterDTO);
 
 		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+
+	@PostMapping("/verify")
+	public ResponseEntity<?> verifyUser(@RequestBody VerifyUserDTO verifyUserDTO) {
+		try{
+			this.authenticationService.verifyUser(verifyUserDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Conta verificada com sucesso!");
+		}catch (RuntimeException e){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+	@PostMapping("/resend")
+	public ResponseEntity<?> resendVerificationCode(@RequestParam String email){
+		try{
+			this.authenticationService.resendVerificationCode(email);
+			return ResponseEntity.status(HttpStatus.OK).body("Codigo de verificação enviado");
+		}catch (RuntimeException e){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 }

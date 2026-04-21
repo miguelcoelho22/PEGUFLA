@@ -1,0 +1,12 @@
+{
+  "version": "1",
+  "name": "teste",
+  "description": "",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git",
+    "apicat.private.*",
+    ".apicat"
+  ]
+}

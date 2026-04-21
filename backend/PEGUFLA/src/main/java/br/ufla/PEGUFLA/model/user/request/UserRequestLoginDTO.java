@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 public record UserRequestLoginDTO(
 
         @NotNull(message = "email é um campo obrigatório")
-        String login,
+        String email,
 
         @NotNull(message = "senha é um campo obrigatório")
         String password) {
