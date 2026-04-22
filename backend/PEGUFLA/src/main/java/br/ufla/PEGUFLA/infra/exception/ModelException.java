@@ -1,4 +1,4 @@
-package br.ufla.PEGUFLA.exception;
+package br.ufla.PEGUFLA.infra.exception;
 
 public class ModelException extends RuntimeException{
 

@@ -1,9 +1,8 @@
 package br.ufla.PEGUFLA.controller;
 
-import br.ufla.PEGUFLA.exception.ModelException;
+import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.infra.security.TokenService;
 import br.ufla.PEGUFLA.model.user.User;
-import br.ufla.PEGUFLA.model.user.UserRole;
 import br.ufla.PEGUFLA.model.user.request.UserRequestLoginDTO;
 import br.ufla.PEGUFLA.model.user.request.UserRequestRegisterDTO;
 import br.ufla.PEGUFLA.model.user.request.VerifyUserDTO;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

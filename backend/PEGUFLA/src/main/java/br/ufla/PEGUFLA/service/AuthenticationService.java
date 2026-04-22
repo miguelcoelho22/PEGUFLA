@@ -1,6 +1,6 @@
 package br.ufla.PEGUFLA.service;
 
-import br.ufla.PEGUFLA.exception.ModelException;
+import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.model.user.request.UserRequestLoginDTO;
 import br.ufla.PEGUFLA.model.user.request.UserRequestRegisterDTO;
@@ -39,7 +39,7 @@ public class AuthenticationService {
 	public User signup(UserRequestRegisterDTO dto) {
 
 		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
-		User user = new User(dto.name(), dto.email(), encryptedPassword);
+		User user = new User(dto.name(), dto.lastName(), dto.email(), encryptedPassword);
 
 		user.setVerificationCode(generateVerificationCode());
 		user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
