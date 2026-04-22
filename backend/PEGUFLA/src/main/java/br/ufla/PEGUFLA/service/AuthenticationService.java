@@ -1,5 +1,14 @@
 package br.ufla.PEGUFLA.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Random;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.model.user.request.UserRequestLoginDTO;
@@ -7,31 +16,19 @@ import br.ufla.PEGUFLA.model.user.request.UserRequestRegisterDTO;
 import br.ufla.PEGUFLA.model.user.request.VerifyUserDTO;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import jakarta.mail.MessagingException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class AuthenticationService {
 
 	private final UserRepository userRepository;
 
-	private final PasswordEncoder passwordEncoder;
-
 	private final AuthenticationManager authenticationManager;
 
 	private final EmailService emailService;
 
-	public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			AuthenticationManager authenticationManager, EmailService emailService) {
+	public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager,
+			EmailService emailService) {
 		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
 		this.authenticationManager = authenticationManager;
 		this.emailService = emailService;
 	}
