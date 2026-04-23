@@ -1,24 +1,48 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Importe aqui
+import { useNavigate } from 'react-router-dom';
+import { api } from '../api'; // Importando a nossa configuração do Axios
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate(); 
-  
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     
-    // Mantendo a Regra de Negócio RN01: Validação do e-mail institucional
-    if (!email.endsWith('@ufla.br')) {
-      alert('Por favor, insira um e-mail válido da UFLA (@ufla.br).');
+    // Regra de Negócio RN01: Validação do e-mail institucional (incluindo estudantes)
+    const emailRegex = /^[\w-.]+@([\w-]+\.)*ufla\.br$/;
+    if (!emailRegex.test(email)) {
+      setError('Por favor, insira um e-mail válido da UFLA (ex: @ufla.br ou @estudante.ufla.br).');
       return;
     }
 
-    // Aqui entrará a integração com a API do Miguel futuramente
-    console.log('Solicitação de reset enviada para:', email);
-    setIsSent(true); // Muda o estado para mostrar a mensagem de sucesso
+    try {
+      setIsLoading(true);
+      
+      // Chamada para a API do Miguel. 
+      // OBS: Confirme com ele se a rota será exatamente '/auth/forgot-password'
+      await api.post('/auth/forgot-password', { email });
+
+      setIsSent(true); 
+
+      // Após 3 segundos lendo a mensagem, redireciona o usuário para digitar o código
+      setTimeout(() => {
+        navigate('/verify-email', { state: { userEmail: email } });
+      }, 3000);
+
+    } catch (err: any) {
+      if (err.response && err.response.data) {
+        setError(err.response.data.message || 'Erro ao solicitar recuperação de senha.');
+      } else {
+        setError('Não foi possível conectar ao servidor.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -52,18 +76,24 @@ export default function ForgotPassword() {
               <input
                 type="email"
                 required
-                placeholder="usuario@ufla.br"
+                placeholder="usuario@estudante.ufla.br"
                 className="w-full bg-[#2A2A2A] border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition placeholder:text-gray-600"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
+            {/* Exibição de Erros */}
+            {error && (
+              <p className="text-red-500 text-sm mt-2">{error}</p>
+            )}
+
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-900/20 mt-2"
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-900/20 mt-2"
             >
-              Enviar e-mail
+              {isLoading ? 'Enviando...' : 'Enviar e-mail'}
             </button>
           </form>
         ) : (
@@ -71,21 +101,23 @@ export default function ForgotPassword() {
           <div className="bg-[#2A2A2A] border border-blue-500/30 rounded-lg p-6 text-center mb-6">
             <p className="text-gray-300 text-sm">
               Se o e-mail <span className="text-white font-semibold">{email}</span> estiver cadastrado em nossa base, você receberá as instruções em breve.
+              <br/><br/>
+              <span className="text-xs text-blue-400">Redirecionando para a verificação...</span>
             </p>
           </div>
         )}
 
         {/* Link para voltar ao Login */}
         <div className="mt-8 text-center border-t border-gray-800 pt-6">
-        <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-sm">
             Lembrou a senha?{' '}
             <span 
-            onClick={() => navigate('/login')} // 3. Adicione este evento de clique
-            className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition"
+              onClick={() => navigate('/login')}
+              className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition"
             >
-            Voltar para o login
+              Voltar para o login
             </span>
-        </p>
+          </p>
         </div>
       </div>
     </div>

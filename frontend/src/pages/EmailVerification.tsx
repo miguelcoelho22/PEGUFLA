@@ -1,19 +1,23 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { api } from '../api'; // Importando a configuração do Axios
 
 export default function EmailVerification() {
   const [code, setCode] = useState(['', '', '', '', '', '']);
-  const [hasError, setHasError] = useState(false); // Estado para controlar o erro
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
   const inputs = useRef<(HTMLInputElement | null)[]>([]);
   const navigate = useNavigate();
-  const userEmail = "usuario@ufla.br";
-
-  // MOCK TEMPORÁRIO PARA TESTES
-  const MOCK_VALID_CODE = "123456";
+  const location = useLocation();
+  
+  // Pega o e-mail passado pelas telas de Cadastro ou Esqueci a Senha
+  const userEmail = location.state?.userEmail || "usuario@ufla.br";
 
   const handleChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return;
-    setHasError(false); // Limpa o erro ao digitar novamente
+    setHasError(false); // Limpa o erro visual ao voltar a digitar
 
     const newCode = [...code];
     newCode[index] = value.slice(-1);
@@ -30,17 +34,47 @@ export default function EmailVerification() {
     }
   };
 
-  const handleVerify = (e: React.FormEvent) => {
+  const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     const enteredCode = code.join('');
 
-    if (enteredCode === MOCK_VALID_CODE) {
+    if (enteredCode.length < 6) return; // Aguarda os 6 dígitos
 
-      navigate('/reset-password'); 
-    } else {
+    try {
+      setIsLoading(true);
+      setHasError(false);
+
+      // Chamada real para o backend Java do PegUFLA
+      await api.post('/auth/verify', {
+        email: userEmail,
+        verificationCode: enteredCode
+      });
+
+      alert('✅ Código verificado com sucesso!');
+      
+      // Se este componente estiver sendo usado para Cadastro, vai para o /login
+      // Se for para Esqueci a Senha, vai para o /reset-password
+      // Por padrão, para ativação de conta:
+      navigate('/login'); 
+      
+    } catch (err: any) {
       setHasError(true);
+      
+      // Captura a mensagem real de erro do Spring Boot (ex: "Código expirado")
+      if (err.response && err.response.data) {
+        setErrorMessage(
+          typeof err.response.data === 'string' 
+            ? err.response.data 
+            : err.response.data.message || 'Código inválido.'
+        );
+      } else {
+        setErrorMessage('Erro ao comunicar com o servidor.');
+      }
+      
       setCode(['', '', '', '', '', '']);
-      inputs.current[0]?.focus();
+      inputs.current[0]?.focus(); // Volta o foco para o início em caso de erro
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,21 +108,22 @@ export default function EmailVerification() {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                // Se der erro, a borda fica vermelha
                 className={`w-12 h-14 bg-[#2A2A2A] border ${hasError ? 'border-red-500' : 'border-gray-700'} rounded-xl text-center text-2xl font-bold text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition`}
               />
             ))}
           </div>
 
+          {/* Exibição dinâmica da mensagem de erro da API */}
           {hasError && (
-            <p className="text-red-500 text-sm mt-2">Código incorreto. Tente "123456".</p>
+            <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
           )}
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-900/20"
+            disabled={isLoading}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-900/20"
           >
-            Verificar
+            {isLoading ? 'Verificando...' : 'Verificar'}
           </button>
         </form>
 
