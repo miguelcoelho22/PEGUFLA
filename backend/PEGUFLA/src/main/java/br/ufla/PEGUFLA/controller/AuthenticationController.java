@@ -9,6 +9,11 @@ import br.ufla.PEGUFLA.model.user.request.VerifyUserDTO;
 import br.ufla.PEGUFLA.model.user.response.LoginResponseDTO;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import br.ufla.PEGUFLA.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +33,11 @@ public class AuthenticationController {
 	private final TokenService tokenService;
 	private final AuthenticationService authenticationService;
 
+	@Operation(summary = "Autentica um usuário", description = "Valida as credenciais do usuário e retorna um token JWT para acesso aos endpoints protegidos.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Login realizado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponseDTO.class))),
+			@ApiResponse(responseCode = "400", description = "Dados de entrada inválidos", content = @Content),
+			@ApiResponse(responseCode = "403", description = "Credenciais incorretas ou acesso negado", content = @Content)})
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid UserRequestLoginDTO userRequestLoginDTO) {
 		this.authenticationService.authenticate(userRequestLoginDTO);
@@ -42,6 +52,10 @@ public class AuthenticationController {
 		return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDTO(token));
 	}
 
+	@Operation(summary = "Registra um novo usuário", description = "Cria uma nova conta de usuário no sistema PegUFLA.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso", content = @Content),
+			@ApiResponse(responseCode = "400", description = "Dados de entrada inválidos ou e-mail já cadastrado", content = @Content)})
 	@PostMapping("/register")
 	public ResponseEntity register(@RequestBody @Valid UserRequestRegisterDTO userRequestRegisterDTO) {
 		if (this.userRepository.findByEmail(userRequestRegisterDTO.email()).isPresent()) {
@@ -53,6 +67,10 @@ public class AuthenticationController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
+	@Operation(summary = "Verifica a conta do usuário", description = "Valida o código de verificação enviado para o e-mail do usuário recém-registrado.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Conta verificada com sucesso", content = @Content),
+			@ApiResponse(responseCode = "400", description = "Código de verificação inválido ou expirado", content = @Content)})
 	@PostMapping("/verify")
 	public ResponseEntity<?> verifyUser(@RequestBody VerifyUserDTO verifyUserDTO) {
 		try{
@@ -63,6 +81,10 @@ public class AuthenticationController {
 		}
 	}
 
+	@Operation(summary = "Reenvia o código de verificação", description = "Gera e envia um novo código de verificação para o e-mail especificado.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Código de verificação enviado com sucesso", content = @Content),
+			@ApiResponse(responseCode = "400", description = "E-mail não encontrado ou solicitação inválida", content = @Content)})
 	@PostMapping("/resend")
 	public ResponseEntity<?> resendVerificationCode(@RequestParam String email){
 		try{

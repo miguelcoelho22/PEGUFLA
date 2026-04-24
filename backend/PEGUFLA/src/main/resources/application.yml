@@ -13,3 +13,6 @@ spring:
   mail:
     email: "pegufla@gmail.com"
     senha: "oncx xric yopf uzcs"
+  app:
+    cors:
+        allowed-origins: "http://localhost:5173"
