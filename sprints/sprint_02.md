@@ -61,7 +61,7 @@ A sprint está diretamente relacionada ao conteúdo de Engenharia de Requisitos,
 - Commits relevantes:
   - Atualização da documentação de requisitos  
   - Refinamento e priorização do backlog  
-  - Criação das issues da Sprint 02
+  - Criação e organização das issues da Sprint 02
   - Implementação de cadastro e login  
   - Organização do GitHub Projects  
 
@@ -99,9 +99,9 @@ Durante esta sprint, o projeto avançou da fase conceitual para uma preparação
 - Product Backlog atualizado e priorizado  
 - Issues da Sprint 02 criadas e organizadas no board  
 - Protótipos iniciais do sistema desenvolvidos
-- Implementação back-end de cadastro concluída  
-- Implementação back-end de login concluída  
-- Integração inicial entre front-end e back-end realizada  
+- Implementação back-end de cadastro concluída
+- Implementação back-end de login concluída
+- Integração inicial entre front-end e back-end realizada
 - Reunião de alinhamento da equipe realizada em 23/04/2026
 
 ### O que ficou pendente:
