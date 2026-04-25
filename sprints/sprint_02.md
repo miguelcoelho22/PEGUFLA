@@ -2,8 +2,8 @@
 
 ## 1. Identificação
 - Número da sprint: 02  
-- Período: 11/04/2026 a 24/04/2026  
-- Data da entrega: 24/04/2026  
+- Período: 11/04/2026 a 25/04/2026  
+- Data da entrega: 25/04/2026  
 
 ---
 
