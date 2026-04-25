@@ -70,7 +70,7 @@ A sprint está diretamente relacionada ao conteúdo de Engenharia de Requisitos,
 - Outras evidências:
   - Reunião realizada em 23/04/2026 para alinhamento das entregas da Sprint 02 e definição dos próximos passos do projeto.
  
- ![Reunião de alinhamento da Sprint 02](../images/reuniao-sprint-02.png)
+![Reunião de alinhamento da Sprint 02](../docs/images/reuniao-sprint-02.png)
     
 ---
 
