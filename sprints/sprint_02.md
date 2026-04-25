@@ -44,7 +44,8 @@ A sprint está diretamente relacionada ao conteúdo de Engenharia de Requisitos,
 - Product Backlog atualizado e priorizado  
 - Sprint Backlog da etapa  
 - Registro de acompanhamento da sprint  
-- Protótipos iniciais das telas do sistema  
+- Protótipos iniciais das telas do sistema
+- Implementação inicial de cadastro e login   
 - Documentação publicada no GitHub  
 
 ---
@@ -59,12 +60,16 @@ A sprint está diretamente relacionada ao conteúdo de Engenharia de Requisitos,
 - Commits relevantes:
   - Atualização da documentação de requisitos  
   - Refinamento e priorização do backlog  
-  - Criação das issues da Sprint 02  
+  - Criação das issues da Sprint 02
+  - Implementação de cadastro e login  
   - Organização do GitHub Projects  
 
 - Tag da sprint:
   - Sprint 2  
 
+- Outras evidências:
+  - Print da reunião de alinhamento realizada em 23/04/2026
+    
 ---
 
 ## 7. Evolução da aplicação web
