@@ -54,7 +54,8 @@ A sprint está diretamente relacionada ao conteúdo de Engenharia de Requisitos,
 - Arquivos criados/atualizados:
   - docs/requisitos.md  
   - docs/product-backlog.md  
-  - docs/sprints/sprint-02.md  
+  - docs/sprints/sprint-02.md
+  - docs/images/reuniao-sprint-02.png
   - README.md  
 
 - Commits relevantes:
@@ -75,7 +76,7 @@ A sprint está diretamente relacionada ao conteúdo de Engenharia de Requisitos,
 ---
 
 ## 7. Evolução da aplicação web
-Durante esta sprint, o projeto avançou da fase conceitual para uma preparação concreta de desenvolvimento. Foram consolidadas as principais funcionalidades da aplicação web, definidos requisitos prioritários, criadas tarefas técnicas e iniciada a construção visual das telas principais do sistema.
+Durante esta sprint, o projeto avançou da fase conceitual para uma preparação concreta de desenvolvimento. Foram consolidadas as principais funcionalidades da aplicação web, definidos requisitos prioritários, criadas tarefas técnicas, desenvolvidos protótipos visuais e implementadas as funcionalidades iniciais de cadastro e login.
 
 ---
 
@@ -83,7 +84,8 @@ Durante esta sprint, o projeto avançou da fase conceitual para uma preparação
 - Refinamento contínuo dos requisitos conforme evolução das discussões  
 - Definição de prioridades entre funcionalidades  
 - Organização inicial das tarefas no GitHub Projects  
-- Dependência entre entregas de front-end e back-end  
+- Dependência entre entregas de front-end e back-end
+- Ausência de tela principal definida para concluir o redirecionamento após login 
 
 ---
 
@@ -96,12 +98,15 @@ Durante esta sprint, o projeto avançou da fase conceitual para uma preparação
 - Casos de uso principais documentados  
 - Product Backlog atualizado e priorizado  
 - Issues da Sprint 02 criadas e organizadas no board  
-- Protótipos iniciais do sistema desenvolvidos  
+- Protótipos iniciais do sistema desenvolvidos
+- Implementação back-end de cadastro concluída  
+- Implementação back-end de login concluída  
+- Integração inicial entre front-end e back-end realizada  
+- Reunião de alinhamento da equipe realizada em 23/04/2026
 
 ### O que ficou pendente:
-- Conclusão da implementação completa de cadastro e login  
-- Integração total entre front-end e back-end  
-- Encerramento final da sprint com validação da equipe  
+- Ajuste do redirecionamento após login, dependente da definição da próxima tela principal  
+- Integrações futuras relacionadas à recuperação de senha  
 
 ---
 
@@ -110,7 +115,8 @@ Durante esta sprint, o projeto avançou da fase conceitual para uma preparação
 - Definir estrutura das principais entidades e relacionamentos  
 - Representar comportamento das funcionalidades prioritárias  
 - Refinar backlog com base na modelagem realizada  
-- Documentar modelos no GitHub  
+- Documentar modelos no GitHub
+- Definir tela principal para fluxo pós-login  
 
 ---
 
@@ -120,10 +126,10 @@ Durante esta sprint, o projeto avançou da fase conceitual para uma preparação
 O grupo definiu como foco principal da Sprint 02 a consolidação dos requisitos do sistema PegUFLA, priorizando funcionalidades essenciais e preparando a base documental para o desenvolvimento.
 
 ### Execução
-Foram realizadas atividades de levantamento e refinamento de requisitos, criação de histórias de usuário, organização do backlog, abertura de issues técnicas e desenvolvimento dos protótipos visuais das telas principais.
+Foram realizadas atividades de levantamento e refinamento de requisitos, criação de histórias de usuário, organização do backlog, abertura de issues técnicas, desenvolvimento dos protótipos visuais das telas principais e implementação das funcionalidades de cadastro e login.
 
 ### Dificuldades
-As principais dificuldades envolveram alinhar prioridades, manter consistência entre documentos e organizar dependências entre tarefas de front-end e back-end.
+As principais dificuldades envolveram alinhar prioridades, manter consistência entre documentos, organizar dependências entre tarefas de front-end e back-end e a ausência de definição da tela principal para finalizar o fluxo pós-login.
 
 ### Resultados
-A sprint resultou em uma base sólida de requisitos, backlog estruturado e preparação técnica do projeto, deixando a equipe pronta para avançar para a etapa de modelagem do sistema na Sprint 03.
+A sprint resultou em uma base sólida de requisitos, backlog estruturado, evolução visual da aplicação e implementação funcional inicial do sistema, deixando a equipe pronta para avançar para a etapa de modelagem do sistema na Sprint 03.
