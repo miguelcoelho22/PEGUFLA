@@ -23,9 +23,6 @@ public record CaronaRequestDTO(
     @NotNull(message = "vagas totais da carona é um campo obrigatório")
     int vagasTotais,
 
-    @NotNull(message = "vagas disponíveis da carona é um campo obrigatório")
-    int vagasDisponiveis,
-
     @NotNull(message = "usuário que criou a  carona é um campo obrigatório")
     String userId,
 

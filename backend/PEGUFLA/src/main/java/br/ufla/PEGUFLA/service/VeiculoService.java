@@ -1,6 +1,7 @@
 package br.ufla.PEGUFLA.service;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
+import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.ufla.PEGUFLA.model.user.User;
@@ -22,7 +23,7 @@ public class VeiculoService {
 	public VeiculoResponseDTO create(VeiculoRequestDTO veiculoRequestDTO) {
 
 		User user = userRepository.findById(veiculoRequestDTO.userId())
-				.orElseThrow(() -> new RuntimeException("User não encontrado"));
+				.orElseThrow(() -> new NotFoundException("User não encontrado"));
 
 		return new VeiculoResponseDTO(this.veiculoRepository.save(new Veiculo(veiculoRequestDTO.modelo(),
 				veiculoRequestDTO.marca(), veiculoRequestDTO.cor(), veiculoRequestDTO.placa(), user)));
@@ -31,7 +32,7 @@ public class VeiculoService {
 	public VeiculoResponseDTO update(Long id, VeiculoRequestDTO veiculoRequestDTO) {
 
 		Veiculo veiculo = veiculoRepository.findByIdAndUserId(id, veiculoRequestDTO.userId())
-				.orElseThrow(() -> new RuntimeException("Veiculo não encontrado para este usuário"));
+				.orElseThrow(() -> new NotFoundException("Veiculo não encontrado para este usuário"));
 
 		if(veiculoRequestDTO.placa() != null && !veiculoRequestDTO.placa().equals(veiculo.getPlaca())) {
 			if(veiculoRepository.existsByPlaca(veiculoRequestDTO.placa())) {

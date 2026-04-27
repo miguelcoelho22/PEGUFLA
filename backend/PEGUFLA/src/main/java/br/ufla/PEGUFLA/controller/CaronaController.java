@@ -1,5 +1,6 @@
 package br.ufla.PEGUFLA.controller;
 
+import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.carona.dto.request.CaronaRequestDTO;
 import br.ufla.PEGUFLA.model.carona.dto.response.CaronaResponseDTO;
@@ -52,7 +53,7 @@ public class CaronaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Carona carona = this.caronaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Carona não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Carona não encontrada"));
         this.caronaRepository.delete(carona);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -64,7 +65,7 @@ public class CaronaController {
     @GetMapping("/{id}")
     public ResponseEntity<CaronaResponseDTO> findById(@PathVariable Long id) {
         Carona carona = this.caronaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Carona não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Carona não encontrada"));
         return ResponseEntity.status(HttpStatus.OK).body(new CaronaResponseDTO(carona));
     }
 

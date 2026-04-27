@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
-    List<Veiculo> findByUserId(Long userId);
+    List<Veiculo> findByUserId(UUID userId);
 
     boolean existsByPlaca(@NotNull(message = "O campo placa é obrigatório.") String placa);
 

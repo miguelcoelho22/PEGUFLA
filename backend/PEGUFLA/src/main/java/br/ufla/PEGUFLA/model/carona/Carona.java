@@ -20,16 +20,22 @@ public class Carona {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String origem;
 
+	@Column(nullable = false)
 	private String destino;
 
+	@Column(nullable = false)
 	private LocalDateTime horarioSaida;
 
+	@Column(nullable = false)
 	private int vagasTotais;
 
 	private int vagasDisponiveis;
 
+	@Enumerated(EnumType.STRING)
+	@Column(length = 9, nullable = false)
 	private StatusViagem statusViagem;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -40,13 +46,13 @@ public class Carona {
 	@JoinColumn(name = "veiculo_id", referencedColumnName = "id")
 	private Veiculo veiculo;
 
-	public Carona(String origem, String destino, LocalDateTime horarioSaida, int vagasTotais, int vagasDisponiveis,
+	public Carona(String origem, String destino, LocalDateTime horarioSaida, int vagasTotais,
 			StatusViagem statusViagem, User user, Veiculo veiculo) {
 		this.origem = origem;
 		this.destino = destino;
 		this.horarioSaida = horarioSaida;
 		this.vagasTotais = vagasTotais;
-		this.vagasDisponiveis = vagasDisponiveis;
+		this.vagasDisponiveis = vagasTotais;
 		this.statusViagem = statusViagem;
 		this.user = user;
 		this.veiculo = veiculo;

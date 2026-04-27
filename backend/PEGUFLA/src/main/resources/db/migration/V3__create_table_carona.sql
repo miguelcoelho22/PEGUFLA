@@ -5,6 +5,7 @@ CREATE TABLE carona(
     horario_saida TIMESTAMP NOT NULL,
     vagas_totais INT NOT NULL,
     vagas_disponiveis INT NOT NULL,
+    status_viagem VARCHAR(9) NOT NULL CHECK (status_viagem IN ('CRIADA', 'CHEIA', 'CONCLUIDA', 'CANCELADA')),
     user_id TEXT NOT NULL,
     veiculo_id BIGINT NOT NULL,
 

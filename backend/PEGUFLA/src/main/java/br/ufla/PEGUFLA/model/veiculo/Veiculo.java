@@ -17,13 +17,16 @@ public class Veiculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String modelo;
 
+    @Column(nullable = false)
     private String marca;
 
+    @Column(nullable = false)
     private String cor;
 
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private String placa;
 
     @ManyToOne(fetch = FetchType.LAZY)

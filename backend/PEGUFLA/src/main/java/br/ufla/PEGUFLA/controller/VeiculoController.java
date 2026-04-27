@@ -1,7 +1,9 @@
 package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
+import java.util.UUID;
 
+import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +56,7 @@ public class VeiculoController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		Veiculo veiculo = this.veiculoRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Veiculo não encontrado"));
+				.orElseThrow(() -> new NotFoundException("Veiculo não encontrado"));
 		this.veiculoRepository.delete(veiculo);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
@@ -66,7 +68,7 @@ public class VeiculoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<VeiculoResponseDTO> findById(@PathVariable Long id) {
 		Veiculo veiculo = this.veiculoRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Veiculo não encontrado"));
+				.orElseThrow(() -> new NotFoundException("Veiculo não encontrado"));
 		return ResponseEntity.status(HttpStatus.OK).body(new VeiculoResponseDTO(veiculo));
 	}
 
@@ -88,9 +90,9 @@ public class VeiculoController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "veiculo encontrado com sucesso", content = @Content(mediaType = "application/json")),
 			@ApiResponse(responseCode = "404", description = "veiculo não encontrado", content = @Content)})
-	@GetMapping("/{userId}")
+	@GetMapping("/usuario/{userId}")
 	public ResponseEntity<List<VeiculoResponseDTO>> findVeiculoByUserId(
-			@Parameter(description = "ID do usuário associado ao veículo.", required = true) @PathVariable Long userId) {
+			@Parameter(description = "ID do usuário associado ao veículo.", required = true) @PathVariable UUID userId) {
 		List<Veiculo> veiculos = this.veiculoRepository.findByUserId(userId);
 
 		List<VeiculoResponseDTO> response = veiculos.stream()
