@@ -28,7 +28,7 @@ O diagrama de sequência detalha o fluxo de solicitação de vaga em uma carona 
 
 Nesse fluxo, o usuário seleciona uma carona, visualiza seus detalhes e solicita uma vaga. O sistema verifica a disponibilidade e, caso existam vagas, registra uma reserva com status pendente. Caso não haja disponibilidade, uma mensagem de erro é retornada ao usuário.
 
-## 7. Vínculo entre requisitos e modelos
+## 5. Vínculo entre requisitos e modelos
 
 A tabela a seguir apresenta a relação entre os requisitos funcionais do sistema PegUFLA e os modelos elaborados na Sprint 03, evidenciando como cada funcionalidade é representada nas diferentes modelagens.
 
