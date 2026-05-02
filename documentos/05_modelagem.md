@@ -19,3 +19,11 @@ O diagrama de componentes representa a estrutura geral da aplicação web PegUFL
 ![Modelo de Dados](../docs/images/modelo-dados-pegufla.jpeg)
 
 O modelo de dados apresenta as entidades centrais do sistema, como usuário, veículo, carona, reserva e mensagem, bem como seus relacionamentos. Ele serve de base para a implementação do banco de dados e para a compreensão das regras de negócio da aplicação.
+
+## Diagrama de Sequência
+
+![Diagrama de Sequência](../docs/images/diagrama-sequencia-pegufla.png)
+
+O diagrama de sequência detalha o fluxo de solicitação de vaga em uma carona no sistema PegUFLA, mostrando como o usuário interage com a interface web e como a solicitação percorre o backend e o banco de dados.
+
+Nesse fluxo, o usuário seleciona uma carona, visualiza seus detalhes e solicita uma vaga. O sistema verifica a disponibilidade e, caso existam vagas, registra uma reserva com status pendente. Caso não haja disponibilidade, uma mensagem de erro é retornada ao usuário.
