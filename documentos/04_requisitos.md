@@ -19,7 +19,7 @@ Os requisitos foram identificados por meio de:
 | RF02 | Login | Permitir autenticação no sistema | Alta |
 | RF03 | Criar carona | Permitir que usuários ofereçam caronas selecionando um veículo previamente cadastrado | Alta |
 | RF04 | Buscar carona | Permitir ao usuário pesquisar caronas disponíveis e visualizar os resultados encontrados | Alta |
-| RF05 | Solicitar vaga | Permitir solicitar participação em carona | Alta |
+| RF05 | Solicitar vaga | Permitir solicitar participação em uma carona por meio de uma reserva com status pendente | Alta |
 | RF06 | Aprovar/rejeitar solicitação | Motorista gerencia solicitações | Alta |
 | RF07 | Visualizar detalhes da carona | Permitir ao usuário consultar informações detalhadas de uma carona selecionada | Alta |
 | RF08 | Cancelar participação | Usuário pode sair da carona | Média |
@@ -85,7 +85,7 @@ Os requisitos foram identificados por meio de:
 ### Solicitar vaga
 - Usuário deve conseguir solicitar vaga  
 - Solicitação deve ser enviada ao motorista  
-- Status deve ficar como pendente  
+- Reserva deve ser registrada com status pendente 
 
 ### Aprovar/rejeitar solicitação
 - Motorista deve visualizar solicitações  
@@ -201,7 +201,7 @@ Os requisitos foram identificados por meio de:
 
 **Fluxo principal:**
 1. Usuário solicita vaga  
-2. Sistema registra solicitação  
+2. Sistema registra a reserva com status pendente
 
 **Fluxo alternativo:**
 - Carona sem vagas disponíveis → sistema bloqueia solicitação  
@@ -320,7 +320,7 @@ Os requisitos foram identificados por meio de:
 | Dificuldade de acesso ao sistema | PB02 - Login | RF02 | CT02 - Teste de autenticação |
 | Falta de oferta organizada de caronas | PB03 - Criar carona | RF03 | CT03 - Teste de criação de carona |
 | Dificuldade de encontrar caronas | PB04 - Buscar carona | RF04 | CT04 - Teste de busca com filtros |
-| Falta de controle sobre participação | PB05 - Solicitar vaga | RF05 | CT05 - Teste de solicitação de vaga |
+| Falta de controle sobre participação | PB05 - Solicitar vaga | RF05 | CT05 - Teste de solicitação/reserva de vaga |
 | Falta de controle do motorista | PB06 - Aprovação | RF06 | CT06 - Teste de aprovação/rejeição |
 | Falta de visualização das opções | PB07 - Listagem | RF07 | CT07 - Teste de exibição de caronas |
 | Falta de flexibilidade para usuários | PB08 - Cancelamento | RF08 | CT08 - Teste de cancelamento |
