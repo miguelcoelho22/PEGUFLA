@@ -17,7 +17,7 @@ Os requisitos foram identificados por meio de:
 |----|-------------------|----------|-----------|
 | RF01 | Cadastro de usuário | Permitir que usuários criem uma conta | Alta |
 | RF02 | Login | Permitir autenticação no sistema | Alta |
-| RF03 | Criar carona | Permitir que usuários ofereçam caronas | Alta |
+| RF03 | Criar carona | Permitir que usuários ofereçam caronas selecionando um veículo previamente cadastrado | Alta |
 | RF04 | Buscar carona | Permitir ao usuário pesquisar caronas disponíveis e visualizar os resultados encontrados | Alta |
 | RF05 | Solicitar vaga | Permitir solicitar participação em carona | Alta |
 | RF06 | Aprovar/rejeitar solicitação | Motorista gerencia solicitações | Alta |
@@ -27,6 +27,7 @@ Os requisitos foram identificados por meio de:
 | RF10 | Histórico de caronas | Permitir ao usuário visualizar caronas criadas e participadas | Média
 | RF11 | Mensagens internas | Permitir comunicação entre motorista e passageiro aprovado | Baixa |
 | RF12 | Recuperar senha | Permitir ao usuário redefinir sua senha de acesso por meio do e-mail institucional cadastrado | Média |
+| RF13 | Gerenciar veículos | Permitir ao usuário cadastrar, visualizar, editar e remover veículos vinculados à sua conta | Alta |
 
 ---
 
@@ -51,6 +52,7 @@ Os requisitos foram identificados por meio de:
 | RN03 | Aprovação obrigatória | Passageiros só entram com aprovação do motorista |
 | RN04 | Vagas limitadas | Número de passageiros não pode exceder o limite |
 | RN05 | Chat restrito | Chat só é liberado após aprovação na carona |
+| RN06 | Veículo obrigatório | Usuário deve possuir ao menos um veículo cadastrado para criar carona |
 
 ---
 
@@ -71,7 +73,9 @@ Os requisitos foram identificados por meio de:
 - Deve permitir definir origem e destino  
 - Deve permitir definir número de vagas  
 - Deve registrar data e horário  
-- Carona deve ser exibida no sistema  
+- Carona deve ser exibida no sistema
+- Deve permitir selecionar um veículo previamente cadastrado  
+- Sistema deve impedir criação de carona sem veículo selecionado  
 
 ### Buscar carona
 - Deve permitir filtrar por origem e destino  
@@ -116,7 +120,14 @@ Os requisitos foram identificados por meio de:
 - Sistema deve permitir redefinição de senha após validação  
 - Nova senha deve atender ao tamanho mínimo definido  
 - Usuário deve conseguir acessar o sistema com a nova senha  
-- Sistema deve informar erro para e-mail inexistente ou código inválido  
+- Sistema deve informar erro para e-mail inexistente ou código inválido
+
+### Gerenciar veículos
+- Deve permitir cadastrar veículo  
+- Deve permitir visualizar veículos cadastrados  
+- Deve permitir editar informações do veículo  
+- Deve permitir excluir veículo  
+- Veículo deve estar vinculado ao usuário autenticado  
 
 ---
 
@@ -155,18 +166,19 @@ Os requisitos foram identificados por meio de:
 ---
 
 ### Caso de uso: Criar carona
-**Atores:** Motorista  
+**Atores:** Usuário  
 **Objetivo:** Oferecer carona  
 
 **Fluxo principal:**
-1. Motorista preenche dados  
-2. Sistema registra carona  
-3. Carona fica disponível  
+1. Usuário preenche dados da carona  
+2. Usuário seleciona veículo cadastrado  
+3. Sistema registra carona  
+4. Carona fica disponível  
 
 **Fluxo alternativo:**
 - Dados incompletos → sistema solicita correção  
 - Quantidade de vagas inválida → sistema exibe erro  
-
+- Veículo não selecionado → sistema solicita seleção de veículo 
 ---
 
 ### Caso de uso: Buscar carona
@@ -184,8 +196,8 @@ Os requisitos foram identificados por meio de:
 ---
 
 ### Caso de uso: Solicitar vaga
-**Atores:** Passageiro  
-**Objetivo:** Solicitar participação  
+**Atores:** Usuário  
+**Objetivo:** Solicitar participação em uma carona  
 
 **Fluxo principal:**
 1. Usuário solicita vaga  
@@ -194,30 +206,30 @@ Os requisitos foram identificados por meio de:
 **Fluxo alternativo:**
 - Carona sem vagas disponíveis → sistema bloqueia solicitação  
 - Usuário já solicitou participação → sistema informa solicitação existente  
-
 ---
 
 ### Caso de uso: Aprovar solicitação
-**Atores:** Motorista  
-**Objetivo:** Gerenciar solicitações  
+**Atores:** Usuário  
+**Objetivo:** Gerenciar solicitações recebidas em uma carona criada  
 
 **Fluxo principal:**
-1. Motorista visualiza pedidos  
-2. Aprova ou rejeita  
+1. Usuário responsável pela carona visualiza pedidos  
+2. Aprova ou rejeita solicitação  
 3. Sistema atualiza status  
 
 **Fluxo alternativo:**
 - Vagas esgotadas → sistema impede nova aprovação  
 - Solicitação já respondida → sistema informa status atual  
+- Usuário sem permissão → sistema bloqueia gerenciamento  
 
 ---
 
 ### Caso de uso: Excluir carona
-**Atores:** Motorista  
-**Objetivo:** Remover carona  
+**Atores:** Usuário  
+**Objetivo:** Remover carona criada pelo próprio usuário  
 
 **Fluxo principal:**
-1. Motorista seleciona carona  
+1. Usuário seleciona carona criada por ele  
 2. Sistema remove carona  
 
 **Fluxo alternativo:**
@@ -244,11 +256,11 @@ Os requisitos foram identificados por meio de:
 ---
 
 ### Caso de uso: Chat
-**Atores:** Motorista e Passageiro  
-**Objetivo:** Comunicação  
+**Atores:** Usuário  
+**Objetivo:** Permitir comunicação entre usuários vinculados a uma carona aprovada  
 
 **Fluxo principal:**
-1. Chat é liberado após aprovação  
+1. Chat é liberado após aprovação na carona  
 2. Usuários trocam mensagens  
 3. Sistema registra histórico  
 
@@ -297,3 +309,4 @@ Os requisitos foram identificados por meio de:
 | Falta de acompanhamento das caronas anteriores | PB10 - Histórico | RF10 | CT10 - Teste de visualização do histórico |
 | Falta de comunicação entre usuários | PB11 - Chat | RF11 | CT11 - Teste de envio de mensagens |
 | Perda de acesso à conta por esquecimento de senha | PB12 - Recuperar senha | RF12 | CT12 - Teste de recuperação de senha |
+| Falta de gerenciamento de veículos | PB13 - Veículos | RF13 | CT13 - Teste de gerenciamento de veículos |
