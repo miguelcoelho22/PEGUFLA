@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+
+  const navigate = useNavigate();
   // Estado para controlar a data selecionada. Padrão: data de hoje.
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
@@ -139,7 +142,7 @@ export default function Dashboard() {
                     <span className="text-[13px] text-gray-800">{carona.rating}</span>
                   </div>
                 </div>
-                <button className="bg-[#318337] hover:bg-green-800 text-white font-medium text-xs py-1.5 px-4 rounded-md transition-colors">
+                <button onClick={() => navigate('/detalhes-carona')} className="bg-[#318337] hover:bg-green-800 text-white font-medium text-xs py-1.5 px-4 rounded-md transition-colors">
                   Verificar
                 </button>
               </div>
