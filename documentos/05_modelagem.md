@@ -17,3 +17,13 @@ O frontend web é responsável pela interface com o usuário, realizando requisi
 Cada serviço é responsável por uma parte do sistema e realiza operações de leitura e escrita no banco de dados, garantindo maior organização e modularização da aplicação.
 
 ![Diagrama de Componentes](../docs/images/diagrama-componentes-pegufla.png)
+
+## Modelo de Dados
+
+O modelo de dados representa as principais entidades do sistema PegUFLA e seus relacionamentos, servindo como base para a organização das informações no banco de dados.
+
+Neste modelo, são representadas entidades como **Usuário**, **Veículo**, **Carona**, **Reserva** e **Mensagem**. O usuário pode cadastrar veículos, criar caronas, solicitar participação em caronas por meio de reservas e trocar mensagens vinculadas a uma carona.
+
+Esse modelo auxilia na compreensão da estrutura de dados necessária para atender aos requisitos funcionais do sistema.
+
+![Modelo de Dados](../docs/images/modelo-dados-pegufla.jpeg)
