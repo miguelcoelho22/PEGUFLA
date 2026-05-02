@@ -295,19 +295,20 @@ Os requisitos foram identificados por meio de:
 
 ### Caso de uso: Gerenciar veículos
 **Atores:** Usuário  
-**Objetivo:** Gerenciar veículos cadastrados no sistema  
+**Objetivo:** Gerenciar veículos vinculados ao seu perfil  
 
 **Fluxo principal:**
-1. Usuário acessa a área de veículos  
-2. Usuário cadastra um novo veículo  
-3. Sistema registra o veículo  
-4. Usuário visualiza lista de veículos cadastrados  
-5. Usuário pode editar ou excluir um veículo  
+1. Usuário acessa seu perfil  
+2. Usuário acessa a seção de veículos  
+3. Usuário cadastra um novo veículo  
+4. Sistema registra o veículo  
+5. Usuário visualiza lista de veículos cadastrados  
+6. Usuário pode editar ou excluir um veículo  
 
 **Fluxo alternativo:**
 - Dados inválidos no cadastro → sistema solicita correção  
 - Veículo não encontrado → sistema informa erro  
-- Usuário tenta acessar veículo de outro usuário → sistema bloqueia ação
+- Usuário tenta acessar veículo de outro usuário → sistema bloqueia ação  
 
 ---
 
