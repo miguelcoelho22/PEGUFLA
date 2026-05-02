@@ -1,14 +1,15 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import logo from '../assets/Logo_PegUfla.png'; // Importando a logo do projeto
 
 export default function CaronaDetalhes() {
-  const navigate = useNavigate();
+  // Estado para controlar se o popup está aberto ou fechado
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="min-h-screen bg-[#f4f6fb] pb-24 font-sans">
+    <div className="min-h-screen bg-[#f4f6fb] pb-24 font-sans relative">
       {/* Header com Botão Voltar e Logo */}
       <div className="flex items-center justify-between p-5 pt-8 mb-4">
-        <button onClick={() => navigate('/dashboard')} className="flex items-center justify-center transition-transform active:scale-95">
+        <button onClick={() => window.history.back()} className="flex items-center justify-center transition-transform active:scale-95">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="11" fill="#1862bc" />
             <path d="M14 8L9 12L14 16" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -57,7 +58,6 @@ export default function CaronaDetalhes() {
           <div className="border border-gray-400 border-dashed rounded-md p-2 flex-shrink-0">
             <svg className="text-gray-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
-              {/* Corner brackets simulating the dashed scan box from the image */}
               <path d="M4 4h3M4 4v3M20 4h-3M20 4v3M4 20h3M4 20v-3M20 20h-3M20 20v-3" strokeWidth="1" />
             </svg>
           </div>
@@ -77,14 +77,19 @@ export default function CaronaDetalhes() {
           <button className="flex-1 bg-white border border-[#1862bc] text-[#1862bc] hover:bg-blue-50 font-medium text-[14px] py-2.5 rounded-md transition-colors">
             Falar com Maria
           </button>
-          <button className="flex-1 bg-[#1862bc] hover:bg-blue-800 text-white font-medium text-[14px] py-2.5 rounded-md transition-colors shadow-sm">
+          
+          {/* O onClick aqui muda o estado para true, abrindo o modal */}
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="flex-1 bg-[#1862bc] hover:bg-blue-800 text-white font-medium text-[14px] py-2.5 rounded-md transition-colors shadow-sm"
+          >
             Reservar
           </button>
         </div>
       </div>
 
-      {/* Bottom Navigation (Igual ao do Dashboard) */}
-      <nav className="fixed bottom-0 w-full bg-[#1862bc] text-white flex justify-between px-6 py-2 pb-3 items-center z-50 shadow-lg">
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 w-full bg-[#1862bc] text-white flex justify-between px-6 py-2 pb-3 items-center z-40 shadow-lg">
         <button className="flex flex-col items-center gap-1">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-green-500 stroke-[2.5]" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -120,6 +125,55 @@ export default function CaronaDetalhes() {
           <span className="text-[10px] font-medium">Perfil</span>
         </button>
       </nav>
+
+      {/* POPUP (Modal) de Confirmação */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-5">
+          {/* Caixa do Modal */}
+          <div className="bg-[#f4f6fb] w-full max-w-sm rounded-xl p-6 relative border border-gray-300 shadow-xl">
+            
+            {/* Botão de Fechar (X) no topo direito */}
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-3 right-3 bg-[#1862bc] text-white rounded-full p-1.5 transition-transform active:scale-95"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            {/* Conteúdo Central */}
+            <div className="mt-4 flex flex-col items-center text-center">
+              <h2 className="text-[17px] font-bold text-gray-900 mb-1">Confirmar Reserva</h2>
+              <p className="text-[14px] text-gray-800 mb-6">
+                Tem certeza que deseja reservar essa carona?
+              </p>
+
+              {/* Botões do Modal */}
+              <div className="flex items-center justify-end w-full gap-3 mt-2">
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="bg-transparent border border-[#1862bc] text-[#1862bc] font-semibold text-[15px] py-1.5 px-6 rounded-md hover:bg-blue-50 transition-colors"
+                >
+                  Não
+                </button>
+                <button 
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    // Lógica para confirmar a reserva entra aqui depois
+                    alert("Reserva confirmada!"); 
+                  }}
+                  className="bg-[#1862bc] text-white font-semibold text-[15px] py-1.5 px-6 rounded-md hover:bg-blue-800 transition-colors shadow-sm"
+                >
+                  Sim
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
