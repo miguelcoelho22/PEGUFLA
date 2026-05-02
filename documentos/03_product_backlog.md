@@ -38,7 +38,7 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB10 | História de usuário | Como usuário, quero visualizar histórico de caronas | Histórico | Média | Listar caronas criadas/participadas | 3 pts | 5 |
 | PB11 | História de usuário | Como motorista e passageiro, quero trocar mensagens após aprovação da carona | Sistema de mensagens internas assíncronas | Baixa | Envio e leitura de mensagens entre usuários vinculados à carona | 8 pts | 6 |
 | PB12 | História de usuário | Como usuário cadastrado, quero recuperar minha senha por código enviado ao e-mail | Recuperar senha | Média | Envio de código, validação e redefinição de senha | 3 pts | 5 |
-
+| PB13 | História de usuário | Como usuário, quero gerenciar meus veículos para poder utilizá-los ao criar caronas | Gerenciamento de veículos | Média | Cadastro, edição, exclusão e listagem de veículos | 5 pts | 4 |
 
 ---
 
@@ -179,6 +179,16 @@ Como usuário cadastrado, quero recuperar minha senha por código enviado ao e-m
 - sistema deve permitir redefinição de senha após validação  
 - nova senha deve atender ao tamanho mínimo definido  
 - usuário deve conseguir acessar o sistema com a nova senha
+
+### US13 – Gerenciar veículos
+Como usuário autenticado, quero gerenciar meus veículos, para selecionar um veículo cadastrado ao criar uma carona.
+
+**Critérios de aceitação:**
+- usuário deve conseguir cadastrar veículo  
+- usuário deve conseguir visualizar seus veículos cadastrados  
+- usuário deve conseguir editar informações de um veículo  
+- usuário deve conseguir excluir um veículo  
+- veículo cadastrado deve poder ser selecionado na criação de uma carona  
 
 ---
 
