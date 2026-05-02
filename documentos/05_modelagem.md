@@ -47,3 +47,19 @@ A tabela a seguir apresenta a relação entre os requisitos funcionais do sistem
 | RF11 – Mensagens internas | Casos de Uso / Modelo de Dados | Representa a troca de mensagens entre usuários vinculados à carona |
 | RF12 – Recuperar senha | Casos de Uso / Componentes | Representa o fluxo de recuperação de acesso do usuário |
 | RF13 – Gerenciar veículos | Casos de Uso / Modelo de Dados | Representa o cadastro e manutenção dos veículos do usuário |
+
+## 6. Refinamento do Product Backlog
+
+A partir da modelagem do sistema realizada na Sprint 03, foram identificados ajustes no Product Backlog, com o objetivo de garantir maior coerência entre os requisitos e os modelos elaborados.
+
+Como principal alteração, a funcionalidade de veículos foi separada da criação de caronas, passando a ser tratada como um módulo independente do sistema. Essa decisão está alinhada ao modelo de dados, no qual a entidade veículo possui relação direta com o usuário.
+
+Dessa forma, foi adicionado o seguinte requisito funcional:
+
+- RF13 – Gerenciar veículos: permite ao usuário cadastrar, visualizar, editar e remover seus veículos.
+
+Além disso, foi ajustada a regra de criação de caronas, passando a exigir a seleção de um veículo previamente cadastrado pelo usuário.
+
+Também foi refinado o fluxo de solicitação de vaga, sendo representado como uma reserva com status pendente no sistema, conforme evidenciado no modelo de dados e no diagrama de sequência.
+
+Essas alterações tornam o backlog mais consistente com a modelagem realizada e com a estrutura da aplicação.
