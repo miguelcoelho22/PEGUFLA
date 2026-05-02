@@ -6,6 +6,7 @@ import EmailVerification from './pages/EmailVerification';
 import ResetPassword from './pages/ResetPassword'; 
 import Dashboard from './pages/Dashboard';
 import CaronaDetalhes from './pages/CaronaDetalhes';
+import CriarCarona from './pages/CriarCarona';
 export default function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/detalhes-carona" element={<CaronaDetalhes />} />
+        <Route path="/CriarCarona" element={<CriarCarona />} />
       </Routes>
     </BrowserRouter>
   );
