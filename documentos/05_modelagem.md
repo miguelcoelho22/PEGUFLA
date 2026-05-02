@@ -16,4 +16,4 @@ O frontend web é responsável pela interface com o usuário, realizando requisi
 
 Cada serviço é responsável por uma parte do sistema e realiza operações de leitura e escrita no banco de dados, garantindo maior organização e modularização da aplicação.
 
-![Diagrama de Componentes](../images/diagrama-componentes-pegufla.png)
+![Diagrama de Componentes](../docs/images/diagrama-componentes-pegufla.png)
