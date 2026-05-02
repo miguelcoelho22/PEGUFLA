@@ -293,6 +293,24 @@ Os requisitos foram identificados por meio de:
 
 ---
 
+### Caso de uso: Gerenciar veículos
+**Atores:** Usuário  
+**Objetivo:** Gerenciar veículos cadastrados no sistema  
+
+**Fluxo principal:**
+1. Usuário acessa a área de veículos  
+2. Usuário cadastra um novo veículo  
+3. Sistema registra o veículo  
+4. Usuário visualiza lista de veículos cadastrados  
+5. Usuário pode editar ou excluir um veículo  
+
+**Fluxo alternativo:**
+- Dados inválidos no cadastro → sistema solicita correção  
+- Veículo não encontrado → sistema informa erro  
+- Usuário tenta acessar veículo de outro usuário → sistema bloqueia ação
+
+---
+
 ## 7. Rastreabilidade
 
 | Problema identificado | Item do Backlog | Requisito | Teste relacionado |
