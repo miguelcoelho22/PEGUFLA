@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
@@ -17,6 +18,7 @@ import br.ufla.PEGUFLA.repository.CaronaRepository;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import br.ufla.PEGUFLA.repository.VeiculoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,4 +49,12 @@ public class CaronaService {
             throw new ModelException("O horário de saída deve ser no futuro");
         }
     }
+
+    @Scheduled(cron = "0 */10 * * * *")
+    @Transactional
+    public void atualizarStatusCaronas() {
+        LocalDateTime agora = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        this.caronaRepository.atualizarCaronaExpiradas(agora);
+    }
+
 }

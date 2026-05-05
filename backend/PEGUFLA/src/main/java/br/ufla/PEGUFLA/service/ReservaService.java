@@ -1,0 +1,76 @@
+package br.ufla.PEGUFLA.service;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import br.ufla.PEGUFLA.infra.exception.ModelException;
+import br.ufla.PEGUFLA.infra.exception.NotFoundException;
+import br.ufla.PEGUFLA.model.carona.Carona;
+import br.ufla.PEGUFLA.model.enums.StatusReserva;
+import br.ufla.PEGUFLA.model.reserva.Reserva;
+import br.ufla.PEGUFLA.model.reserva.dto.request.ReservaRequestDTO;
+import br.ufla.PEGUFLA.model.reserva.dto.response.ReservaResponseDTO;
+import br.ufla.PEGUFLA.model.user.User;
+import br.ufla.PEGUFLA.repository.CaronaRepository;
+import br.ufla.PEGUFLA.repository.ReservaRepository;
+import br.ufla.PEGUFLA.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ReservaService {
+
+	private final ReservaRepository reservaRepository;
+	private final UserRepository userRepository;
+	private final CaronaRepository caronaRepository;
+
+	@Transactional
+	public ReservaResponseDTO create(ReservaRequestDTO reservaRequestDTO) {
+
+		User user = this.userRepository.findById(reservaRequestDTO.userId())
+				.orElseThrow(() -> new NotFoundException("User não encontrado"));
+
+		Carona carona = this.caronaRepository.findById(reservaRequestDTO.caronaId())
+				.orElseThrow(() -> new NotFoundException("Carona não encontrada"));
+
+		this.validarCarona(carona);
+		return new ReservaResponseDTO(this.reservaRepository.save(
+				new Reserva(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")), StatusReserva.PENDENTE, user, carona)));
+	}
+
+	public void validarCarona(Carona carona) {
+
+		if (carona.getHorarioSaida().isBefore(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")))) {
+			throw new ModelException("Carona já ocorreu");
+		}
+
+		if (carona.getVagasDisponiveis() <= 0) {
+			throw new ModelException("Não há vagas disponíveis para esta carona.");
+		}
+	}
+
+	@Transactional
+	public void aprovarCarona(Long reservaId, UUID motoristaId) {
+		Reserva reserva = this.reservaRepository.findById(reservaId)
+				.orElseThrow(() -> new NotFoundException("Reserva não encontrada"));
+
+		Carona carona = reserva.getCarona();
+
+		if (!carona.getUser().getId().equals(motoristaId.toString())) {
+			throw new ModelException("Apenas o motorista da carona pode aprovar reservas.");
+		}
+
+		if (reserva.getStatusReserva() != StatusReserva.PENDENTE) {
+			throw new ModelException("Apenas reservas pendentes podem ser aprovadas.");
+		}
+
+		carona.confirmarReserva();
+
+		reserva.setStatusReserva(StatusReserva.CONFIRMADA);
+	}
+
+}

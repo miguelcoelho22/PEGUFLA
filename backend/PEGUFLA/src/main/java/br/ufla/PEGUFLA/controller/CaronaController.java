@@ -1,5 +1,12 @@
 package br.ufla.PEGUFLA.controller;
 
+import java.util.List;
+
+import br.ufla.PEGUFLA.model.carona.StatusViagem;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.carona.dto.request.CaronaRequestDTO;
@@ -13,11 +20,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/carona")
 @RestController
@@ -69,4 +71,10 @@ public class CaronaController {
         return ResponseEntity.status(HttpStatus.OK).body(new CaronaResponseDTO(carona));
     }
 
+	@PostMapping("/cancelarCarona/{id}")
+	public void cancelarCarona(@PathVariable Long id) {
+		Carona carona = this.caronaRepository.findById(id).orElseThrow(() -> new NotFoundException("Carona não encontrada"));
+        carona.setStatusViagem(StatusViagem.CANCELADA);
+        this.caronaRepository.save(carona);
+	}
 }

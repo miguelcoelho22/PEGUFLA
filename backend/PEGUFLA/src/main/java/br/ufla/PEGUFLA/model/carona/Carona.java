@@ -2,6 +2,7 @@ package br.ufla.PEGUFLA.model.carona;
 
 import java.time.LocalDateTime;
 
+import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.model.veiculo.Veiculo;
 import jakarta.persistence.*;
@@ -56,5 +57,17 @@ public class Carona {
 		this.statusViagem = statusViagem;
 		this.user = user;
 		this.veiculo = veiculo;
+	}
+
+	public void confirmarReserva() {
+		if (this.vagasDisponiveis <= 0) {
+			throw new ModelException("Não há mais vagas disponíveis nesta carona.");
+		}
+
+		this.vagasDisponiveis--;
+
+		if(this.vagasDisponiveis == 0) {
+			this.statusViagem = StatusViagem.CHEIA;
+		}
 	}
 }
