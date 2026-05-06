@@ -3,7 +3,7 @@ CREATE TABLE reserva (
     data_hora_reserva TIMESTAMP NOT NULL,
     carona_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
-    status_reserva VARCHAR(9) NOT NULL CHECK (status_reserva IN ('PENDENTE', 'CONFIRMADA', 'REJEITADA', 'CONCLUIDA')),
+    status_reserva VARCHAR(10) NOT NULL CHECK (status_reserva IN ('PENDENTE', 'CONFIRMADA', 'REJEITADA', 'CONCLUIDA', 'CANCELADA')),
 
     CONSTRAINT fk_carona FOREIGN KEY (carona_id) REFERENCES carona(id),
     CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(id)

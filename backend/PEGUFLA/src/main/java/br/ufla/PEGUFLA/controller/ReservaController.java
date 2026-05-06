@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
+import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -44,10 +45,28 @@ public class ReservaController {
     @Operation(summary = "aprova reserva da carona", description = "aprova uma reserva que esta pendente")
     @GetMapping("/{reservaId}/aprovar")
     public ResponseEntity<Void> aprovarReserva(@PathVariable Long reservaId, Authentication authentication) {
+        User motoristaLogado = (User) authentication.getPrincipal();
 
-        Long motoristaIdLogado = Long.getLong(authentication.getName());
+        if(motoristaLogado.getId() == null){
+            throw new NotFoundException("Motorista não encontrado");
+        }
 
-        this.reservaService.aprovarCarona(reservaId, motoristaIdLogado);
+        this.reservaService.aprovarCarona(reservaId, motoristaLogado.getId());
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "rejeita reserva da carona", description = "rejeita uma reserva que esta pendente")
+    @GetMapping("/{reservaId}/rejeitar")
+    public ResponseEntity<Void> rejeitarReserva(@PathVariable Long reservaId, Authentication authentication) {
+        User motoristaLogado = (User) authentication.getPrincipal();
+
+        if(motoristaLogado.getId() == null){
+            throw new NotFoundException("Motorista não encontrado");
+        }
+
+        this.reservaService.rejeitarCarona(reservaId, motoristaLogado.getId());
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

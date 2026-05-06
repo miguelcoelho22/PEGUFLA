@@ -2,9 +2,8 @@ package br.ufla.PEGUFLA.service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.UUID;
 
-import br.ufla.PEGUFLA.model.carona.StatusViagem;
+import br.ufla.PEGUFLA.model.enums.StatusViagem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,4 +85,18 @@ public class ReservaService {
 		}
 	}
 
+	public void rejeitarCarona(Long reservaId, Long id) {
+		Reserva reserva = this.reservaRepository.findById(reservaId)
+				.orElseThrow(() -> new NotFoundException("Reserva não encontrada"));
+
+		if(!reserva.getCarona().getUser().getId().toString().equals(id.toString())) {
+			throw new ModelException("Apenas o motorista da carona pode rejeitar reservas.");
+		}
+
+		if(reserva.getStatusReserva() != StatusReserva.PENDENTE) {
+			throw new ModelException("Apenas reservas pendentes podem ser rejeitadas.");
+		}
+
+		reserva.setStatusReserva(StatusReserva.REJEITADA);
+	}
 }
