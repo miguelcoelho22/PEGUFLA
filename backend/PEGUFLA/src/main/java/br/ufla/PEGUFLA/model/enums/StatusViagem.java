@@ -1,4 +1,4 @@
-package br.ufla.PEGUFLA.model.carona;
+package br.ufla.PEGUFLA.model.enums;
 
 public enum StatusViagem {
 

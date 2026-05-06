@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
-import br.ufla.PEGUFLA.model.carona.StatusViagem;
 import br.ufla.PEGUFLA.model.carona.dto.request.CaronaRequestDTO;
 import br.ufla.PEGUFLA.model.carona.dto.response.CaronaResponseDTO;
 import br.ufla.PEGUFLA.model.veiculo.Veiculo;
@@ -75,8 +74,6 @@ public class CaronaController {
 
 	@GetMapping("/cancelarCarona/{id}")
 	public void cancelarCarona(@PathVariable Long id) {
-		Carona carona = this.caronaRepository.findById(id).orElseThrow(() -> new NotFoundException("Carona não encontrada"));
-        carona.setStatusViagem(StatusViagem.CANCELADA);
-        this.caronaRepository.save(carona);
+        this.caronaService.cancelarCarona(id);
 	}
 }

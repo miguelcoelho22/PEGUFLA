@@ -1,8 +1,11 @@
 package br.ufla.PEGUFLA.model.carona;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
+import br.ufla.PEGUFLA.model.enums.StatusViagem;
+import br.ufla.PEGUFLA.model.reserva.Reserva;
 import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.model.veiculo.Veiculo;
 import jakarta.persistence.*;
@@ -46,6 +49,9 @@ public class Carona {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "veiculo_id", referencedColumnName = "id")
 	private Veiculo veiculo;
+
+	@OneToMany(mappedBy = "carona")
+	private List<Reserva> reservaList;
 
 	public Carona(String origem, String destino, LocalDateTime horarioSaida, int vagasTotais,
 			StatusViagem statusViagem, User user, Veiculo veiculo) {

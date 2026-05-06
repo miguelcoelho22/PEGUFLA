@@ -3,7 +3,7 @@ package br.ufla.PEGUFLA.model.carona.dto.response;
 import java.time.LocalDateTime;
 
 import br.ufla.PEGUFLA.model.carona.Carona;
-import br.ufla.PEGUFLA.model.carona.StatusViagem;
+import br.ufla.PEGUFLA.model.enums.StatusViagem;
 import br.ufla.PEGUFLA.model.user.response.UserResponseDTO;
 import br.ufla.PEGUFLA.model.veiculo.dto.response.VeiculoResponseDTO;
 import jakarta.validation.constraints.NotNull;
