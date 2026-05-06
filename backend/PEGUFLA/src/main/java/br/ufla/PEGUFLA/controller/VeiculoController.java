@@ -3,19 +3,18 @@ package br.ufla.PEGUFLA.controller;
 import java.util.List;
 import java.util.UUID;
 
-import br.ufla.PEGUFLA.infra.exception.NotFoundException;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.veiculo.Veiculo;
 import br.ufla.PEGUFLA.model.veiculo.dto.request.VeiculoRequestDTO;
 import br.ufla.PEGUFLA.model.veiculo.dto.response.VeiculoResponseDTO;
 import br.ufla.PEGUFLA.repository.VeiculoRepository;
 import br.ufla.PEGUFLA.service.VeiculoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -45,8 +44,10 @@ public class VeiculoController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Busca realizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Veiculo.class)))})
 	@GetMapping
-	public ResponseEntity<List<Veiculo>> findAll() {
-		return ResponseEntity.status(HttpStatus.OK).body(this.veiculoRepository.findAll());
+	public ResponseEntity<List<VeiculoResponseDTO>> findAll() {
+		List<VeiculoResponseDTO> veiculoResponseDTOS = this.veiculoRepository.findAll().stream()
+				.map(VeiculoResponseDTO::new).toList();
+		return ResponseEntity.status(HttpStatus.OK).body(veiculoResponseDTOS);
 	}
 
 	@Operation(summary = "Deleta um veiculo existente", description = "Deleta as informações de um veiculo com base no seu ID.")

@@ -9,7 +9,10 @@ import br.ufla.PEGUFLA.model.veiculo.dto.response.VeiculoResponseDTO;
 import jakarta.validation.constraints.NotNull;
 
 @NotNull
-public record CaronaResponseDTO(String origem,
+public record CaronaResponseDTO(
+		Long id,
+
+		String origem,
 
 		String destino,
 
@@ -26,7 +29,7 @@ public record CaronaResponseDTO(String origem,
 		VeiculoResponseDTO veiculo) {
 
 	public CaronaResponseDTO(Carona carona){
-		this(carona.getOrigem(), carona.getDestino(), carona.getHorarioSaida(), carona.getVagasTotais(),
+		this(carona.getId(), carona.getOrigem(), carona.getDestino(), carona.getHorarioSaida(), carona.getVagasTotais(),
 				carona.getVagasDisponiveis(), carona.getStatusViagem(), new UserResponseDTO(carona.getUser()),
 				new VeiculoResponseDTO(carona.getVeiculo()));
 	}

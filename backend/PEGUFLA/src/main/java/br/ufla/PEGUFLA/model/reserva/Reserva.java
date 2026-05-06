@@ -24,6 +24,8 @@ public class Reserva {
 
     private LocalDateTime dataHoraReserva;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private StatusReserva statusReserva;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)

@@ -4,6 +4,6 @@ public enum StatusReserva {
 
     PENDENTE,
     CONFIRMADA,
-    CANCELADA,
+    REJEITADA,
     CONCLUIDA
 }

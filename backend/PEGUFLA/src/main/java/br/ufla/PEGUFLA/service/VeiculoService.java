@@ -11,7 +11,6 @@ import br.ufla.PEGUFLA.model.veiculo.dto.response.VeiculoResponseDTO;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import br.ufla.PEGUFLA.repository.VeiculoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 
 @Service
 @RequiredArgsConstructor

@@ -2,13 +2,13 @@ package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
 
-import br.ufla.PEGUFLA.model.carona.StatusViagem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
+import br.ufla.PEGUFLA.model.carona.StatusViagem;
 import br.ufla.PEGUFLA.model.carona.dto.request.CaronaRequestDTO;
 import br.ufla.PEGUFLA.model.carona.dto.response.CaronaResponseDTO;
 import br.ufla.PEGUFLA.model.veiculo.Veiculo;
@@ -44,8 +44,10 @@ public class CaronaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Veiculo.class)))})
     @GetMapping
-    public ResponseEntity<List<Carona>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.caronaRepository.findAll());
+	public ResponseEntity<List<CaronaResponseDTO>> findAll() {
+		List<CaronaResponseDTO> caronaResponseDTOS = this.caronaRepository.findAll().stream()
+				.map(CaronaResponseDTO::new).toList();
+		return ResponseEntity.status(HttpStatus.OK).body(caronaResponseDTOS);
      }
 
     @Operation(summary = "Deleta um veiculo existente", description = "Deleta as informações de um veiculo com base no seu ID.")
@@ -55,14 +57,14 @@ public class CaronaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Carona carona = this.caronaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Carona não encontrada"));
+                .orElseThrow(() -> new NotFoundException("veiculo não encontrada"));
         this.caronaRepository.delete(carona);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Operation(summary = "Busca um veiculo por ID", description = "Retorna um veiculo específico com base no seu ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Vveiculo encontrado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Veiculo.class))),
+            @ApiResponse(responseCode = "200", description = "veiculo encontrado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Veiculo.class))),
             @ApiResponse(responseCode = "404", description = "veiculo não encontrado", content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<CaronaResponseDTO> findById(@PathVariable Long id) {
@@ -71,7 +73,7 @@ public class CaronaController {
         return ResponseEntity.status(HttpStatus.OK).body(new CaronaResponseDTO(carona));
     }
 
-	@PostMapping("/cancelarCarona/{id}")
+	@GetMapping("/cancelarCarona/{id}")
 	public void cancelarCarona(@PathVariable Long id) {
 		Carona carona = this.caronaRepository.findById(id).orElseThrow(() -> new NotFoundException("Carona não encontrada"));
         carona.setStatusViagem(StatusViagem.CANCELADA);

@@ -1,12 +1,8 @@
 package br.ufla.PEGUFLA.model.carona.dto.request;
 
-import br.ufla.PEGUFLA.model.carona.StatusViagem;
-import br.ufla.PEGUFLA.model.veiculo.Veiculo;
-import br.ufla.PEGUFLA.model.veiculo.dto.request.VeiculoRequestDTO;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 //@formatter:off
 public record CaronaRequestDTO(
@@ -24,7 +20,7 @@ public record CaronaRequestDTO(
     int vagasTotais,
 
     @NotNull(message = "usuário que criou a  carona é um campo obrigatório")
-    String userId,
+    Long userId,
 
     @NotNull(message = "veículo da carona é um campo obrigatório")
     Long veiculoId

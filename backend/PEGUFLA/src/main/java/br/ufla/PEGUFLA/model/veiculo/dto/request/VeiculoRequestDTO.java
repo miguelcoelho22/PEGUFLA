@@ -1,7 +1,6 @@
 package br.ufla.PEGUFLA.model.veiculo.dto.request;
 
 import jakarta.validation.constraints.NotNull;//@formatter:off
-import java.util.UUID;
 public record VeiculoRequestDTO(
 
         @NotNull(message = "O campo modelo é obrigatório.")
@@ -17,7 +16,7 @@ public record VeiculoRequestDTO(
         String placa,
 
         @NotNull(message = "O campo user é obrigatório.")
-        String userId
+        Long userId
 
 ) {
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
+import br.ufla.PEGUFLA.model.carona.StatusViagem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,14 @@ public class ReservaService {
 		Carona carona = this.caronaRepository.findById(reservaRequestDTO.caronaId())
 				.orElseThrow(() -> new NotFoundException("Carona não encontrada"));
 
+		if(carona.getUser().equals(user)){
+			throw new ModelException("O motorista da carona não pode reservar sua própria carona.");
+		}
+
+		if(carona.getStatusViagem() != StatusViagem.CRIADA){
+			throw new ModelException("Não é possível reservar uma carona que já foi iniciada ou finalizada.");
+		}
+
 		this.validarCarona(carona);
 		return new ReservaResponseDTO(this.reservaRepository.save(
 				new Reserva(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")), StatusReserva.PENDENTE, user, carona)));
@@ -54,13 +63,13 @@ public class ReservaService {
 	}
 
 	@Transactional
-	public void aprovarCarona(Long reservaId, UUID motoristaId) {
+	public void aprovarCarona(Long reservaId, Long motoristaId) {
 		Reserva reserva = this.reservaRepository.findById(reservaId)
 				.orElseThrow(() -> new NotFoundException("Reserva não encontrada"));
 
 		Carona carona = reserva.getCarona();
 
-		if (!carona.getUser().getId().equals(motoristaId.toString())) {
+		if (!carona.getUser().getId().toString().equals(motoristaId.toString())) {
 			throw new ModelException("Apenas o motorista da carona pode aprovar reservas.");
 		}
 
@@ -69,8 +78,12 @@ public class ReservaService {
 		}
 
 		carona.confirmarReserva();
-
 		reserva.setStatusReserva(StatusReserva.CONFIRMADA);
+
+		if(carona.getStatusViagem() == StatusViagem.CHEIA){
+			this.reservaRepository.findByCaronaIdAndStatusReserva(carona.getId(), StatusReserva.PENDENTE)
+					.forEach(reservaPendente -> reservaPendente.setStatusReserva(StatusReserva.REJEITADA));
+		}
 	}
 
 }

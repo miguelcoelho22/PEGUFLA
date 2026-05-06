@@ -6,7 +6,7 @@ CREATE TABLE carona(
     vagas_totais INT NOT NULL,
     vagas_disponiveis INT NOT NULL,
     status_viagem VARCHAR(9) NOT NULL CHECK (status_viagem IN ('CRIADA', 'CHEIA', 'CONCLUIDA', 'CANCELADA')),
-    user_id TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
     veiculo_id BIGINT NOT NULL,
 
     CONSTRAINT fk_veiculo FOREIGN KEY (veiculo_id) REFERENCES veiculo(id),

@@ -14,5 +14,5 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
 
     boolean existsByPlaca(@NotNull(message = "O campo placa é obrigatório.") String placa);
 
-    Optional<Veiculo> findByIdAndUserId(Long id, String userId);
+    Optional<Veiculo> findByIdAndUserId(Long id, Long userId);
 }

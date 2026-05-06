@@ -5,6 +5,8 @@ import br.ufla.PEGUFLA.model.veiculo.Veiculo;
 
 //@formatter:off
 public record VeiculoResponseDTO(
+
+        Long id,
         String modelo,
         String marca,
         String cor,
@@ -12,5 +14,5 @@ public record VeiculoResponseDTO(
         UserResponseDTO user
 ) {
 public VeiculoResponseDTO(Veiculo save) {
-    this(save.getModelo(), save.getMarca(), save.getCor(), save.getPlaca(), new UserResponseDTO(save.getUser()));
+    this(save.getId(), save.getModelo(), save.getMarca(), save.getCor(), save.getPlaca(), new UserResponseDTO(save.getUser()));
     }}

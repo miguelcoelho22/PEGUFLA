@@ -5,7 +5,7 @@ CREATE TABLE veiculo(
     marca VARCHAR(255) NOT NULL,
     cor VARCHAR(255) NOT NULL,
     placa VARCHAR(8) NOT NULL,
-    user_id TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
 
     CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(id)
 );
