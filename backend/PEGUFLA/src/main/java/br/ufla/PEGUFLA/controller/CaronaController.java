@@ -2,6 +2,8 @@ package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
 
+import br.ufla.PEGUFLA.model.reserva.Reserva;
+import br.ufla.PEGUFLA.model.reserva.dto.response.ReservaResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +41,9 @@ public class CaronaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.caronaService.create(caronaRequestDTO));
     }
 
-    @Operation(summary = "Lista veiculos com paginação e filtros", description = "Retorna uma lista paginada de veiculos")
+    @Operation(summary = "Lista carona com paginação e filtros", description = "Retorna uma lista paginada de caronas")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Veiculo.class)))})
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Carona.class)))})
     @GetMapping
 	public ResponseEntity<List<CaronaResponseDTO>> findAll() {
 		List<CaronaResponseDTO> caronaResponseDTOS = this.caronaRepository.findAll().stream()
@@ -49,10 +51,10 @@ public class CaronaController {
 		return ResponseEntity.status(HttpStatus.OK).body(caronaResponseDTOS);
      }
 
-    @Operation(summary = "Deleta um veiculo existente", description = "Deleta as informações de um veiculo com base no seu ID.")
+    @Operation(summary = "Deleta uma carona existente", description = "Deleta as informações de uma carona com base no seu ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "veiculo deletado com sucesso", content = @Content),
-            @ApiResponse(responseCode = "404", description = "veiculo não encontrado", content = @Content)})
+            @ApiResponse(responseCode = "204", description = "carona deletado com sucesso", content = @Content),
+            @ApiResponse(responseCode = "404", description = "carona não encontrado", content = @Content)})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Carona carona = this.caronaRepository.findById(id)
@@ -63,7 +65,7 @@ public class CaronaController {
 
     @Operation(summary = "Busca um veiculo por ID", description = "Retorna um veiculo específico com base no seu ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "veiculo encontrado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Veiculo.class))),
+            @ApiResponse(responseCode = "200", description = "veiculo encontrado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Carona.class))),
             @ApiResponse(responseCode = "404", description = "veiculo não encontrado", content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<CaronaResponseDTO> findById(@PathVariable Long id) {
@@ -72,6 +74,7 @@ public class CaronaController {
         return ResponseEntity.status(HttpStatus.OK).body(new CaronaResponseDTO(carona));
     }
 
+    @Operation(summary = "cancela uma carona existente", description = "cancela as informações de uma carona com base no seu ID.")
 	@GetMapping("/cancelarCarona/{id}")
 	public void cancelarCarona(@PathVariable Long id) {
         this.caronaService.cancelarCarona(id);

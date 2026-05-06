@@ -102,5 +102,28 @@ public class ReservaController {
         this.reservaRepository.delete(reserva);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @Operation(summary = "visualiza as solicitações de reservas pendentes", description = "visualiza as solicitações de reservas pendentes com base no id da carona")
+    @GetMapping("/solicitacoesReserva/{idCarona}")
+    public ResponseEntity<List<ReservaResponseDTO>> visualizarSolicitacoesReserva(@PathVariable Long idCarona) {
+
+        List<Reserva> reservas = this.reservaService.visualizarSolicitacoesReserva(idCarona);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reservas.stream().map(ReservaResponseDTO::new).toList());
+    }
+
+    @Operation(summary = "cancelar solicitação de reserva", description = "cancela solicitação de reserva com base no id da carona")
+    @PatchMapping("/cancelarReserva/{idReserva}")
+    public ResponseEntity<Void> cancelarReserva(@PathVariable Long idReserva, Authentication authentication) {
+        User passageiroLogado = (User) authentication.getPrincipal();
+
+        if(passageiroLogado.getId() == null){
+            throw new NotFoundException("Passageiro não encontrado");
+        }
+
+        this.reservaService.cancelarReserva(idReserva, passageiroLogado.getId());
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
 
