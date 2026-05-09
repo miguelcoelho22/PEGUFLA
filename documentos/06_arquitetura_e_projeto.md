@@ -27,7 +27,7 @@ A escolha pela arquitetura em camadas MVC clássica foi orientada pelo princípi
 |---|---|---|
 | Adoção rigorosa do padrão DTO (Data Transfer Object). | Evitar o vazamento de dados sensíveis da entidade (ex: senhas, hashes) e impedir que a estrutura do banco de dados dite o contrato da API. | **Baixo acoplamento.** Permite que o banco de dados evolua independentemente da interface do cliente, além de reforçar a segurança (Single Responsibility Principle). |
 | Identidade extraída do Token JWT (Validação no Backend). | Prevenir vulnerabilidades de falsificação (IDOR). O cliente é um ambiente não confiável e não deve ditar quem é o autor de uma reserva enviando IDs via JSON. | **Segurança por Design.** A fonte da verdade sobre o usuário ativo baseia-se unicamente em assinaturas criptográficas validadas no servidor. A API torna-se totalmente *Stateless*. |
-| Gerenciamento de Estado Transacional Centralizado. | Evitar a inconsistência de dados durante o cancelamento ou aprovação de caronas (ex: o status muda, mas o banco falha antes do e-mail ser enviado). | Uso compulsório de anotações `@Transactional` na camada de *Service*, delegando ao *Dirty Checking* do ORM a execução atômica (all-or-nothing) das queries. |
+| Gerenciamento de Estado Transacional Centralizado. | Evitar a inconsistência de dados durante o cancelamento ou aprovação de caronas (ex: o status muda, mas o banco falha antes do e-mail ser enviado). | Uso compulsório de anotações `@Transactional` na camada de *Service*, delegando ao *Dirty Checking* do ORM a execução atômica das operações. |
 
 ---
 
@@ -36,7 +36,7 @@ A escolha pela arquitetura em camadas MVC clássica foi orientada pelo princípi
 |---|---|---|
 | Spring Boot (Java) | Backend (API REST) | Ecossistema maduro que provê injeção de dependência e forte tipagem. Garante segurança corporativa (Spring Security) e gerenciamento facilitado de contexto transacional. |
 | React | Interface (Frontend) | Criação de uma interface de usuário dinâmica, baseada em componentes reutilizáveis, operando como um cliente responsável apenas pela interface e consumo da API. |
-| PostgreSQL | Banco de dados | SGBD relacional rigoroso. Essencial para garantir as propriedades ACID (Atomicidade, Consistência, Isolamento e Durabilidade) exigidas para o controle financeiro e lógico de reservas. |
+| PostgreSQL | Banco de dados | SGBD relacional rigoroso. Essencial para garantir consistência e integridade dos dados relacionados às reservas e caronas. |
 
 ---
 
