@@ -35,7 +35,7 @@ A escolha pela arquitetura em camadas MVC clássica foi orientada pelo princípi
 | Tecnologia | Finalidade | Justificativa |
 |---|---|---|
 | Spring Boot (Java) | Backend (API REST) | Ecossistema maduro que provê injeção de dependência e forte tipagem. Garante segurança corporativa (Spring Security) e gerenciamento facilitado de contexto transacional. |
-| React | Interface (Frontend) | Criação de uma interface de usuário dinâmica, baseada em componentes reutilizáveis, operando como um cliente burro que apenas consome a API REST. |
+| React | Interface (Frontend) | Criação de uma interface de usuário dinâmica, baseada em componentes reutilizáveis, operando como um cliente responsável apenas pela interface e consumo da API. |
 | PostgreSQL | Banco de dados | SGBD relacional rigoroso. Essencial para garantir as propriedades ACID (Atomicidade, Consistência, Isolamento e Durabilidade) exigidas para o controle financeiro e lógico de reservas. |
 
 ---
