@@ -15,10 +15,10 @@ A escolha pela arquitetura em camadas MVC clássica foi orientada pelo princípi
 ### Camadas ou módulos
 | Camada/Módulo | Responsabilidade |
 |---|---|
-| Apresentação (Controllers) | Atuar como borda do sistema (API RESTful). Recebe requisições HTTP, valida as intenções do cliente via DTOs de entrada e retorna DTOs de saída blindados. Não processa regras de negócio. |
+| Apresentação (Controllers) | Atuar como borda do sistema (API RESTful). Recebe requisições HTTP, valida as intenções do cliente via DTOs de entrada e retorna DTOs de saída controlados. Não processa regras de negócio. |
 | Aplicação (Services) | Orquestrar as regras de negócio puras (ex: cálculo de vagas disponíveis, validação de permissões de motorista/passageiro) e gerenciar a consistência das transações no banco de dados. |
 | Domínio (Models/Entities) | Representar as regras de estado e o coração do negócio (agregados de Carona, Reserva e User), estritamente mapeados para o esquema relacional. |
-| Persistência (Repositories) | Isolar a complexidade da comunicação com o banco de dados. Utiliza Spring Data JPA para abstrair queries complexas e gerenciar o ciclo de vida dos objetos em memória. |
+| Persistência (Repositories) | Isolar a complexidade da comunicação com o banco de dados. Utiliza Spring Data JPA para abstrair operações de persistência e gerenciar o ciclo de vida dos objetos em memória. |
 
 ---
 
