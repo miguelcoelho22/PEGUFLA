@@ -7,7 +7,7 @@ A solução adota uma arquitetura baseada no modelo MVC (Model-View-Controller) 
 - Em camadas lógicas (Controller, Service, Repository) / API RESTful Stateless.
 
 **Justificativa:**  
-A escolha pela arquitetura em camadas MVC clássica foi orientada pelo princípio da simplicidade. O escopo do PegUFLA exige operações transacionais claras. Abordagens mais complexas, como *Clean Architecture* ou Hexagonal, gerariam complexidade desnecessária neste estágio. A divisão modular adotada já garante alta coesão no domínio e isolamento suficiente para que, caso o sistema escale de forma inesperada no futuro, a evolução da arquitetura ocorra de forma controlada.
+A escolha pela arquitetura em camadas MVC clássica foi orientada pelo princípio da simplicidade. O escopo do PegUFLA exige operações transacionais claras. Abordagens mais complexas, como *Clean Architecture* ou Hexagonal, gerariam complexidade desnecessária neste estágio. A divisão modular adotada já garante alta coesão entre responsabilidades do domínio e isolamento suficiente para que, caso o sistema escale de forma inesperada no futuro, a evolução da arquitetura ocorra de forma controlada.
 
 ---
 
