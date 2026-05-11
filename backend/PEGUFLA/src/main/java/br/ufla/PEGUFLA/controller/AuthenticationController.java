@@ -1,11 +1,15 @@
 package br.ufla.PEGUFLA.controller;
 
+import br.ufla.PEGUFLA.model.user.request.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
+
 import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.infra.security.TokenService;
 import br.ufla.PEGUFLA.model.user.User;
-import br.ufla.PEGUFLA.model.user.request.UserRequestLoginDTO;
-import br.ufla.PEGUFLA.model.user.request.UserRequestRegisterDTO;
-import br.ufla.PEGUFLA.model.user.request.VerifyUserDTO;
 import br.ufla.PEGUFLA.model.user.response.LoginResponseDTO;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import br.ufla.PEGUFLA.service.AuthenticationService;
@@ -16,11 +20,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
@@ -93,4 +92,26 @@ public class AuthenticationController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
+
+	@PostMapping("/recover")
+	public ResponseEntity<?> recoverPassword(@RequestBody VerifyUserRecoverPasswordDTO verifyUserRecoverPasswordDTO) {
+		try {
+			this.authenticationService.requestPasswordRecovery(verifyUserRecoverPasswordDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Codigo de verificacao enviado");
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+	@PostMapping("/reset")
+	public ResponseEntity<?> recoverPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+		try {
+			this.authenticationService.resetPassword(resetPasswordDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("senha resetada com sucesso!");
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+
 }

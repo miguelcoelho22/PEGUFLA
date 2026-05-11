@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
+import br.ufla.PEGUFLA.model.user.request.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,9 +12,6 @@ import org.springframework.stereotype.Service;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.model.user.User;
-import br.ufla.PEGUFLA.model.user.request.UserRequestLoginDTO;
-import br.ufla.PEGUFLA.model.user.request.UserRequestRegisterDTO;
-import br.ufla.PEGUFLA.model.user.request.VerifyUserDTO;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import jakarta.mail.MessagingException;
 
@@ -120,5 +118,56 @@ public class AuthenticationService {
 		Random random = new Random();
 		int code = random.nextInt(900000) + 100000;
 		return String.valueOf(code);
+	}
+
+	public void requestPasswordRecovery(VerifyUserRecoverPasswordDTO dto) {
+		User user = this.userRepository.findByEmail(dto.getEmail())
+				.orElseThrow(() -> new ModelException("Usuário não encontrado"));
+
+		if (!user.isEnabled()) {
+			throw new ModelException("Contas não verificadas não podem recuperar a senha.");
+		}
+
+		String newVerificationCode = generateVerificationCode();
+		user.setVerificationCode(newVerificationCode);
+		user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
+
+		this.userRepository.save(user);
+
+		String htmlMessage = "<html>" + "<body style=\"font-family: Arial, sans-serif;\">"
+				+ "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
+				+ "<h2 style=\"color: #333;\">Código para recuperação de senha</h2>"
+				+ "<p style=\"font-size: 16px;\">Por favor entre com o código de verificação abaixo para continuar</p>"
+				+ "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
+				+ "<h3 style=\"color: #333;\">Código de verificação:</h3>"
+				+ "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + newVerificationCode + "</p>"
+				+ "</div>" + "</div>" + "</body>" + "</html>";
+
+		try {
+			this.emailService.sendVerificationEmail(user.getEmail(), "Recuperação de senha", htmlMessage);
+		} catch (MessagingException e) {
+			throw new RuntimeException("Falha ao enviar o e-mail de recuperação. Tente novamente.", e);
+		}
+	}
+
+	public void resetPassword(ResetPasswordDTO dto) {
+		User user = this.userRepository.findByEmail(dto.getEmail())
+				.orElseThrow(() -> new ModelException("Usuário não encontrado"));
+
+		if (user.getVerificationCodeExpiresAt() == null || user.getVerificationCodeExpiresAt().isBefore(LocalDateTime.now())) {
+			throw new ModelException("Código de verificação expirado ou não solicitado");
+		}
+
+		if (!user.getVerificationCode().equals(dto.getVerificationCode())) {
+			throw new ModelException("Código de verificação incorreto");
+		}
+
+		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.getNewPassword());
+		user.setPassword(encryptedPassword);
+
+		user.setVerificationCode(null);
+		user.setVerificationCodeExpiresAt(null);
+
+		this.userRepository.save(user);
 	}
 }
