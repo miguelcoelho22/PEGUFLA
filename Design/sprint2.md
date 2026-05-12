@@ -4,6 +4,6 @@
 
 Aqui está o protótipo:
 
-![Protótipo](../docs/imagens/peguflasprint2.png)
+![Protótipo](../docs/images/peguflasprint2.png)
 
 Possui campo de login e senha, recuperação e afins.
