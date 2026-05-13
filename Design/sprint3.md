@@ -13,7 +13,7 @@ Abaixo do formulário de busca, há a seção “Próximas Caronas”, que exibe
 
 A tela também possui uma barra de navegação inferior, permitindo acesso rápido às principais áreas do sistema: buscar carona, oferecer carona, viagens, chat e perfil.
 
-![Dashboard](Dashboard.png)
+![Protótipo](../docs/images/Dashboard.png)
 
 ### Tela de Listagem de Caronas
 
@@ -31,7 +31,7 @@ A interface foi projetada para facilitar a visualização rápida das opções d
 
 A tela também mantém a barra de navegação inferior, permitindo acesso rápido às principais funcionalidades da plataforma.
 
-![Listagem de Caronas](Listagem.png)
+![Protótipo](../docs/images/Listagem.png)
 
 ### Tela de Criar Carona
 
@@ -50,7 +50,7 @@ A tela foi desenvolvida com foco em simplicidade e praticidade, utilizando campo
 
 Além disso, a interface mantém a identidade visual das demais telas do sistema, garantindo padronização e melhor experiência de navegação.
 
-![Criar Carona](Criar Carona.png)
+![Protótipo](../docs/images/CriarCarona.png)
 
 ### Tela de Detalhe da Carona
 
@@ -72,7 +72,7 @@ A interface foi projetada para transmitir as informações de forma clara e obje
 
 A tela também mantém a identidade visual e a barra de navegação inferior utilizadas em todo o sistema.
 
-![Detalhe da Carona](Detalhe da Carona.png)
+![Protótipo](../docs/images/DetalhedaCarona.png)
 
 ### Tela de Viagens
 
@@ -93,7 +93,7 @@ A interface também possui a seção “Histórico de viagens concluídas”, re
 
 Toda a estrutura foi desenvolvida visando facilitar o gerenciamento das caronas de maneira prática, organizada e intuitiva.
 
-![Tela de Viagens](Viagens, aprovar.png)
+![Protótipo](../docs/images/Viagens,aprovar.png)
 
 ### Telas de Perfil
 
@@ -138,4 +138,4 @@ Também foi criada uma interface de confirmação de exclusão, garantindo maior
 
 Todas as telas seguem a mesma identidade visual do sistema, mantendo padronização entre componentes, formulários e navegação.
 
-![Telas de Perfil](perfil.png)
+![Protótipo](../docs/images/perfil.png)
