@@ -42,8 +42,13 @@ public class CaronaController {
             @ApiResponse(responseCode = "404", description = "user não encontrado", content = @Content),
             @ApiResponse(responseCode = "409", description = "", content = @Content)})
     @PostMapping
-    public ResponseEntity<CaronaResponseDTO> create(@RequestBody CaronaRequestDTO caronaRequestDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.caronaService.create(caronaRequestDTO));
+    public ResponseEntity<CaronaResponseDTO> create(@RequestBody CaronaRequestDTO caronaRequestDTO, @AuthenticationPrincipal User user){
+
+        if(user == null || user.getId() == null){
+            throw new NullPointerException("usuario nao encontrado");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.caronaService.create(caronaRequestDTO, user.getId()));
     }
 
     @Operation(summary = "Lista carona com paginação e filtros", description = "Retorna uma lista paginada de caronas")

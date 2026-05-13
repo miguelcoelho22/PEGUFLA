@@ -3,6 +3,7 @@ package br.ufla.PEGUFLA.controller;
 import java.util.List;
 import java.util.UUID;
 
+import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,12 @@ public class ReservaController {
             @ApiResponse(responseCode = "404", description = "user não encontrado", content = @Content),
             @ApiResponse(responseCode = "409", description = "", content = @Content)})
     @PostMapping
-    public ResponseEntity<ReservaResponseDTO> create(@RequestBody ReservaRequestDTO reservaRequestDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.create(reservaRequestDTO));
+    public ResponseEntity<ReservaResponseDTO> create(@RequestBody ReservaRequestDTO reservaRequestDTO, @AuthenticationPrincipal User user){
+
+        if(user == null || user.getId() == null){
+            throw new NotFoundException("Usuario nao encontrado");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.create(reservaRequestDTO, user.getId()));
     }
 
     @Operation(summary = "aprova reserva da carona", description = "aprova uma reserva que esta pendente")

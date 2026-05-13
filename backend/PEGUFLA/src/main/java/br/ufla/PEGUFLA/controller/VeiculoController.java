@@ -1,15 +1,14 @@
 package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
-import java.util.UUID;
 
-import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
+import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.model.veiculo.Veiculo;
 import br.ufla.PEGUFLA.model.veiculo.dto.request.VeiculoRequestDTO;
 import br.ufla.PEGUFLA.model.veiculo.dto.response.VeiculoResponseDTO;
@@ -38,8 +37,15 @@ public class VeiculoController {
 			@ApiResponse(responseCode = "404", description = "user não encontrado", content = @Content),
 			@ApiResponse(responseCode = "409", description = "", content = @Content)})
 	@PostMapping
-	public ResponseEntity<VeiculoResponseDTO> create(@RequestBody VeiculoRequestDTO veiculoRequestDTO) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(this.veiculoService.create(veiculoRequestDTO));
+	public ResponseEntity<VeiculoResponseDTO> create(@RequestBody VeiculoRequestDTO veiculoRequestDTO,
+			@AuthenticationPrincipal User user) {
+
+		if (user == null || user.getId() == null) {
+			throw new NotFoundException("usuario nao encontrado");
+		}
+
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(this.veiculoService.create(veiculoRequestDTO, user.getId()));
 	}
 
 	@Operation(summary = "Lista veiculos com paginação e filtros", description = "Retorna uma lista paginada de veiculos")
@@ -84,8 +90,13 @@ public class VeiculoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<VeiculoResponseDTO> update(
 			@Parameter(description = "ID do veiculo a ser atualizado.", required = true) @PathVariable Long id,
-			@RequestBody VeiculoRequestDTO veiculoRequestDTO) {
-		return ResponseEntity.status(HttpStatus.OK).body(this.veiculoService.update(id, veiculoRequestDTO));
+			@RequestBody VeiculoRequestDTO veiculoRequestDTO, @AuthenticationPrincipal User user) {
+
+		if (user == null || user.getId() == null) {
+			throw new NotFoundException("usuario nao encontrado");
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(this.veiculoService.update(id, veiculoRequestDTO, user.getId()));
 	}
 
 

@@ -32,12 +32,12 @@ public class CaronaService {
     private final VeiculoRepository veiculoRepository;
 	private final EmailService emailService;
 
-    public CaronaResponseDTO create(CaronaRequestDTO caronaRequestDTO) {
+    public CaronaResponseDTO create(CaronaRequestDTO caronaRequestDTO, Long userId) {
 
-        User user = userRepository.findById(caronaRequestDTO.userId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User não encontrado"));
 
-        Veiculo veiculo = veiculoRepository.findByIdAndUserId(caronaRequestDTO.veiculoId(), caronaRequestDTO.userId())
+        Veiculo veiculo = veiculoRepository.findByIdAndUserId(caronaRequestDTO.veiculoId(), userId)
                 .orElseThrow(() -> new NotFoundException("Veiculo não encontrado para este usuário"));
 
         this.validarHorarioSaida(caronaRequestDTO);

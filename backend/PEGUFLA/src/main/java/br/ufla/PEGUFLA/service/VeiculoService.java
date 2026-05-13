@@ -19,18 +19,18 @@ public class VeiculoService {
 	private final VeiculoRepository veiculoRepository;
 	private final UserRepository userRepository;
 
-	public VeiculoResponseDTO create(VeiculoRequestDTO veiculoRequestDTO) {
+	public VeiculoResponseDTO create(VeiculoRequestDTO veiculoRequestDTO, Long userId) {
 
-		User user = userRepository.findById(veiculoRequestDTO.userId())
+		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NotFoundException("User não encontrado"));
 
 		return new VeiculoResponseDTO(this.veiculoRepository.save(new Veiculo(veiculoRequestDTO.modelo(),
 				veiculoRequestDTO.marca(), veiculoRequestDTO.cor(), veiculoRequestDTO.placa(), user)));
 	}
 
-	public VeiculoResponseDTO update(Long id, VeiculoRequestDTO veiculoRequestDTO) {
+	public VeiculoResponseDTO update(Long id, VeiculoRequestDTO veiculoRequestDTO, Long userId) {
 
-		Veiculo veiculo = veiculoRepository.findByIdAndUserId(id, veiculoRequestDTO.userId())
+		Veiculo veiculo = veiculoRepository.findByIdAndUserId(id, userId)
 				.orElseThrow(() -> new NotFoundException("Veiculo não encontrado para este usuário"));
 
 		if(veiculoRequestDTO.placa() != null && !veiculoRequestDTO.placa().equals(veiculo.getPlaca())) {

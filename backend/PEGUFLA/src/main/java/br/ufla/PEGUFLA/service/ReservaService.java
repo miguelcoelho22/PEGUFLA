@@ -30,9 +30,9 @@ public class ReservaService {
 	private final CaronaRepository caronaRepository;
 
 	@Transactional
-	public ReservaResponseDTO create(ReservaRequestDTO reservaRequestDTO) {
+	public ReservaResponseDTO create(ReservaRequestDTO reservaRequestDTO, Long userId) {
 
-		User user = this.userRepository.findById(reservaRequestDTO.userId())
+		User user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new NotFoundException("User não encontrado"));
 
 		Carona carona = this.caronaRepository.findById(reservaRequestDTO.caronaId())

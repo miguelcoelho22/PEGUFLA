@@ -13,10 +13,6 @@ public record VeiculoRequestDTO(
         String cor,
 
         @NotNull(message = "O campo placa é obrigatório.")
-        String placa,
-
-        @NotNull(message = "O campo user é obrigatório.")
-        Long userId
-
+        String placa
 ) {
 }
