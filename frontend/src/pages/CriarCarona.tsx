@@ -5,7 +5,7 @@ import api from '../services/api';
 export default function CriarCarona() {
   const navigate = useNavigate();
 
-  // Estados do formulário (Origem e Destino são strings conforme o JSON)
+  // Estados do formulário
   const [origem, setOrigem] = useState('');
   const [destino, setDestino] = useState('');
   const [data, setData] = useState('');
@@ -15,7 +15,6 @@ export default function CriarCarona() {
   
   // Estados para carregar os veículos do usuário
   const [veiculos, setVeiculos] = useState<any[]>([]);
-  const [userId, setUserId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,36 +28,33 @@ export default function CriarCarona() {
           return;
         }
 
-        // Decodifica o ID que injetamos no Claim "id" do Token JWT no Back-end
-        const payloadBase64 = token.split('.')[1];
-        const decodedPayload = JSON.parse(atob(payloadBase64));
-        const idUsuario = decodedPayload.id; 
+        // Removida toda a lógica de decodificação do JWT! O back-end cuida disso.
         
-        setUserId(idUsuario);
-
-        if (idUsuario) {
-          // Busca os veículos usando a rota específica do seu Swagger: /veiculo/usuario/{userId}
-          const response = await api.get(`/veiculo/usuario/${idUsuario}`);
-          setVeiculos(response.data);
-          
-          // Se houver veículos, seleciona o primeiro automaticamente
-          if (response.data.length > 0) {
-            setVeiculoId(response.data[0].id);
-          }
+        const response = await api.get('/veiculo/usuario');
+        
+        const veiculosData = Array.isArray(response.data) ? response.data : [response.data];
+        
+        setVeiculos(veiculosData);
+        
+        if (veiculosData.length > 0 && veiculosData[0]) {
+          // Ajuste aqui se o seu backend devolver 'idVeiculo' em vez de 'id'
+          setVeiculoId(veiculosData[0].id); 
         }
+        
       } catch (err) {
         console.error("Erro ao carregar veículos:", err);
         setError("Não foi possível carregar seus veículos. Verifique se possui veículos cadastrados.");
       }
     };
+    
     carregarVeiculos();
   }, []);
 
   const handleCriarCarona = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validação básica de segurança
-    if (!veiculoId || !userId) {
+    // Validação agora verifica apenas se o veículo foi selecionado
+    if (!veiculoId) {
       setError("Selecione um veículo para oferecer a carona.");
       return;
     }
@@ -67,17 +63,15 @@ export default function CriarCarona() {
     setError('');
 
     try {
-      // Formata o horário de saída para o padrão ISO (date-time) exigido pelo Swagger
       const horarioSaida = new Date(`${data}T${hora}:00`).toISOString();
 
-      // Monta o payload conforme o CaronaRequestDTO do seu JSON
+      // Payload exatamente como o Swagger pede agora (sem o userId)
       const payload = {
-        origem,                 // string
-        destino,                // string
-        horarioSaida,           // format: date-time
-        vagasTotais: parseInt(vagasTotais), // int32
-        userId: userId,         // int64
-        veiculoId: parseInt(veiculoId) // int64
+        origem,                 
+        destino,                
+        horarioSaida,           
+        vagasTotais: parseInt(vagasTotais), 
+        veiculoId: parseInt(veiculoId) 
       };
 
       await api.post('/carona', payload);
@@ -104,7 +98,6 @@ export default function CriarCarona() {
               </div>
             )}
 
-            {/* Campo Origem (String) */}
             <div className="flex flex-col">
               <label className="text-[11px] font-bold text-gray-500 mb-1 ml-1">DE ONDE VOCÊ SAI?</label>
               <input 
@@ -115,7 +108,6 @@ export default function CriarCarona() {
               />
             </div>
 
-            {/* Campo Destino (String) */}
             <div className="flex flex-col">
               <label className="text-[11px] font-bold text-gray-500 mb-1 ml-1">PARA ONDE VOCÊ VAI?</label>
               <input 
@@ -137,7 +129,6 @@ export default function CriarCarona() {
               </div>
             </div>
 
-            {/* Campo de Seleção de Veículo (Dinâmico) */}
             <div className="flex flex-col">
               <label className="text-[11px] font-bold text-gray-500 mb-1 ml-1">VEÍCULO QUE IRÁ USAR</label>
               <select 
@@ -148,8 +139,10 @@ export default function CriarCarona() {
                 {veiculos.length === 0 ? (
                   <option value="">Nenhum veículo cadastrado</option>
                 ) : (
-                  veiculos.map(v => (
-                    <option key={v.id} value={v.id}>{v.marca} {v.modelo} - {v.placa}</option>
+                  veiculos.map((v, index) => (
+                    <option key={v?.id || index} value={v?.id}>
+                      {v?.marca} {v?.modelo} - {v?.placa}
+                    </option>
                   ))
                 )}
               </select>
