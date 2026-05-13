@@ -7,11 +7,11 @@ import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import CaronaDetalhes from './pages/CaronaDetalhes';
 import CriarCarona from './pages/CriarCarona';
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Definimos os caminhos para cada tela */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -19,7 +19,10 @@ export default function App() {
         <Route path="/verify-email" element={<EmailVerification />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/detalhes-carona" element={<CaronaDetalhes />} />
+        
+        {/* A MUDANÇA É NESTA LINHA AQUI ↓ */}
+        <Route path="/detalhes-carona/:id" element={<CaronaDetalhes />} />
+        
         <Route path="/CriarCarona" element={<CriarCarona />} />
       </Routes>
     </BrowserRouter>
