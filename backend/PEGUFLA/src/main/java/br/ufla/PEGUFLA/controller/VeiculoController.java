@@ -3,8 +3,10 @@ package br.ufla.PEGUFLA.controller;
 import java.util.List;
 import java.util.UUID;
 
+import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
@@ -91,10 +93,14 @@ public class VeiculoController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "veiculo encontrado com sucesso", content = @Content(mediaType = "application/json")),
 			@ApiResponse(responseCode = "404", description = "veiculo não encontrado", content = @Content)})
-	@GetMapping("/usuario/{userId}")
-	public ResponseEntity<List<VeiculoResponseDTO>> findVeiculoByUserId(
-			@Parameter(description = "ID do usuário associado ao veículo.", required = true) @PathVariable UUID userId) {
-		List<Veiculo> veiculos = this.veiculoRepository.findByUserId(userId);
+	@GetMapping("/usuario")
+	public ResponseEntity<List<VeiculoResponseDTO>> findVeiculoByUserId(@AuthenticationPrincipal User user) {
+
+		if(user == null || user.getId() == null){
+			throw new NotFoundException("Usuario nao encontrado");
+		}
+
+		List<Veiculo> veiculos = this.veiculoRepository.findByUserId(user.getId());
 
 		List<VeiculoResponseDTO> response = veiculos.stream()
 				.map(VeiculoResponseDTO::new)

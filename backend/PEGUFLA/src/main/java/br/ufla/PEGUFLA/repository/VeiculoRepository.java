@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
-    List<Veiculo> findByUserId(UUID userId);
+    List<Veiculo> findByUserId(Long userId);
 
     boolean existsByPlaca(@NotNull(message = "O campo placa é obrigatório.") String placa);
 

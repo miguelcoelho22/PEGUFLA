@@ -8,6 +8,7 @@ import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import br.ufla.PEGUFLA.model.reserva.Reserva;
@@ -58,14 +59,13 @@ public class ReservaController {
 
     @Operation(summary = "rejeita reserva da carona", description = "rejeita uma reserva que esta pendente")
     @GetMapping("/{reservaId}/rejeitar")
-    public ResponseEntity<Void> rejeitarReserva(@PathVariable Long reservaId, Authentication authentication) {
-        User motoristaLogado = (User) authentication.getPrincipal();
+    public ResponseEntity<Void> rejeitarReserva(@PathVariable Long reservaId, @AuthenticationPrincipal User user) {
 
-        if(motoristaLogado.getId() == null){
+        if(user == null || user.getId() == null){
             throw new NotFoundException("Motorista não encontrado");
         }
 
-        this.reservaService.rejeitarCarona(reservaId, motoristaLogado.getId());
+        this.reservaService.rejeitarCarona(reservaId, user.getId());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -114,14 +114,13 @@ public class ReservaController {
 
     @Operation(summary = "cancelar solicitação de reserva", description = "cancela solicitação de reserva com base no id da carona")
     @PatchMapping("/cancelarReserva/{idReserva}")
-    public ResponseEntity<Void> cancelarReserva(@PathVariable Long idReserva, Authentication authentication) {
-        User passageiroLogado = (User) authentication.getPrincipal();
+    public ResponseEntity<Void> cancelarReserva(@PathVariable Long idReserva,@AuthenticationPrincipal User user) {
 
-        if(passageiroLogado.getId() == null){
+        if(user == null || user.getId() == null){
             throw new NotFoundException("Passageiro não encontrado");
         }
 
-        this.reservaService.cancelarReserva(idReserva, passageiroLogado.getId());
+        this.reservaService.cancelarReserva(idReserva, user.getId());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
