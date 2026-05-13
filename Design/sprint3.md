@@ -50,7 +50,7 @@ A tela foi desenvolvida com foco em simplicidade e praticidade, utilizando campo
 
 Além disso, a interface mantém a identidade visual das demais telas do sistema, garantindo padronização e melhor experiência de navegação.
 
-![Protótipo](../docs/images/Criar Carona.png)
+![Protótipo](../docs/images/CriarCarona.png)
 
 ### Tela de Detalhe da Carona
 
@@ -93,7 +93,7 @@ A interface também possui a seção “Histórico de viagens concluídas”, re
 
 Toda a estrutura foi desenvolvida visando facilitar o gerenciamento das caronas de maneira prática, organizada e intuitiva.
 
-![Protótipo](../docs/images/Viagens,aprovar.png)
+![Protótipo](../docs/images/Viagens.png)
 
 ### Telas de Perfil
 
