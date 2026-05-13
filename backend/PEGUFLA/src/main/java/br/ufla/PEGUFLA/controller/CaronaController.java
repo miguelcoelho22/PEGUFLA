@@ -2,17 +2,22 @@ package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
 
-import br.ufla.PEGUFLA.model.reserva.Reserva;
-import br.ufla.PEGUFLA.model.reserva.dto.response.ReservaResponseDTO;
+import br.ufla.PEGUFLA.infra.exception.ModelException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.carona.dto.request.CaronaRequestDTO;
 import br.ufla.PEGUFLA.model.carona.dto.response.CaronaResponseDTO;
-import br.ufla.PEGUFLA.model.veiculo.Veiculo;
+import br.ufla.PEGUFLA.model.carona.dto.response.HistoricoCaronaResponseDTO;
+import br.ufla.PEGUFLA.model.enums.Papel;
+import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.repository.CaronaRepository;
 import br.ufla.PEGUFLA.service.CaronaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,5 +83,32 @@ public class CaronaController {
 	@GetMapping("/cancelarCarona/{id}")
 	public void cancelarCarona(@PathVariable Long id) {
         this.caronaService.cancelarCarona(id);
+	}
+
+	@Operation(summary = "busca o historico de carona", description = "busca o historico de carona com base no id do usuario")
+	@GetMapping("/historicoCaronas")
+	public ResponseEntity<Page<HistoricoCaronaResponseDTO>> historicoCarona(@AuthenticationPrincipal User user,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+
+		if (user == null || user.getId() == null) {
+			throw new NullPointerException("Passageiro não encontrado");
+		}
+
+		Pageable pageable = PageRequest.of(page, size);
+
+		Page<Carona> caronas = this.caronaRepository.findHistoricoByUserId(user.getId(), pageable);
+
+        if(caronas.isEmpty()){
+            throw new ModelException("Nao foi encontrado caronas concluidas");
+        }
+
+		Page<HistoricoCaronaResponseDTO> responseDTOS = caronas.map(carona -> {
+			Papel papel = carona.getId().equals(user.getId()) ? Papel.MOTORISTA : Papel.PASSAGEIRO;
+
+			return new HistoricoCaronaResponseDTO(carona, papel);
+		});
+
+		return ResponseEntity.status(HttpStatus.OK).body(responseDTOS);
+
 	}
 }

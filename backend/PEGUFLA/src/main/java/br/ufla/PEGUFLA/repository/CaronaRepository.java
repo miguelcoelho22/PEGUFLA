@@ -1,6 +1,8 @@
 package br.ufla.PEGUFLA.repository;
 
 import br.ufla.PEGUFLA.model.carona.Carona;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +15,11 @@ public interface CaronaRepository extends JpaRepository<Carona, Long> {
     @Modifying
     @Query("UPDATE carona c SET c.statusViagem = 'CONCLUIDA' WHERE c.horarioSaida < :agora AND c.statusViagem = 'CRIADA'")
     void atualizarCaronaExpiradas(@Param("agora") LocalDateTime agora);
+
+
+    @Query("SELECT DISTINCT c FROM carona c LEFT JOIN c.reservaList r " +
+            "WHERE c.statusViagem = 'CONCLUIDA' " +
+            "AND (c.user.id = :userId OR (r.user.id = :userId AND r.statusReserva = 'CONFIRMADA')) " +
+            "ORDER BY c.horarioSaida DESC")
+    Page<Carona> findHistoricoByUserId(@Param("userId") Long userId, Pageable pageable);
 }
