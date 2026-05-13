@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../api'; // Certifique-se de que o arquivo src/api.ts existe
+import api from "../services/api";
 
 export default function Register() {
   const [nome, setNome] = useState('');

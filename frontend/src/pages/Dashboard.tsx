@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from "../services/api";
+import type { Carona, PageResponse } from '../types';
 
 export default function Dashboard() {
-
   const navigate = useNavigate();
+  
   // Estado para controlar a data selecionada. Padrão: data de hoje.
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+
+  // Estados para a integração com a API
+  const [caronas, setCaronas] = useState<Carona[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Função para formatar a data no padrão "Terça-feira, 28 de abril"
   const getFormattedDate = (dateString: string) => {
     if (!dateString) return '';
-    // Adiciona T00:00:00 para evitar problemas de fuso horário ao criar a data
     const date = new Date(dateString + 'T00:00:00');
     const options: Intl.DateTimeFormatOptions = { 
       weekday: 'long', 
@@ -18,17 +24,48 @@ export default function Dashboard() {
       month: 'long' 
     };
     const formatted = date.toLocaleDateString('pt-BR', options);
-    // Deixa a primeira letra maiúscula
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   };
 
-  // Dados simulados baseados na sua imagem
-  const mockCaronas = [
-    { id: 1, origin: 'Ponto de Carona DEX', dest: 'Portaria Goiabeira', time: '11:50', driver: 'Michael Zabubu', rating: 5 },
-    { id: 2, origin: 'Ponto de Carona DEX', dest: 'Portaria Principal', time: '12:00', driver: 'Maria Cururu', rating: 5 },
-    { id: 3, origin: 'Ponto de Carona Cantinaa', dest: 'Portaria Sind', time: '12:30', driver: 'Miguel Coelho', rating: 5 },
-    { id: 4, origin: 'Ponto de Carona Biologia', dest: 'Portaria Principal', time: '12:30', driver: 'Graviolla Mata', rating: 5 },
-  ];
+  // Função para formatar a hora que vem do backend (ex: "2024-05-10T14:30:00" -> "14:30")
+  const formatTime = (isoString: string) => {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // Função que busca os dados reais da API
+  const fetchCaronas = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get('/carona'); 
+      
+      // BLINDAGEM: Verifica o formato da resposta antes de salvar
+      if (Array.isArray(response.data)) {
+        // Se o Spring Boot devolveu um List direto (ex: [ {id:1}, {id:2} ])
+        setCaronas(response.data);
+      } else if (response.data && Array.isArray(response.data.content)) {
+        // Se o Spring Boot devolveu um Page paginado (ex: { content: [...], pageable: {} })
+        setCaronas(response.data.content); 
+      } else {
+        // Se devolveu vazio ou num formato desconhecido, garante que seja um array vazio
+        setCaronas([]);
+      }
+
+    } catch (err) {
+      console.error("Erro ao buscar caronas da API:", err);
+      setError("Não foi possível carregar as caronas disponíveis.");
+      setCaronas([]); // Garante que a tela não quebre se der erro 500 ou 403
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Dispara a busca na API assim que a tela abre
+  useEffect(() => {
+    fetchCaronas();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f4f6fb] pb-24 font-sans">
@@ -56,7 +93,11 @@ export default function Dashboard() {
         <h3 className="font-bold text-gray-900 mb-3 text-base">Encontre sua carona:</h3>
         
         <div className="bg-[#f2f2f2] rounded-xl border border-gray-200 p-4 mb-8 shadow-sm">
-          <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
+          <form className="flex flex-col gap-3" onSubmit={(e) => {
+            e.preventDefault();
+            // Aqui você pode implementar a lógica de recarregar as caronas com filtros de data futuramente
+            fetchCaronas(); 
+          }}>
             <div className="flex flex-col">
               <label className="text-xs font-bold text-gray-900 mb-1">Origem</label>
               <select className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2 outline-none">
@@ -103,8 +144,15 @@ export default function Dashboard() {
         <h3 className="font-bold text-gray-900 mb-1 text-base">Próximas Caronas:</h3>
         <h4 className="font-bold text-gray-900 mb-4 text-base">{getFormattedDate(selectedDate)}</h4>
         
+        {/* Feedback visual para o usuário enquanto carrega ou se der erro */}
+        {loading && <p className="text-center text-sm text-gray-500 py-4">Buscando caronas disponíveis...</p>}
+        {error && <p className="text-center text-sm text-red-500 py-4">{error}</p>}
+        {!loading && !error && caronas.length === 0 && (
+          <p className="text-center text-sm text-gray-500 py-4">Nenhuma carona encontrada.</p>
+        )}
+
         <div className="flex flex-col gap-4">
-          {mockCaronas.map((carona) => (
+          {caronas.map((carona) => (
             <div key={carona.id} className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-3 shadow-sm">
               <div className="flex items-start justify-between mb-4 relative pl-1">
                 {/* Linha do tempo visual */}
@@ -114,14 +162,14 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-3 relative z-10">
                       <div className="w-[9px] h-[9px] rounded-full border border-gray-500 bg-[#f2f2f2]"></div>
-                      <span className="text-[13px] text-gray-800">{carona.origin}</span>
+                      <span className="text-[13px] text-gray-800">{carona.origem}</span>
                     </div>
-                    <span className="text-xs font-medium text-gray-800">{carona.time}</span>
+                    <span className="text-xs font-medium text-gray-800">{formatTime(carona.horarioSaida)}</span>
                   </div>
                   
                   <div className="flex items-center gap-3 relative z-10">
                     <div className="w-[9px] h-[9px] rounded-full border border-gray-500 bg-[#f2f2f2]"></div>
-                    <span className="text-[13px] text-gray-800">{carona.dest}</span>
+                    <span className="text-[13px] text-gray-800">{carona.destino}</span>
                   </div>
                 </div>
               </div>
@@ -135,14 +183,21 @@ export default function Dashboard() {
                     </svg>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-[13px] font-medium text-gray-800">{carona.driver}</span>
+                    {/* Renderiza o nome e sobrenome do usuário vindos da API */}
+                    <span className="text-[13px] font-medium text-gray-800">
+                      {carona.user.name} {carona.user.lastName}
+                    </span>
                     <svg className="text-gray-800 ml-1" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
-                    <span className="text-[13px] text-gray-800">{carona.rating}</span>
+                    {/* Exemplo de rating fixo, já que não tem na API atual */}
+                    <span className="text-[13px] text-gray-800">5.0</span>
                   </div>
                 </div>
-                <button onClick={() => navigate('/detalhes-carona')} className="bg-[#318337] hover:bg-green-800 text-white font-medium text-xs py-1.5 px-4 rounded-md transition-colors">
+                <button 
+                  onClick={() => navigate(`/detalhes-carona/${carona.id}`)} 
+                  className="bg-[#318337] hover:bg-green-800 text-white font-medium text-xs py-1.5 px-4 rounded-md transition-colors"
+                >
                   Verificar
                 </button>
               </div>

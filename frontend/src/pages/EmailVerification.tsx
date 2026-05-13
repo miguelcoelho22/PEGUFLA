@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { api } from '../api'; // Importando a configuração do Axios
+import api from "../services/api";
 
 export default function EmailVerification() {
   const [code, setCode] = useState(['', '', '', '', '', '']);

@@ -1,13 +1,49 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
+import api from '../services/api'; // Importando a configuração do Axios que fizemos!
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  
+  // Novo estado para controlar a mensagem de erro
+  const [error, setError] = useState(''); 
+  // Novo estado para controlar o botão de carregamento
+  const [loading, setLoading] = useState(false); 
+  
   const navigate = useNavigate();
+
+  // Função que vai ser disparada quando o formulário for enviado
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // ISSO AQUI impede a tela de "piscar" e recarregar!
+    setError(''); // Limpa erros antigos
+    setLoading(true);
+
+    try {
+      // Faz o POST enviando o email e a senha para o backend
+      const response = await api.post('/auth/login', {
+        email,
+        password
+      });
+
+      // O backend retorna um JSON com a propriedade "token"
+      const token = response.data.token;
+
+      // Salva o token no LocalStorage para o api.ts injetar nas próximas rotas
+      localStorage.setItem('token', token);
+
+      // Se deu tudo certo, manda o usuário para o Dashboard
+      navigate('/dashboard'); 
+
+    } catch (err) {
+      console.error("Erro no login:", err);
+      // Se caiu no catch, é porque o backend retornou Status 403 (Senha errada) ou 400
+      setError('E-mail ou senha incorretos. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col items-center justify-center p-4 relative font-sans">
@@ -28,7 +64,16 @@ export default function Login() {
         <h1 className="text-3xl font-bold text-white mb-2">Bem-vindo ao Pegufla!</h1>
         <p className="text-gray-400 mb-8">Informe seus dados para entrar</p>
 
-        <form className="space-y-6">
+        {/* Adicionamos o onSubmit na tag form para chamar a nossa função */}
+        <form className="space-y-6" onSubmit={handleLogin}>
+          
+          {/* Mostra a caixa de erro vermelha se o estado "error" estiver preenchido */}
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg text-center">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">E-mail Institucional</label>
             <input
@@ -37,6 +82,7 @@ export default function Login() {
               className="w-full bg-[#2A2A2A] border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition placeholder:text-gray-600"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required // Exige que o campo seja preenchido
             />
           </div>
 
@@ -48,11 +94,11 @@ export default function Login() {
               className="w-full bg-[#2A2A2A] border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition placeholder:text-gray-600"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required // Exige que o campo seja preenchido
             />
           </div>
 
-            {/* Container Flex para alinhar Lembrar Senha e Esqueci minha senha */}
-            <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <div className="flex items-center">
                 <input
                 id="remember-me"
@@ -66,7 +112,6 @@ export default function Login() {
                 </label>
             </div>
 
-            {/* Novo: Esqueci minha senha */}
             <button 
                 type="button"
                 className="text-sm text-blue-500 hover:text-blue-400 font-medium transition cursor-pointer"
@@ -74,21 +119,25 @@ export default function Login() {
             >
                 Esqueci minha senha
             </button>
-            </div>
+          </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-900/20 mt-2"
+            disabled={loading} // Desativa o botão enquanto carrega
+            className={`w-full text-white font-bold py-4 rounded-xl transition-all duration-300 shadow-lg mt-2 ${
+              loading ? 'bg-blue-800 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 transform hover:scale-[1.02] active:scale-[0.98] shadow-blue-900/20'
+            }`}
           >
-            Entrar
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
         <div className="mt-8 text-center border-t border-gray-800 pt-6">
           <p className="text-gray-400 text-sm">
-            Não tem uma conta? <span onClick={() => navigate('/register')} className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition">
-     Cadastre-se
-</span>
+            Não tem uma conta?{' '} 
+            <span onClick={() => navigate('/register')} className="text-blue-500 font-semibold hover:text-blue-400 cursor-pointer transition">
+              Cadastre-se
+            </span>
           </p>
         </div>
       </div>

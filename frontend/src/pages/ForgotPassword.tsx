@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../api'; // Importando a nossa configuração do Axios
+import api from "../services/api";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
