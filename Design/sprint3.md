@@ -1,4 +1,5 @@
-#### Sprint 3
+## Sprint 3
+
 ### Tela de Dashboard
 
 A tela de Dashboard marca o início da navegação principal do usuário após o login. Ela apresenta uma saudação inicial ao membro e permite que ele encontre caronas disponíveis de forma rápida e objetiva.
