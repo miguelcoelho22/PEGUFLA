@@ -50,7 +50,7 @@ A tela foi desenvolvida com foco em simplicidade e praticidade, utilizando campo
 
 Além disso, a interface mantém a identidade visual das demais telas do sistema, garantindo padronização e melhor experiência de navegação.
 
-![Protótipo](../docs/images/CriarCarona.png)
+![Protótipo](../docs/images/Criar Carona.png)
 
 ### Tela de Detalhe da Carona
 
