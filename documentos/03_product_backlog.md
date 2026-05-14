@@ -40,7 +40,7 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB12 | História de usuário | Como usuário cadastrado, quero recuperar minha senha por código enviado ao e-mail | Recuperar senha | Média | Envio de código, validação e redefinição de senha | 3 pts | 5 |
 | PB13 | História de usuário | Como usuário, quero gerenciar meus veículos para poder utilizá-los ao criar caronas | Gerenciamento de veículos | Alta | Cadastro, edição, exclusão e listagem de veículos | 5 pts | 4 |
 
-Estimativas de esforço:
+Estimativas de esforço:  
 1 = muito simples  
 2 = pequena  
 3 = média  
