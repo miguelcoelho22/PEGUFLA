@@ -41,11 +41,11 @@ Itens essenciais para funcionamento básico do sistema foram priorizados nas pri
 | PB13 | História de usuário | Como usuário, quero gerenciar meus veículos para poder utilizá-los ao criar caronas | Gerenciamento de veículos | Alta | Cadastro, edição, exclusão e listagem de veículos | 5 pts | 4 |
 
 Estimativas de esforço:  
-1 = muito simples  
-2 = pequena  
-3 = média  
-5 = grande  
-8 = complexa  
+1 ponto = muito simples  
+2 pontos = pequena  
+3 pontos = média  
+5 pontos = grande  
+8 pontos = complexa  
 
 ---
 
