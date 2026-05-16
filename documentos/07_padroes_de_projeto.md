@@ -22,7 +22,7 @@ Apresentar os padrões de projeto estruturais e de criação aplicados no desenv
 Ao solicitar a criação de uma reserva, o sistema não deve permitir que o cliente envie parâmetros internos de controle, como `statusReserva` ou dados manipulados do motorista. O banco de dados exige a entidade `Reserva` completa, mas o frontend possui apenas uma visão limitada da ação.
 
 **Aplicação no projeto:**  
-Implementou-se o `ReservaRequestDTO` como uma estrutura imutável de entrada. No método `create` do `ReservaService`, o DTO é interceptado e os identificadores válidos (como `caronaId`) são extraídos. O serviço então busca as instâncias persistentes relacionadas e monta a entidade `Reserva` genuína com carimbos de tempo gerados internamente pelo servidor de forma segura, antes da persistência.
+Implementou-se o `ReservaRequestDTO` como uma estrutura imutável de entrada. No método `create` do `ReservaService`, o DTO é interceptado e os identificadores válidos (como `caronaId`) são extraídos. O serviço então busca as instâncias persistentes relacionadas e monta a entidade `Reserva` genuína com dados complementares gerados internamente pelo servidor de forma segura, antes da persistência.
 
 **Benefício esperado:**  
 Redução do acoplamento entre o modelo relacional de banco de dados e o contrato de comunicação da API. Alterações na tabela do banco não quebram o contrato visualizado pelo cliente, e o tráfego de dados na rede é otimizado.
