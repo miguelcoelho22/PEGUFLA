@@ -1,7 +1,7 @@
 # 07. Padrões de Projeto
 
 ## 1. Objetivo
-Apresentar os padrões de projeto estruturais e de criação aplicados no desenvolvimento do PegUFLA. O foco desta arquitetura é estabelecer uma comunicação segura e eficiente entre a interface web e os serviços de backend, mitigando vulnerabilidades de exposição de dados e garantindo a inversão de controle das dependências da aplicação.
+Apresentar os padrões de projeto estruturais e de criação aplicados no desenvolvimento do PegUFLA. O foco desta arquitetura é estabelecer uma comunicação segura e eficiente entre a interface web e os serviços de backend, evitando exposição indevida de dados e garantindo a inversão de controle das dependências da aplicação.
 
 ---
 
