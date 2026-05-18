@@ -3,6 +3,13 @@ package br.ufla.PEGUFLA.controller;
 import java.util.List;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
+import br.ufla.PEGUFLA.model.enums.StatusViagem;
+import br.ufla.PEGUFLA.model.mensagem.dto.request.MensagemRequestDTO;
+import br.ufla.PEGUFLA.model.mensagem.dto.response.MensagemResponseDTO;
+import br.ufla.PEGUFLA.model.user.response.UserResponseDTO;
+import br.ufla.PEGUFLA.repository.MensagemRepository;
+import br.ufla.PEGUFLA.service.MensagemService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +41,7 @@ public class CaronaController {
 
     private final CaronaService caronaService;
     private final CaronaRepository caronaRepository;
+    private final MensagemService mensagemService;
 
     @Operation(summary = "Cadastra uma nova carona", description = "Cria uma nova carona.")
     @ApiResponses(value = {
@@ -116,4 +124,41 @@ public class CaronaController {
 		return ResponseEntity.status(HttpStatus.OK).body(responseDTOS);
 
 	}
+
+    @Operation(summary = "Cadastra uma nova Mensagem", description = "Cria uma nova Mensagem.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Mensagem criada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Mensagem.class))),
+            @ApiResponse(responseCode = "400", description = "Dados de entrada inválidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "user não encontrado", content = @Content),
+            @ApiResponse(responseCode = "409", description = "", content = @Content)})
+    @PostMapping("/{caronaId}/mensagens")
+    public ResponseEntity<Void> enviarMensagem(@RequestBody @Valid MensagemRequestDTO mensagemRequestDTO, @PathVariable Long caronaId, @AuthenticationPrincipal User user){
+
+        if(user == null || user.getId() == null){
+            throw new NullPointerException("usuario nao encontrado");
+        }
+
+        this.mensagemService.enviarMensagem(mensagemRequestDTO, caronaId, user.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Operation(summary = "busca as mensagens existente", description = "busca as mensagem de uma carona com base no seu ID.")
+    @GetMapping("/{caronaId}/mensagens")
+    public ResponseEntity<List<MensagemResponseDTO>> listarMensagens(@PathVariable Long caronaId, @RequestParam(defaultValue = "0") Long depoisDe, @AuthenticationPrincipal User user){
+
+        if(user == null || user.getId() == null){
+            throw new NullPointerException("usuario nao encontrado");
+        }
+
+        List<MensagemResponseDTO> mensagens = this.caronaRepository.findNovasMensagensParaParticipante(caronaId, user.getId(), depoisDe)
+                .stream()
+                .map(mensagem -> new MensagemResponseDTO(
+                        mensagem.getId(),
+                        mensagem.getTexto(),
+                        mensagem.getDataEnvio(),
+                        new UserResponseDTO(mensagem.getUser())))
+                .toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(mensagens);
+    }
 }
