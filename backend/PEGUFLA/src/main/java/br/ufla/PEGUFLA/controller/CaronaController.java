@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.model.enums.StatusViagem;
+import br.ufla.PEGUFLA.model.mensagem.Mensagem;
 import br.ufla.PEGUFLA.model.mensagem.dto.request.MensagemRequestDTO;
 import br.ufla.PEGUFLA.model.mensagem.dto.response.MensagemResponseDTO;
 import br.ufla.PEGUFLA.model.user.response.UserResponseDTO;
