@@ -1,5 +1,6 @@
 package br.ufla.PEGUFLA.controller;
 
+import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.user.User;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +31,13 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "usuario encontrado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "404", description = "usuario não encontrado", content = @Content)})
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
-        User user = this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User não encontrado"));
-        return ResponseEntity.status(HttpStatus.OK).body(new UserResponseDTO(user));
+    @GetMapping()
+    public ResponseEntity<UserResponseDTO> getById(@AuthenticationPrincipal User user) {
+
+        if(user == null || user.getId() == null) {
+            throw new ModelException("usuario nao encontrado");
+        }
+        User userEncontrado = this.userRepository.findById(user.getId()).orElseThrow(() -> new NotFoundException("User não encontrado"));
+        return ResponseEntity.status(HttpStatus.OK).body(new UserResponseDTO(userEncontrado));
     }
 }
