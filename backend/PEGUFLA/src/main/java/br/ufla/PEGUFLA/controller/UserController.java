@@ -31,7 +31,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "usuario encontrado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "404", description = "usuario não encontrado", content = @Content)})
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<UserResponseDTO> getById(@AuthenticationPrincipal User user) {
 
         if(user == null || user.getId() == null) {
