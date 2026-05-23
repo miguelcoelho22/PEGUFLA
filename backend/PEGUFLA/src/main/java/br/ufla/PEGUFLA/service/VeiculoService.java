@@ -44,6 +44,7 @@ public class VeiculoService {
 		if(veiculoRequestDTO.marca() != null) veiculo.setMarca(veiculoRequestDTO.marca());
 		if(veiculoRequestDTO.cor() != null) veiculo.setCor(veiculoRequestDTO.cor());
 
+		veiculo = veiculoRepository.save(veiculo);
 		return new VeiculoResponseDTO(veiculo);
 	}
 }

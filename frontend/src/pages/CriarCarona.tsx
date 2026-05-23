@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import Navbar from '../components/Navbar'; // Importando a Navbar centralizada
 
 export default function CriarCarona() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function CriarCarona() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // 1. Efeito para carregar os veículos registrados para o usuário logado
+  // 1. Efeito para carregar os veículos (O back-end identifica o usuário pelo Token)
   useEffect(() => {
     const carregarVeiculos = async () => {
       try {
@@ -28,16 +29,14 @@ export default function CriarCarona() {
           return;
         }
 
-        // Removida toda a lógica de decodificação do JWT! O back-end cuida disso.
-        
+        // Chamada limpa: O back-end pega o ID do usuário direto do Header Authorization
         const response = await api.get('/veiculo/usuario');
         
+        // Garante que os dados sejam tratados como array
         const veiculosData = Array.isArray(response.data) ? response.data : [response.data];
-        
         setVeiculos(veiculosData);
         
         if (veiculosData.length > 0 && veiculosData[0]) {
-          // Ajuste aqui se o seu backend devolver 'idVeiculo' em vez de 'id'
           setVeiculoId(veiculosData[0].id); 
         }
         
@@ -53,7 +52,6 @@ export default function CriarCarona() {
   const handleCriarCarona = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validação agora verifica apenas se o veículo foi selecionado
     if (!veiculoId) {
       setError("Selecione um veículo para oferecer a carona.");
       return;
@@ -65,7 +63,7 @@ export default function CriarCarona() {
     try {
       const horarioSaida = new Date(`${data}T${hora}:00`).toISOString();
 
-      // Payload exatamente como o Swagger pede agora (sem o userId)
+      // Payload simplificado: o userId não é mais necessário aqui pois o Back-end já sabe quem você é pelo Token
       const payload = {
         origem,                 
         destino,                
@@ -104,7 +102,7 @@ export default function CriarCarona() {
                 type="text" required value={origem}
                 onChange={e => setOrigem(e.target.value)}
                 placeholder="Ex: Portaria Principal UFLA"
-                className="bg-white border border-gray-300 rounded-md p-2.5 text-sm outline-none"
+                className="bg-white border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
             </div>
 
@@ -114,7 +112,7 @@ export default function CriarCarona() {
                 type="text" required value={destino}
                 onChange={e => setDestino(e.target.value)}
                 placeholder="Ex: Pavilhão 4 / DCC"
-                className="bg-white border border-gray-300 rounded-md p-2.5 text-sm outline-none"
+                className="bg-white border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
             </div>
 
@@ -161,7 +159,7 @@ export default function CriarCarona() {
             <button 
               type="submit" 
               disabled={loading || veiculos.length === 0}
-              className={`text-white font-bold py-3.5 rounded-lg mt-3 shadow-sm ${loading || veiculos.length === 0 ? 'bg-gray-400' : 'bg-[#318337] hover:bg-green-700'}`}
+              className={`text-white font-bold py-3.5 rounded-lg mt-3 shadow-sm active:scale-95 transition-all ${loading || veiculos.length === 0 ? 'bg-gray-400' : 'bg-[#318337] hover:bg-green-700'}`}
             >
               {loading ? 'Processando...' : 'Confirmar Carona'}
             </button>
@@ -169,25 +167,8 @@ export default function CriarCarona() {
         </div>
       </div>
 
-      {/* Navegação Inferior */}
-      <nav className="fixed bottom-0 w-full bg-[#1862bc] text-white flex justify-between px-6 py-3 items-center z-50">
-        <button onClick={() => navigate('/dashboard')} className="flex flex-col items-center gap-1 opacity-70">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span className="text-[10px] font-medium">Buscar</span>
-        </button>
-        <button onClick={() => navigate('/CriarCarona')} className="flex flex-col items-center gap-1">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-green-400"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span className="text-[10px] font-bold text-green-400">Oferecer</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 opacity-70">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          <span className="text-[10px] font-medium">Viagens</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 opacity-70">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span className="text-[10px] font-medium">Perfil</span>
-        </button>
-      </nav>
+      {/* Componente de Navegação Centralizado */}
+      <Navbar />
     </div>
   );
 }
