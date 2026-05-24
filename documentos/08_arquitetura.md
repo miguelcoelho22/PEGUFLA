@@ -28,7 +28,7 @@ Além disso, a separação entre frontend e backend favorece organização modul
 
 ## 3. Diagrama de arquitetura
 
-![Diagrama de Arquitetura](../images/diagrama-arquitetura.png)
+![Diagrama de Arquitetura](../docs/images/diagrama-arquitetura.png)
 
 ### Descrição geral do fluxo
 
