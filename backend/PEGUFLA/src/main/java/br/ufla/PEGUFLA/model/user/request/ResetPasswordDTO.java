@@ -1,11 +1,13 @@
 package br.ufla.PEGUFLA.model.user.request;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ResetPasswordDTO {
 
     @NotNull(message = "o campo email  é obrigatório")

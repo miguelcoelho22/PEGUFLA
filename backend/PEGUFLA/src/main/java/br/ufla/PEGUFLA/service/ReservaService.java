@@ -122,17 +122,19 @@ public class ReservaService {
 		Reserva reserva = this.reservaRepository.findById(idReserva)
 				.orElseThrow(() -> new NotFoundException("Reserva não encontrada"));
 
+		Carona carona = reserva.getCarona();
+
 		if(reserva.getStatusReserva() != StatusReserva.PENDENTE && reserva.getStatusReserva() != StatusReserva.CONFIRMADA) {
 			throw new ModelException("Apenas reservas pendentes ou confirmadas podem ser canceladas.");
 		}
 
-		if(!reserva.getUser().getId().toString().equals(id.toString())) {
+		if(!(reserva.getUser().getId().equals(id))) {
 			throw new ModelException("Apenas o passageiro que fez a reserva pode cancelá-la.");
 		}
 
-		reserva.setStatusReserva(StatusReserva.CANCELADA);
-
-		Carona carona = reserva.getCarona();
+		if(carona.getStatusViagem() == StatusViagem.CONCLUIDA || carona.getStatusViagem() == StatusViagem.CANCELADA) {
+			throw new ModelException("Carona já está CONCLUIDA ou cancelada");
+		}
 
 		if(reserva.getStatusReserva() == StatusReserva.CONFIRMADA) {
 			carona.setVagasDisponiveis(carona.getVagasDisponiveis() + 1);
@@ -141,8 +143,7 @@ public class ReservaService {
 			}
 		}
 
-		if(reserva.getStatusReserva() == StatusReserva.PENDENTE || reserva.getStatusReserva() == StatusReserva.CONFIRMADA) {
-			reserva.setStatusReserva(StatusReserva.CANCELADA);
-		}
+		reserva.setStatusReserva(StatusReserva.CANCELADA);
+
 	}
 }

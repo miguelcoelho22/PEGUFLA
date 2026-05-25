@@ -1,6 +1,7 @@
 package br.ufla.PEGUFLA.service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.Random;
 
@@ -8,12 +9,14 @@ import br.ufla.PEGUFLA.model.user.request.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.model.user.User;
 import br.ufla.PEGUFLA.repository.UserRepository;
 import jakarta.mail.MessagingException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthenticationService {
@@ -24,24 +27,34 @@ public class AuthenticationService {
 
 	private final EmailService emailService;
 
+	private final PasswordEncoder passwordEncoder;
+
 	public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager,
-			EmailService emailService) {
+                                 EmailService emailService, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.authenticationManager = authenticationManager;
 		this.emailService = emailService;
-	}
+        this.passwordEncoder = passwordEncoder;
+    }
 
+	@Transactional
 	public User signup(UserRequestRegisterDTO dto) {
 
-		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
+		if(userRepository.findByEmail(dto.email()).isPresent()) {
+			throw new ModelException("Email ja registrado");
+		}
+
+		String encryptedPassword = passwordEncoder.encode(dto.password());
 		User user = new User(dto.name(), dto.lastName(), dto.email(), encryptedPassword);
 
 		user.setVerificationCode(generateVerificationCode());
-		user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
+		user.setVerificationCodeExpiresAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).plusMinutes(15));
 		user.setEnabled(false);
+		User userSaved = userRepository.save(user);
+
 		sendVerificationEmail(user);
 
-		return userRepository.save(user);
+		return userSaved;
 	}
 
 	public User authenticate(UserRequestLoginDTO dto) {
@@ -86,7 +99,7 @@ public class AuthenticationService {
 				throw new ModelException("Conta ja esta verificada");
 			}
 			user.setVerificationCode(generateVerificationCode());
-			user.setVerificationCodeExpiresAt(LocalDateTime.now().plusHours(15));
+			user.setVerificationCodeExpiresAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).plusMinutes(15));
 			sendVerificationEmail(user);
 			this.userRepository.save(user);
 		} else {
@@ -110,7 +123,7 @@ public class AuthenticationService {
 		try {
 			this.emailService.sendVerificationEmail(user.getEmail(), subject, htmlMessage);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Falha na comunicação com o servidor de e-mail.", e);
 		}
 	}
 
@@ -130,7 +143,7 @@ public class AuthenticationService {
 
 		String newVerificationCode = generateVerificationCode();
 		user.setVerificationCode(newVerificationCode);
-		user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
+		user.setVerificationCodeExpiresAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).plusMinutes(15));
 
 		this.userRepository.save(user);
 
@@ -154,7 +167,7 @@ public class AuthenticationService {
 		User user = this.userRepository.findByEmail(dto.getEmail())
 				.orElseThrow(() -> new ModelException("Usuário não encontrado"));
 
-		if (user.getVerificationCodeExpiresAt() == null || user.getVerificationCodeExpiresAt().isBefore(LocalDateTime.now())) {
+		if (user.getVerificationCodeExpiresAt() == null || user.getVerificationCodeExpiresAt().isBefore(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")))) {
 			throw new ModelException("Código de verificação expirado ou não solicitado");
 		}
 
@@ -162,7 +175,7 @@ public class AuthenticationService {
 			throw new ModelException("Código de verificação incorreto");
 		}
 
-		String encryptedPassword = new BCryptPasswordEncoder().encode(dto.getNewPassword());
+		String encryptedPassword = this.passwordEncoder.encode(dto.getNewPassword());
 		user.setPassword(encryptedPassword);
 
 		user.setVerificationCode(null);
