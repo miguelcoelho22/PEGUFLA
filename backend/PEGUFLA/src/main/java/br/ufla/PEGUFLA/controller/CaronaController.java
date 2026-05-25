@@ -2,15 +2,6 @@ package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
 
-import br.ufla.PEGUFLA.infra.exception.ModelException;
-import br.ufla.PEGUFLA.model.enums.StatusViagem;
-import br.ufla.PEGUFLA.model.mensagem.Mensagem;
-import br.ufla.PEGUFLA.model.mensagem.dto.request.MensagemRequestDTO;
-import br.ufla.PEGUFLA.model.mensagem.dto.response.MensagemResponseDTO;
-import br.ufla.PEGUFLA.model.user.response.UserResponseDTO;
-import br.ufla.PEGUFLA.repository.MensagemRepository;
-import br.ufla.PEGUFLA.service.MensagemService;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,20 +10,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import br.ufla.PEGUFLA.infra.exception.ModelException;
 import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.carona.dto.request.CaronaRequestDTO;
 import br.ufla.PEGUFLA.model.carona.dto.response.CaronaResponseDTO;
 import br.ufla.PEGUFLA.model.carona.dto.response.HistoricoCaronaResponseDTO;
 import br.ufla.PEGUFLA.model.enums.Papel;
+import br.ufla.PEGUFLA.model.enums.StatusViagem;
+import br.ufla.PEGUFLA.model.mensagem.Mensagem;
+import br.ufla.PEGUFLA.model.mensagem.dto.request.MensagemRequestDTO;
+import br.ufla.PEGUFLA.model.mensagem.dto.response.MensagemResponseDTO;
 import br.ufla.PEGUFLA.model.user.User;
+import br.ufla.PEGUFLA.model.user.response.UserResponseDTO;
 import br.ufla.PEGUFLA.repository.CaronaRepository;
 import br.ufla.PEGUFLA.service.CaronaService;
+import br.ufla.PEGUFLA.service.MensagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/v1/carona")
@@ -162,4 +161,13 @@ public class CaronaController {
 
         return ResponseEntity.status(HttpStatus.OK).body(mensagens);
     }
+
+	@GetMapping("/ativas/{idCarona}")
+	public ResponseEntity<CaronaResponseDTO> findByAtiva(@PathVariable Long idCarona) {
+
+		CaronaResponseDTO carona = new CaronaResponseDTO(
+				this.caronaRepository.findByIdAndStatusViagem(idCarona, StatusViagem.CRIADA)
+						.orElseThrow(() -> new NotFoundException("Carona ativa não encontrada")));
+		return ResponseEntity.status(HttpStatus.OK).body(carona);
+	}
 }
