@@ -162,6 +162,7 @@ public class CaronaController {
         return ResponseEntity.status(HttpStatus.OK).body(mensagens);
     }
 
+    @Operation(summary = "busca as caronas existente com status criada", description = "busca as caronas existente com status criada")
 	@GetMapping("/ativas/{idCarona}")
 	public ResponseEntity<CaronaResponseDTO> findByAtiva(@PathVariable Long idCarona) {
 
