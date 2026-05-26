@@ -3,6 +3,7 @@ package br.ufla.PEGUFLA.repository;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.enums.StatusViagem;
 import br.ufla.PEGUFLA.model.mensagem.Mensagem;
+import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -52,5 +53,5 @@ public interface CaronaRepository extends JpaRepository<Carona, Long> {
             "ORDER BY m.dataEnvio ASC")
     List<Mensagem> findNovasMensagensParaParticipante(@Param("caronaId") Long caronaId, @Param("usuarioId") Long usuarioId,@Param("depoisDe") Long depoisDe);
 
-    Optional<Carona> findByIdAndStatusViagem(Long idCarona, StatusViagem statusViagem);
+    Optional<Carona> findByUserIdAndStatusViagem(Long idMotorista, StatusViagem statusViagem);
 }

@@ -163,11 +163,15 @@ public class CaronaController {
     }
 
     @Operation(summary = "busca as caronas existente com status criada", description = "busca as caronas existente com status criada")
-	@GetMapping("/ativas/{idCarona}")
-	public ResponseEntity<CaronaResponseDTO> findByAtiva(@PathVariable Long idCarona) {
+	@GetMapping("/ativas")
+	public ResponseEntity<CaronaResponseDTO> findByAtiva(@AuthenticationPrincipal User motorista) {
+
+        if(motorista == null || motorista.getId() == null){
+            throw new NullPointerException("usuario nao encontrado");
+        }
 
 		CaronaResponseDTO carona = new CaronaResponseDTO(
-				this.caronaRepository.findByIdAndStatusViagem(idCarona, StatusViagem.CRIADA)
+				this.caronaRepository.findByUserIdAndStatusViagem(motorista.getId(), StatusViagem.CRIADA)
 						.orElseThrow(() -> new NotFoundException("Carona ativa não encontrada")));
 		return ResponseEntity.status(HttpStatus.OK).body(carona);
 	}
