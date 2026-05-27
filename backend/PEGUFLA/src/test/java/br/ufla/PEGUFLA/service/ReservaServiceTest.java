@@ -1,7 +1,6 @@
 package br.ufla.PEGUFLA.service;
 
 import br.ufla.PEGUFLA.infra.exception.ModelException;
-import br.ufla.PEGUFLA.infra.exception.NotFoundException;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.enums.StatusReserva;
 import br.ufla.PEGUFLA.model.enums.StatusViagem;
