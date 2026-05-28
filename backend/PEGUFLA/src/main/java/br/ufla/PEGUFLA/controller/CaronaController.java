@@ -164,15 +164,16 @@ public class CaronaController {
 
     @Operation(summary = "busca as caronas existente com status criada", description = "busca as caronas existente com status criada")
 	@GetMapping("/ativas")
-	public ResponseEntity<CaronaResponseDTO> findByAtiva(@AuthenticationPrincipal User motorista) {
+	public ResponseEntity<List<CaronaResponseDTO>> findByAtiva(@AuthenticationPrincipal User motorista) {
 
         if(motorista == null || motorista.getId() == null){
             throw new NullPointerException("usuario nao encontrado");
         }
 
-		CaronaResponseDTO carona = new CaronaResponseDTO(
-				this.caronaRepository.findByUserIdAndStatusViagem(motorista.getId(), StatusViagem.CRIADA)
-						.orElseThrow(() -> new NotFoundException("Carona ativa não encontrada")));
+		List<CaronaResponseDTO> carona = this.caronaRepository
+				.findAllByUserIdAndStatusViagem(motorista.getId(), StatusViagem.CRIADA)
+				.orElseThrow(() -> new NotFoundException("Carona ativa não encontrada")).stream()
+				.map(CaronaResponseDTO::new).toList();
 		return ResponseEntity.status(HttpStatus.OK).body(carona);
 	}
 }

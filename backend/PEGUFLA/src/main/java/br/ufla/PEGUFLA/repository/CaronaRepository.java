@@ -53,5 +53,5 @@ public interface CaronaRepository extends JpaRepository<Carona, Long> {
             "ORDER BY m.dataEnvio ASC")
     List<Mensagem> findNovasMensagensParaParticipante(@Param("caronaId") Long caronaId, @Param("usuarioId") Long usuarioId,@Param("depoisDe") Long depoisDe);
 
-    Optional<Carona> findByUserIdAndStatusViagem(Long idMotorista, StatusViagem statusViagem);
+    Optional<List<Carona>> findAllByUserIdAndStatusViagem(Long id, StatusViagem statusViagem);
 }
