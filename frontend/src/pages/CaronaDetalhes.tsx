@@ -31,6 +31,28 @@ export default function CaronaDetalhes() {
     }
   }, [id]);
 
+  // --- NOVA FUNÇÃO DE RESERVA REAL ---
+  const confirmarReserva = async () => {
+    try {
+      // Faz o POST enviando o caronaId no formato esperado pelo Back-end
+      await api.post('/reserva', { 
+        caronaId: carona.id 
+      });
+      
+      setIsModalOpen(false);
+      alert("Reserva solicitada com sucesso! Aguarde a aprovação do condutor.");
+      
+      // Redireciona o usuário para a tela de viagens dele após reservar
+      navigate('/viagens'); 
+
+    } catch (err: any) {
+      console.error("Erro ao solicitar reserva:", err);
+      const mensagemErro = err.response?.data?.message || err.response?.data || "Não foi possível solicitar a reserva no momento.";
+      alert(`Erro: ${mensagemErro}`);
+      setIsModalOpen(false);
+    }
+  };
+
   // Telas de carregamento e erro amigáveis
   if (loading) {
     return (
@@ -108,7 +130,6 @@ export default function CaronaDetalhes() {
         {/* Card de Informações do Veículo / Condutor */}
         <div className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
           <h3 className="text-[13px] font-bold text-gray-900 mb-1">Informações do veículo:</h3>
-          {/* Mostra o carro do condutor em vez da frase genérica da árvore */}
           <p className="text-[13px] text-gray-700 capitalize">
             {carona.veiculo.marca} {carona.veiculo.modelo} - Cor {carona.veiculo.cor} (Placa: {carona.veiculo.placa.toUpperCase()})
           </p>
@@ -150,11 +171,6 @@ export default function CaronaDetalhes() {
         </div>
       </div>
 
-      {/* Navigation (Idêntica ao que você já tinha) */}
-      <nav className="fixed bottom-0 w-full bg-[#1862bc] text-white flex justify-between px-6 py-2 pb-3 items-center z-40 shadow-lg">
-        {/* ... Seus ícones do navbar ... */}
-      </nav>
-
       {/* POPUP (Modal) de Confirmação */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-5">
@@ -173,10 +189,16 @@ export default function CaronaDetalhes() {
               </p>
 
               <div className="flex items-center justify-end w-full gap-3 mt-2">
-                <button onClick={() => setIsModalOpen(false)} className="bg-transparent border border-[#1862bc] text-[#1862bc] font-semibold text-[15px] py-1.5 px-6 rounded-md hover:bg-blue-50 transition-colors">
+                <button 
+                  onClick={() => setIsModalOpen(false)} 
+                  className="bg-transparent border border-[#1862bc] text-[#1862bc] font-semibold text-[15px] py-1.5 px-6 rounded-md hover:bg-blue-50 transition-colors"
+                >
                   Não
                 </button>
-                <button onClick={() => { setIsModalOpen(false); alert("Reserva confirmada!"); }} className="bg-[#1862bc] text-white font-semibold text-[15px] py-1.5 px-6 rounded-md hover:bg-blue-800 transition-colors shadow-sm">
+                <button 
+                  onClick={confirmarReserva} 
+                  className="bg-[#1862bc] text-white font-semibold text-[15px] py-1.5 px-6 rounded-md hover:bg-blue-800 transition-colors shadow-sm"
+                >
                   Sim
                 </button>
               </div>
