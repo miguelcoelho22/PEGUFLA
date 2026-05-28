@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import CaronaDetalhes from './pages/CaronaDetalhes';
 import CriarCarona from './pages/CriarCarona';
 import Perfil from './pages/Perfil';
+import Viagens from './pages/Viagens';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/detalhes-carona/:id" element={<CaronaDetalhes />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/CriarCarona" element={<CriarCarona />} />
+        <Route path="/viagens" element={<Viagens />} />
       </Routes>
     </BrowserRouter>
   );
