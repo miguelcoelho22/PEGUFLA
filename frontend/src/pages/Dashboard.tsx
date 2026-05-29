@@ -2,20 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from "../services/api";
 import type { Carona } from '../types';
-import Navbar from '../components/Navbar'; // Importando o novo componente
+import Navbar from '../components/Navbar'; 
 
 export default function Dashboard() {
   const navigate = useNavigate();
   
-  // Estado para controlar a data selecionada. Padrão: data de hoje.
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-
-  // Estados para a integração com a API
   const [caronas, setCaronas] = useState<Carona[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Função para formatar a data no padrão "Terça-feira, 28 de abril"
   const getFormattedDate = (dateString: string) => {
     if (!dateString) return '';
     const date = new Date(dateString + 'T00:00:00');
@@ -28,7 +24,6 @@ export default function Dashboard() {
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   };
 
-  // Função para formatar a hora (ex: "2024-05-10T14:30:00" -> "14:30")
   const formatTime = (isoString: string) => {
     if (!isoString) return '';
     const date = new Date(isoString);
@@ -42,13 +37,19 @@ export default function Dashboard() {
     try {
       const response = await api.get('/carona'); 
       
+      let listaBruta: Carona[] = [];
+
       if (Array.isArray(response.data)) {
-        setCaronas(response.data);
+        listaBruta = response.data;
       } else if (response.data && Array.isArray(response.data.content)) {
-        setCaronas(response.data.content); 
-      } else {
-        setCaronas([]);
+        listaBruta = response.data.content; 
       }
+
+      // MODIFICADO: Filtra para exibir no Dashboard apenas caronas que estão ativas ('CRIADA')
+      // Isso vai sumir automaticamente com as caronas que você cancelou na outra tela!
+      const apenasAtivas = listaBruta.filter((carona: any) => carona.statusViagem === 'CRIADA');
+      
+      setCaronas(apenasAtivas);
     } catch (err) {
       console.error("Erro ao buscar caronas:", err);
       setError("Não foi possível carregar as caronas disponíveis.");
@@ -130,43 +131,49 @@ export default function Dashboard() {
         {error && <p className="text-center text-sm text-red-500 py-4">{error}</p>}
         
         <div className="flex flex-col gap-4">
-          {caronas.map((carona) => (
-            <div key={carona.id} className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
-              <div className="flex items-start justify-between mb-4 relative pl-1">
-                <div className="absolute left-[4px] top-2 bottom-2 w-[1.5px] bg-gray-400"></div>
-                <div className="flex flex-col gap-4 w-full pl-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[13px] text-gray-800 font-medium">{carona.origem}</span>
-                    <span className="text-xs font-bold text-gray-700">{formatTime(carona.horarioSaida)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[13px] text-gray-800 font-medium">{carona.destino}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between border-t border-gray-300 pt-4 mt-2">
-                <div className="flex items-center gap-2">
-                  <div className="bg-gray-200 rounded-md p-1.5">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  </div>
-                  <span className="text-[13px] font-bold text-gray-800">
-                    {carona.user.name} {carona.user.lastName}
-                  </span>
-                </div>
-                <button 
-                  onClick={() => navigate(`/detalhes-carona/${carona.id}`)} 
-                  className="bg-[#318337] hover:bg-green-800 text-white font-bold text-xs py-1.5 px-5 rounded-md transition-all active:scale-95"
-                >
-                  Verificar
-                </button>
-              </div>
+  {caronas.length > 0 ? (
+    caronas.map((carona) => (
+      <div key={carona.id} className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
+        <div className="flex items-start justify-between mb-4 relative pl-1">
+          <div className="absolute left-[4px] top-2 bottom-2 w-[1.5px] bg-gray-400"></div>
+          <div className="flex flex-col gap-4 w-full pl-4">
+            <div className="flex justify-between items-center">
+              <span className="text-[13px] text-gray-800 font-medium">{carona.origem}</span>
+              <span className="text-xs font-bold text-gray-700">{formatTime(carona.horarioSaida)}</span>
             </div>
-          ))}
+            <div className="flex justify-between items-center">
+              <span className="text-[13px] text-gray-800 font-medium">{carona.destino}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between border-t border-gray-300 pt-4 mt-2">
+          <div className="flex items-center gap-2">
+            <div className="bg-gray-200 rounded-md p-1.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span className="text-[13px] font-bold text-gray-800">
+              {carona.user.name} {carona.user.lastName}
+            </span>
+          </div>
+          <button 
+            onClick={() => navigate(`/detalhes-carona/${carona.id}`)} 
+            className="bg-[#318337] hover:bg-green-800 text-white font-bold text-xs py-1.5 px-5 rounded-md transition-all active:scale-95"
+          >
+            Verificar
+          </button>
         </div>
       </div>
+    ))
+  ) : !loading ? (
+    // CORRIGIDO: Sem as chaves internas, apenas o retorno direto do JSX se não estiver carregando
+    <p className="text-sm text-gray-500 italic text-center py-4">
+      Nenhuma carona disponível para esta data.
+    </p>
+  ) : null}
+</div>
+      </div>
 
-      {/* COMPONENTE CENTRALIZADO: Substitui todo o antigo <nav> */}
       <Navbar />
     </div>
   );

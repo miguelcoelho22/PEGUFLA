@@ -61,9 +61,10 @@ export default function CriarCarona() {
     setError('');
 
     try {
-      const horarioSaida = new Date(`${data}T${hora}:00`).toISOString();
+      // CORRIGIDO: Enviamos a string de data e hora exatamente como o usuário digitou, 
+      // sem passar pelo .toISOString() que joga +3 horas no fuso.
+      const horarioSaida = `${data}T${hora}:00`;
 
-      // Payload simplificado: o userId não é mais necessário aqui pois o Back-end já sabe quem você é pelo Token
       const payload = {
         origem,                 
         destino,                
