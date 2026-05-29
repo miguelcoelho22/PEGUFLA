@@ -135,5 +135,16 @@ public class ReservaController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @Operation(summary = "Lista as reservas do usuário logado", description = "Retorna as caronas que o passageiro se inscreveu.")
+    @GetMapping("/minhas-reservas")
+    public ResponseEntity<List<ReservaResponseDTO>> findMinhasReservas(@AuthenticationPrincipal User user) {
+        if (user == null || user.getId() == null) {
+            throw new NotFoundException("Usuário não encontrado");
+        }
+        
+        List<ReservaResponseDTO> minhasReservas = this.reservaService.listarReservasPorPassageiro(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(minhasReservas);
+    }
 }
 

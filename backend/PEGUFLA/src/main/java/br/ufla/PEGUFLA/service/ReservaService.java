@@ -146,4 +146,11 @@ public class ReservaService {
 		reserva.setStatusReserva(StatusReserva.CANCELADA);
 
 	}
+
+	public List<ReservaResponseDTO> listarReservasPorPassageiro(Long userId) {
+    List<Reserva> reservas = this.reservaRepository.findByUserId(userId);
+    return reservas.stream()
+            .map(ReservaResponseDTO::new)
+            .toList();
+	}
 }

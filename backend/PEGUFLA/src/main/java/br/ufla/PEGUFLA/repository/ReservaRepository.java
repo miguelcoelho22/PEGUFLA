@@ -6,6 +6,7 @@ import br.ufla.PEGUFLA.model.reserva.Reserva;
 import br.ufla.PEGUFLA.model.reserva.dto.response.ReservaResponseDTO;
 import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,5 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     List<Reserva> findByCaronaId(Long caronaId);
 
+    List<Reserva> findByUserId(Long userId);
 }
