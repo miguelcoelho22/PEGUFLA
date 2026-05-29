@@ -98,8 +98,8 @@ public class ReservaService {
 			throw new ModelException("Apenas o motorista da carona pode rejeitar reservas.");
 		}
 
-		if(reserva.getStatusReserva() != StatusReserva.PENDENTE) {
-			throw new ModelException("Apenas reservas pendentes podem ser rejeitadas.");
+		if(reserva.getStatusReserva() != StatusReserva.CONCLUIDA || reserva.getStatusReserva() != StatusReserva.CANCELADA) {
+			throw new ModelException("Apenas reservas pendentes ou confirmadas podem ser rejeitadas.");
 		}
 
 		reserva.setStatusReserva(StatusReserva.REJEITADA);

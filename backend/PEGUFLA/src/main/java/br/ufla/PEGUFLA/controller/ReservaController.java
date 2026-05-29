@@ -70,6 +70,12 @@ public class ReservaController {
             throw new NotFoundException("Motorista não encontrado");
         }
 
+        Reserva reserva = this.reservaRepository.findById(reservaId).orElseThrow(() -> new NotFoundException("Reserva não encontrada"));
+
+        if(!reserva.getCarona().getUser().equals(user.getId())){
+            throw new ModelException("Apenas o motorista da carona pode rejeitar a reserva");
+        }
+
         this.reservaService.rejeitarCarona(reservaId, user.getId());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
