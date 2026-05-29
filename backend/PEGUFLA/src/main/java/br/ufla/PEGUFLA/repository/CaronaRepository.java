@@ -3,7 +3,6 @@ package br.ufla.PEGUFLA.repository;
 import br.ufla.PEGUFLA.model.carona.Carona;
 import br.ufla.PEGUFLA.model.enums.StatusViagem;
 import br.ufla.PEGUFLA.model.mensagem.Mensagem;
-import br.ufla.PEGUFLA.model.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

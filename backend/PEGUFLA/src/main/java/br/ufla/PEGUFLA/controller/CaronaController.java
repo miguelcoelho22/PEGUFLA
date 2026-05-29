@@ -2,6 +2,9 @@ package br.ufla.PEGUFLA.controller;
 
 import java.util.List;
 
+import br.ufla.PEGUFLA.model.reserva.Reserva;
+import br.ufla.PEGUFLA.model.reserva.dto.response.ReservaResponseDTO;
+import br.ufla.PEGUFLA.repository.ReservaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +45,7 @@ public class CaronaController {
     private final CaronaService caronaService;
     private final CaronaRepository caronaRepository;
     private final MensagemService mensagemService;
+    private final ReservaRepository reservaRepository;
 
     @Operation(summary = "Cadastra uma nova carona", description = "Cria uma nova carona.")
     @ApiResponses(value = {
@@ -69,17 +73,6 @@ public class CaronaController {
 		return ResponseEntity.status(HttpStatus.OK).body(caronaResponseDTOS);
      }
 
-    @Operation(summary = "Deleta uma carona existente", description = "Deleta as informações de uma carona com base no seu ID.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "carona deletado com sucesso", content = @Content),
-            @ApiResponse(responseCode = "404", description = "carona não encontrado", content = @Content)})
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Carona carona = this.caronaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("veiculo não encontrada"));
-        this.caronaRepository.delete(carona);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 
     @Operation(summary = "Busca um veiculo por ID", description = "Retorna um veiculo específico com base no seu ID.")
     @ApiResponses(value = {
@@ -176,4 +169,15 @@ public class CaronaController {
 				.map(CaronaResponseDTO::new).toList();
 		return ResponseEntity.status(HttpStatus.OK).body(carona);
 	}
+
+    @Operation(summary = "busca as reservas existentes", description = "busca as reservas existente")
+    @GetMapping("/{caronaId}/reservas")
+    public ResponseEntity<List<ReservaResponseDTO>> findReservasByCaronaId(@PathVariable Long caronaId) {
+        List<Reserva> reservas = this.reservaRepository.findByCaronaId(caronaId);
+
+        if(reservas.isEmpty()){
+            throw new ModelException("a carona nao possui reservas");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(reservas.stream().map(ReservaResponseDTO::new).toList());
+    }
 }
