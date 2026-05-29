@@ -113,7 +113,7 @@ public class ReservaService {
 			throw new ModelException("Carona já está CONCLUIDA ou cancelada");
 		}
 
-		return this.reservaRepository.findAllByCaronaIdAndStatusReserva(idCarona, StatusReserva.PENDENTE);
+		return this.reservaRepository.findByCaronaId(idCarona);
 	}
 
 	@Transactional

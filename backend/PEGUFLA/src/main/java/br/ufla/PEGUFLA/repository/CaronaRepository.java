@@ -34,7 +34,7 @@ public interface CaronaRepository extends JpaRepository<Carona, Long> {
             "AND c.statusViagem NOT IN ('CANCELADA', 'CONCLUIDA') " +
             "AND (" +
             "    c.user.id = :usuarioId " +
-            "    OR (r.user.id = :usuarioId AND r.statusReserva = 'APROVADA')" +
+            "    OR (r.user.id = :usuarioId AND r.statusReserva IN ('APROVADA', 'PENDENTE', 'CONFIRMADA'))" +
             ")")
     boolean isUsuarioAutorizadoEAtivo(@Param("caronaId") Long caronaId, @Param("usuarioId") Long usuarioId);
 
@@ -45,11 +45,11 @@ public interface CaronaRepository extends JpaRepository<Carona, Long> {
             "AND c.statusViagem NOT IN ('CANCELADA', 'CONCLUIDA') " +
             "AND (" +
             "    c.user.id = :usuarioId " +
-            "    OR (r.user.id = :usuarioId AND r.statusReserva = 'APROVADA')" +
+            "    OR (r.user.id = :usuarioId AND r.statusReserva IN ('APROVADA', 'PENDENTE', 'CONFIRMADA'))" +
             ") " +
             "AND m.id > :depoisDe " +
             "ORDER BY m.dataEnvio ASC")
-    List<Mensagem> findNovasMensagensParaParticipante(@Param("caronaId") Long caronaId, @Param("usuarioId") Long usuarioId,@Param("depoisDe") Long depoisDe);
-
+    List<Mensagem> findNovasMensagensParaParticipante(@Param("caronaId") Long caronaId, @Param("usuarioId") Long usuarioId, @Param("depoisDe") Long depoisDe);
+    
     Optional<List<Carona>> findAllByUserIdAndStatusViagem(Long id, StatusViagem statusViagem);
 }

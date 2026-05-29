@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import api from '../services/api';
 import Navbar from '../components/Navbar';
 
@@ -17,6 +17,12 @@ export default function Viagens() {
   const [pedidoSelecionado, setPedidoSelecionado] = useState<any>(null);
   const [toastAprovado, setToastAprovado] = useState(false);
   const [caronaParaCancelar, setCaronaParaCancelar] = useState<any>(null);
+
+  // --- ESTADOS DO CHAT ---
+  const [chatCaronaId, setChatCaronaId] = useState<number | null>(null);
+  const [mensagens, setMensagens] = useState<any[]>([]);
+  const [novaMensagem, setNovaMensagem] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const formatarDataHora = (dataString: string) => {
     if (!dataString) return { data: '---', hora: '---' };
@@ -38,9 +44,7 @@ export default function Viagens() {
       setLoading(true);
       let idsCaronasAtivas: number[] = [];
 
-      // ==========================================
       // 1. CARONAS OFERTADAS (MOTORISTA)
-      // ==========================================
       try {
         const resAtivas = await api.get('/carona/ativas');
         const ativasDoUsuario = Array.isArray(resAtivas.data) ? resAtivas.data : (resAtivas.data?.content || []);
@@ -57,37 +61,49 @@ export default function Viagens() {
         console.error("Erro ao buscar caronas ativas:", err);
       }
 
-      // ==========================================
-      // 2. SOLICITAÇÕES RECEBIDAS (MOTORISTA)
-      // ==========================================
+      // 2. BUSCA TODAS AS RESERVAS DA CARONA (MOTORISTA)
       if (idsCaronasAtivas.length > 0) {
         try {
           const promessasReservas = idsCaronasAtivas.map(id => api.get(`/reserva/solicitacoesReserva/${id}`));
           const respostasReservas = await Promise.all(promessasReservas);
           
           if (isMounted) {
-            const todasPendentes = respostasReservas.flatMap((res, index) => {
+            const todasReservas = respostasReservas.flatMap((res, index) => {
               const idCarona = idsCaronasAtivas[index];
               const dados = Array.isArray(res.data) ? res.data : [];
               return dados.map((p: any) => ({ ...p, caronaId: idCarona }));
             });
-            setPedidosPendentes(todasPendentes);
+
+            const pendentes = todasReservas.filter(
+              (p: any) => String(p.statusReserva || p.status).toUpperCase() === 'PENDENTE'
+            );
+            
+            const aprovados = todasReservas.filter((p: any) => {
+              const status = String(p.statusReserva || p.status).toUpperCase();
+              return status.includes('APROV') || status.includes('CONFIRM') || status.includes('ACEIT');
+            });
+            
+            const recusados = todasReservas.filter((p: any) => {
+              const status = String(p.statusReserva || p.status).toUpperCase();
+              return status.includes('RECUS') || status.includes('REJEIT') || status.includes('CANCEL');
+            });
+
+            setPedidosPendentes(pendentes);
+            setPedidosAprovados(aprovados);
+            setPedidosRecusados(recusados);
           }
         } catch (err) {
-          console.error("Erro ao buscar solicitações pendentes:", err);
+          console.error("Erro ao buscar reservas:", err);
         }
       }
 
-      // ==========================================
-      // 3. CARONAS INSCRITAS (PASSAGEIRO) - AJUSTADO PARA 'caronaId' 🚀
-      // ==========================================
+      // 3. CARONAS INSCRITAS (PASSAGEIRO)
       try {
         const resReservas = await api.get('/reserva/minhas-reservas');
         const minhasReservas = Array.isArray(resReservas.data) ? resReservas.data : [];
         
         if (isMounted) {
           const solicitacoesFormatadas = minhasReservas.map((reserva: any) => {
-            // Mapeia usando reserva.caronaId que é o nome vindo do seu DTO do Back-end
             const caronaData = reserva.caronaId || reserva.carona || {};
             const horario = caronaData.horarioSaida || reserva.dataHoraReserva;
             const { data, hora } = formatarDataHora(horario);
@@ -100,9 +116,7 @@ export default function Viagens() {
         console.error("Erro ao buscar minhas reservas:", error);
       }
 
-      // ==========================================
       // 4. HISTÓRICO DE VIAGENS
-      // ==========================================
       try {
         const resHist = await api.get('/carona/historicoCaronas?page=0&size=50');
         const todasCaronas = resHist.data?.content || (Array.isArray(resHist.data) ? resHist.data : []);
@@ -128,6 +142,49 @@ export default function Viagens() {
       isMounted = false;
     };
   }, []);
+
+  // ==========================================
+  // LÓGICA DO CHAT
+  // ==========================================
+  const carregarMensagensChat = async () => {
+    if (!chatCaronaId) return;
+    try {
+      const response = await api.get(`/carona/${chatCaronaId}/mensagens`);
+      setMensagens(response.data);
+    } catch (err) {
+      console.error("Erro ao carregar mensagens do chat:", err);
+    }
+  };
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (chatCaronaId) {
+      carregarMensagensChat(); // Puxa logo ao abrir
+      interval = setInterval(carregarMensagensChat, 3000); // Polling a cada 3s
+    }
+    return () => clearInterval(interval);
+  }, [chatCaronaId]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [mensagens, chatCaronaId]);
+
+  const enviarMensagem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!novaMensagem.trim() || !chatCaronaId) return;
+
+    try {
+      await api.post(`/carona/${chatCaronaId}/mensagens`, { texto: novaMensagem });
+      setNovaMensagem(''); 
+      carregarMensagensChat(); 
+    } catch (err: any) {
+      console.error("Erro completo do servidor:", err.response?.data);
+      const mensagemDoServidor = err.response?.data?.message || "Erro desconhecido";
+      alert(`O servidor negou o envio: ${mensagemDoServidor}`);
+    }
+  };
 
   // --- ACÕES DO PASSAGEIRO ---
   const handleCancelarSolicitacaoEnviada = async (idReserva: number) => {
@@ -189,20 +246,23 @@ export default function Viagens() {
     }
   };
 
+  // --- COMPONENTES VISUAIS ---
   const RouteCard = ({ 
     viagem, 
     onCancel,
     pendentes = [],
     aprovados = [],
-    recusados = []
+    recusados = [],
+    mostrarBotaoChat = false
   }: { 
     viagem: any; 
     onCancel?: () => void;
     pendentes?: any[];
     aprovados?: any[];
     recusados?: any[];
+    mostrarBotaoChat?: boolean;
   }) => (
-    <div className="bg-[#f2f2f2] border border-gray-300 rounded-lg p-4 shadow-sm relative">
+    <div className="bg-[#f2f2f2] border border-gray-300 rounded-lg p-4 shadow-sm relative flex flex-col">
       <div className="flex items-start justify-between">
         <div className="flex items-stretch gap-3">
           <div className="flex flex-col items-center justify-between py-1">
@@ -274,8 +334,19 @@ export default function Viagens() {
         </div>
       )}
       
-      {onCancel && (
-        <div className="mt-4 pt-3 border-t border-gray-300 flex justify-end">
+      {/* BOTÕES DE AÇÃO NA BASE DO CARD */}
+      <div className={`mt-4 pt-3 border-t border-gray-300 flex ${mostrarBotaoChat && onCancel ? 'justify-between' : 'justify-end'} items-center`}>
+        {mostrarBotaoChat && (
+          <button 
+            onClick={() => setChatCaronaId(viagem.id)}
+            className="flex items-center gap-1.5 bg-[#1862bc] text-white px-4 py-1.5 rounded-md text-xs font-bold hover:bg-blue-800 transition-colors shadow-sm"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Chat da Viagem
+          </button>
+        )}
+        
+        {onCancel && (
           <button 
             onClick={onCancel}
             className="text-red-500 font-bold text-xs flex items-center gap-1 hover:text-red-700 transition-colors"
@@ -285,8 +356,8 @@ export default function Viagens() {
             </svg>
             Cancelar Carona
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 
@@ -323,6 +394,7 @@ export default function Viagens() {
                     pendentes={pendentes}
                     aprovados={aprovados}
                     recusados={recusados}
+                    mostrarBotaoChat={true} // Ativa o botão de chat para o Motorista
                   />
                 );
               })}
@@ -332,7 +404,7 @@ export default function Viagens() {
           )}
         </section>
 
-        {/* SEÇÃO 2: PASSAGEIRO - ATUALIZADO PARA CARONAID 🚀 */}
+        {/* SEÇÃO 2: PASSAGEIRO */}
         <section>
           <h2 className="text-xl font-bold text-gray-900 mb-4 mt-8">Caronas que solicitei (Passageiro):</h2>
           {solicitacoesEnviadas.length > 0 ? (
@@ -343,10 +415,12 @@ export default function Viagens() {
                 
                 let statusColor = "bg-amber-100 text-amber-700 border-amber-300";
                 let statusLabel = "Aguardando Resposta";
+                let isAprovada = false;
                 
                 if (statusString.includes("APROV") || statusString.includes("CONFIRM")) {
                   statusColor = "bg-green-100 text-green-700 border-green-300";
                   statusLabel = "Aprovada";
+                  isAprovada = true;
                 } else if (statusString.includes("REJEIT") || statusString.includes("RECUS") || statusString.includes("REJECT") || statusString.includes("CANCEL")) {
                   statusColor = "bg-red-100 text-red-700 border-red-300";
                   statusLabel = statusString.includes("CANCEL") ? "Cancelada" : "Recusada";
@@ -377,14 +451,26 @@ export default function Viagens() {
                           {statusLabel}
                         </span>
                       </div>
-                      {!statusString.includes("CANCEL") && !statusString.includes("REJEIT") && (
-                        <button 
-                          onClick={() => handleCancelarSolicitacaoEnviada(soli.id)}
-                          className="text-red-500 border border-red-300 bg-transparent hover:bg-red-50 font-bold text-xs py-1.5 px-3 rounded-md transition-all active:scale-95"
-                        >
-                          Desistir da Carona
-                        </button>
-                      )}
+                      <div className="flex gap-2">
+                        {/* BOTÃO DE CHAT PRO PASSAGEIRO (Só mostra se já foi aprovado ou se quiser mostrar sempre) */}
+                        {isAprovada && caronaData.id && (
+                          <button 
+                            onClick={() => setChatCaronaId(caronaData.id)}
+                            className="bg-[#1862bc] text-white px-3 py-1.5 rounded-md font-bold text-xs hover:bg-blue-800 transition-all active:scale-95"
+                          >
+                            Abrir Chat
+                          </button>
+                        )}
+
+                        {!statusString.includes("CANCEL") && !statusString.includes("REJEIT") && (
+                          <button 
+                            onClick={() => handleCancelarSolicitacaoEnviada(soli.id)}
+                            className="text-red-500 border border-red-300 bg-transparent hover:bg-red-50 font-bold text-xs py-1.5 px-3 rounded-md transition-all active:scale-95"
+                          >
+                            Desistir
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
@@ -410,7 +496,7 @@ export default function Viagens() {
 
       <Navbar />
 
-      {/* TOAST APROVAÇÃO */}
+      {/* TOAST E MODAIS DE RECUSAR E CANCELAR (Mantidos originais do seu código) */}
       {toastAprovado && (
         <div className="fixed top-20 right-4 left-4 bg-[#f4f7fe] border border-gray-300 shadow-xl rounded-lg p-3 flex items-start gap-3 z-50">
           <div className="text-blue-600 mt-0.5">
@@ -426,7 +512,6 @@ export default function Viagens() {
         </div>
       )}
 
-      {/* MODAL RECUSAR SOLICITAÇÃO */}
       {modalRecusarOpen && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 px-4">
           <div className="bg-[#f4f7fe] border border-gray-300 rounded-lg w-full max-w-sm shadow-2xl relative pt-8 pb-6 px-6 text-center">
@@ -440,7 +525,6 @@ export default function Viagens() {
         </div>
       )}
 
-      {/* MODAL CANCELAR CARONA */}
       {caronaParaCancelar && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 px-4">
           <div className="bg-[#f4f7fe] border border-gray-300 rounded-lg w-full max-w-sm shadow-2xl relative pt-8 pb-6 px-6 text-center">
@@ -449,6 +533,71 @@ export default function Viagens() {
               <button onClick={() => setCaronaParaCancelar(null)} className="w-24 bg-white border border-gray-400 text-gray-700 py-1.5 rounded font-bold text-sm active:scale-95 transition-all">Voltar</button>
               <button onClick={confirmarCancelamentoCarona} className="w-24 bg-red-600 border border-red-600 text-white py-1.5 rounded font-bold text-sm active:scale-95 transition-all">Cancelar</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================
+          MODAL / TELA DO CHAT 
+          ========================================= */}
+      {chatCaronaId && (
+        <div className="fixed inset-0 bg-black/50 z-[60] flex flex-col justify-end sm:items-center sm:justify-center animate-fade-in">
+          <div className="bg-[#f4f6fb] w-full sm:max-w-md h-[85vh] sm:h-[600px] rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl overflow-hidden relative">
+            
+            {/* Header do Chat */}
+            <div className="bg-[#1862bc] text-white p-4 flex justify-between items-center shadow-md z-10">
+              <div>
+                <h3 className="font-bold text-base">Chat da Viagem</h3>
+                <p className="text-xs text-blue-200">ID: {chatCaronaId}</p>
+              </div>
+              <button onClick={() => setChatCaronaId(null)} className="p-2 bg-blue-700 rounded-full hover:bg-blue-800 transition active:scale-95">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+
+            {/* Área das Mensagens */}
+            <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50/50">
+              {mensagens.length === 0 ? (
+                <div className="flex-1 flex items-center justify-center text-gray-400 text-sm italic text-center px-4">
+                  Nenhuma mensagem ainda. Mande um "Oi" para a turma!
+                </div>
+              ) : (
+                mensagens.map((msg: any) => (
+                  <div key={msg.id} className="max-w-[80%] p-3 rounded-xl shadow-sm bg-white border border-gray-200 self-start rounded-tl-none">
+                    <span className="block text-[10px] font-bold text-gray-500 mb-1 capitalize">
+                      {msg.remetente?.name} {msg.remetente?.lastName}
+                    </span>
+                    <p className="text-sm leading-relaxed text-gray-800">{msg.texto}</p>
+                    <span className="block text-[10px] text-right mt-1.5 text-gray-400">
+                      {new Date(msg.dataEnvio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                ))
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input de Envio */}
+            <form onSubmit={enviarMensagem} className="bg-white p-3 border-t border-gray-200 flex gap-2 items-center">
+              <input 
+                type="text" 
+                value={novaMensagem}
+                onChange={(e) => setNovaMensagem(e.target.value)}
+                placeholder="Escreva sua mensagem..." 
+                className="flex-1 bg-gray-100 border border-gray-300 rounded-full px-4 py-2.5 text-sm outline-none focus:border-[#1862bc] transition-colors"
+              />
+              <button 
+                type="submit" 
+                disabled={!novaMensagem.trim()} 
+                className="bg-[#1862bc] text-white rounded-full w-11 h-11 flex items-center justify-center flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-800 transition-colors shadow-sm active:scale-95"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </form>
+
           </div>
         </div>
       )}

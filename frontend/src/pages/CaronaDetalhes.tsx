@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import logo from '../assets/Logo_PegUfla.png'; 
@@ -12,10 +12,16 @@ export default function CaronaDetalhes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // --- ESTADOS DO CHAT ---
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [mensagens, setMensagens] = useState<any[]>([]);
+  const [novaMensagem, setNovaMensagem] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Busca os detalhes da carona ao carregar a tela
   useEffect(() => {
     const buscarDetalhesCarona = async () => {
       try {
-        // Tenta buscar a carona específica pelo ID
         const response = await api.get(`/carona/${id}`);
         setCarona(response.data);
       } catch (err) {
@@ -31,18 +37,60 @@ export default function CaronaDetalhes() {
     }
   }, [id]);
 
-  // --- NOVA FUNÇÃO DE RESERVA REAL ---
+  // --- LÓGICA DO CHAT (POLLING) ---
+  const carregarMensagens = async () => {
+    try {
+      const response = await api.get(`/carona/${id}/mensagens`);
+      setMensagens(response.data);
+    } catch (err) {
+      console.error("Erro ao carregar mensagens do chat:", err);
+    }
+  };
+
+  // Efeito para carregar as mensagens periodicamente SÓ quando o chat estiver aberto
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    
+    if (isChatOpen) {
+      carregarMensagens(); // Busca logo ao abrir
+      interval = setInterval(carregarMensagens, 3000); // Atualiza a cada 3 segundos
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isChatOpen, id]);
+
+  // Efeito para rolar o chat para a última mensagem automaticamente
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [mensagens, isChatOpen]);
+
+  const enviarMensagem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!novaMensagem.trim()) return;
+
+    try {
+      await api.post(`/carona/${id}/mensagens`, { texto: novaMensagem });
+      setNovaMensagem(''); // Limpa o input
+      carregarMensagens(); // Recarrega a lista instantaneamente
+    } catch (err) {
+      console.error("Erro ao enviar mensagem:", err);
+      alert("Falha ao enviar mensagem.");
+    }
+  };
+
+  // --- FUNÇÃO DE RESERVA ---
   const confirmarReserva = async () => {
     try {
-      // Faz o POST enviando o caronaId no formato esperado pelo Back-end
       await api.post('/reserva', { 
         caronaId: carona.id 
       });
       
       setIsModalOpen(false);
       alert("Reserva solicitada com sucesso! Aguarde a aprovação do condutor.");
-      
-      // Redireciona o usuário para a tela de viagens dele após reservar
       navigate('/viagens'); 
 
     } catch (err: any) {
@@ -74,12 +122,9 @@ export default function CaronaDetalhes() {
   }
 
   // --- FORMATAÇÃO DE DATA E HORA ---
-  // Transforma "2026-05-13T14:11:00" em um objeto Date
   const dataObj = new Date(carona.horarioSaida);
-  
-  // Extrai o dia da semana ("quarta-feira"), o dia ("13") e o mês ("maio")
   let diaSemana = dataObj.toLocaleDateString('pt-BR', { weekday: 'long' });
-  diaSemana = diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1); // Primeira letra maiúscula
+  diaSemana = diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1);
   const dia = dataObj.getDate();
   const mes = dataObj.toLocaleDateString('pt-BR', { month: 'long' });
   
@@ -100,16 +145,13 @@ export default function CaronaDetalhes() {
       </div>
 
       <div className="px-5 flex flex-col gap-5">
-        {/* Título da Data Dinâmico */}
         <h1 className="text-xl font-bold text-gray-900">{dataFormatada}</h1>
 
         {/* Card de Rota */}
         <div className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
           <div className="flex items-start justify-between relative pl-1">
             <div className="absolute left-[9px] top-2 bottom-2 w-[1px] bg-gray-400"></div>
-            
             <div className="flex flex-col gap-6 w-full">
-              {/* Origem Dinâmica */}
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="w-[10px] h-[10px] rounded-full border border-gray-500 bg-[#f2f2f2]"></div>
@@ -117,8 +159,6 @@ export default function CaronaDetalhes() {
                 </div>
                 <span className="text-[13px] font-medium text-gray-800">{horaFormatada}</span>
               </div>
-              
-              {/* Destino Dinâmico */}
               <div className="flex items-center gap-4 relative z-10">
                 <div className="w-[10px] h-[10px] rounded-full border border-gray-500 bg-[#f2f2f2]"></div>
                 <span className="text-[14px] text-gray-800 uppercase">{carona.destino}</span>
@@ -127,11 +167,11 @@ export default function CaronaDetalhes() {
           </div>
         </div>
 
-        {/* Card de Informações do Veículo / Condutor */}
+        {/* Card de Informações do Veículo */}
         <div className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
           <h3 className="text-[13px] font-bold text-gray-900 mb-1">Informações do veículo:</h3>
           <p className="text-[13px] text-gray-700 capitalize">
-            {carona.veiculo.marca} {carona.veiculo.modelo} - Cor {carona.veiculo.cor} (Placa: {carona.veiculo.placa.toUpperCase()})
+            {carona.veiculo?.marca} {carona.veiculo?.modelo} - Cor {carona.veiculo?.cor} (Placa: {carona.veiculo?.placa?.toUpperCase()})
           </p>
         </div>
 
@@ -144,9 +184,8 @@ export default function CaronaDetalhes() {
             </svg>
           </div>
           <div className="flex flex-col">
-            {/* Nome Dinâmico */}
             <span className="text-[14px] font-medium text-gray-900 capitalize">
-              {carona.user.name} {carona.user.lastName}
+              {carona.user?.name} {carona.user?.lastName}
             </span>
             <div className="flex items-center gap-1 mt-0.5">
               <span className="text-[12px] font-medium text-gray-600">
@@ -158,8 +197,12 @@ export default function CaronaDetalhes() {
 
         {/* Botões de Ação */}
         <div className="flex items-center gap-3 mt-2">
-          <button className="flex-1 bg-white border border-[#1862bc] text-[#1862bc] hover:bg-blue-50 font-medium text-[14px] py-2.5 rounded-md transition-colors">
-            Falar com {carona.user.name}
+          {/* BOTÃO QUE ABRE O CHAT */}
+          <button 
+            onClick={() => setIsChatOpen(true)}
+            className="flex-1 bg-white border border-[#1862bc] text-[#1862bc] hover:bg-blue-50 font-medium text-[14px] py-2.5 rounded-md transition-colors"
+          >
+            Falar com {carona.user?.name}
           </button>
           
           <button 
@@ -171,9 +214,11 @@ export default function CaronaDetalhes() {
         </div>
       </div>
 
-      {/* POPUP (Modal) de Confirmação */}
+      {/* =========================================
+          MODAL DE CONFIRMAÇÃO DE RESERVA 
+          ========================================= */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-5">
+        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-5">
           <div className="bg-[#f4f6fb] w-full max-w-sm rounded-xl p-6 relative border border-gray-300 shadow-xl">
             <button onClick={() => setIsModalOpen(false)} className="absolute top-3 right-3 bg-[#1862bc] text-white rounded-full p-1.5 transition-transform active:scale-95">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -203,6 +248,78 @@ export default function CaronaDetalhes() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================
+          MODAL / TELA DO CHAT 
+          ========================================= */}
+      {isChatOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex flex-col justify-end sm:items-center sm:justify-center animate-fade-in">
+          <div className="bg-[#f4f6fb] w-full sm:max-w-md h-[85vh] sm:h-[600px] rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl overflow-hidden relative">
+            
+            {/* Header do Chat */}
+            <div className="bg-[#1862bc] text-white p-4 flex justify-between items-center shadow-md z-10">
+              <div>
+                <h3 className="font-bold text-base">Chat da Carona</h3>
+                <p className="text-xs text-blue-200">Motorista: {carona.user?.name}</p>
+              </div>
+              <button onClick={() => setIsChatOpen(false)} className="p-2 bg-blue-700 rounded-full hover:bg-blue-800 transition active:scale-95">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+
+            {/* Área das Mensagens */}
+            <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50/50">
+              {mensagens.length === 0 ? (
+                <div className="flex-1 flex items-center justify-center text-gray-400 text-sm italic text-center px-4">
+                  Nenhuma mensagem ainda. Mande um "Oi" para combinar os detalhes!
+                </div>
+              ) : (
+                mensagens.map((msg: any) => {
+                  // Como não temos o ID do usuário logado de forma fácil aqui, 
+                  // vamos separar visualmente o "Motorista" do resto.
+                  // (Quem envia da tela CaronaDetalhes geralmente é o passageiro).
+                  const isMotorista = msg.remetente?.id === carona.user?.id;
+                  
+                  return (
+                    <div key={msg.id} className={`max-w-[80%] p-3 rounded-xl shadow-sm ${isMotorista ? 'bg-white border border-gray-200 self-start rounded-tl-none' : 'bg-[#1862bc] text-white self-end rounded-tr-none'}`}>
+                      <span className="block text-[10px] font-bold opacity-70 mb-1 capitalize">
+                        {msg.remetente?.name} {isMotorista ? '🚗' : ''}
+                      </span>
+                      <p className="text-sm leading-relaxed">{msg.texto}</p>
+                      <span className="block text-[10px] text-right mt-1.5 opacity-60">
+                        {new Date(msg.dataEnvio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                  );
+                })
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input de Envio */}
+            <form onSubmit={enviarMensagem} className="bg-white p-3 border-t border-gray-200 flex gap-2 items-center">
+              <input 
+                type="text" 
+                value={novaMensagem}
+                onChange={(e) => setNovaMensagem(e.target.value)}
+                placeholder="Escreva sua mensagem..." 
+                className="flex-1 bg-gray-100 border border-gray-300 rounded-full px-4 py-2.5 text-sm outline-none focus:border-[#1862bc] transition-colors"
+              />
+              <button 
+                type="submit" 
+                disabled={!novaMensagem.trim()} 
+                className="bg-[#1862bc] text-white rounded-full w-11 h-11 flex items-center justify-center flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-800 transition-colors shadow-sm active:scale-95"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </form>
+
           </div>
         </div>
       )}
