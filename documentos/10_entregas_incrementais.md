@@ -12,13 +12,13 @@ As entregas envolveram atividades relacionadas ao levantamento de requisitos, mo
 
 | Entrega/Sprint | Período | Objetivo | Artefatos gerados | Status |
 |---|---|---|---|---|
-| Sprint 1 | [Preencher período] | Definição inicial do projeto e organização do backlog | Visão do projeto, backlog inicial, organização do repositório | Concluída |
-| Sprint 2 | 11/04/2026 a 24/04/2026 | Levantamento e priorização de requisitos | Requisitos funcionais, requisitos não funcionais, histórias de usuário, Product Backlog e protótipos iniciais | Concluída |
-| Sprint 3 | [Preencher período] | Modelagem do sistema | Diagramas, modelo de dados, descrição textual dos modelos, vínculo entre requisitos e modelos | Concluída |
-| Sprint 4 | [Preencher período] | Princípios de projeto e decisões de solução | Documento de arquitetura e projeto, decisões técnicas e organização modular | Concluída |
+| Sprint 1 | 04/04/2026 a 10/04/2026 | Definição inicial do projeto e organização do backlog | Visão do projeto, backlog inicial, organização do repositório | Concluída |
+| Sprint 2 | 11/04/2026 a 25/04/2026 | Levantamento e priorização de requisitos | Requisitos funcionais, requisitos não funcionais, histórias de usuário, Product Backlog e protótipos iniciais | Concluída |
+| Sprint 3 | 26/04/2026 a 02/05/2026 | Modelagem do sistema | Diagramas, modelo de dados, descrição textual dos modelos, vínculo entre requisitos e modelos | Concluída |
+| Sprint 4 | 03/05/2026 a 09/05/2026 | Princípios de projeto e decisões de solução | Documento de arquitetura e projeto, decisões técnicas e organização modular | Concluída |
 | Sprint 5 | 10/05/2026 a 16/05/2026 | Aplicação de padrões de projeto | Documento de padrões de projeto, integrações frontend/backend e evolução das funcionalidades | Concluída |
-| Sprint 6 | [Preencher período] | Definição da arquitetura de software | Documento de arquitetura, diagrama arquitetural e documentação estrutural | Concluída |
-| Sprint 7 | [Preencher período] | Planejamento e validação de testes | Documento de testes, casos de teste, defeitos registrados e evidências | Concluída |
+| Sprint 6 | 17/05/2026 a 23/05/2026 | Definição da arquitetura de software | Documento de arquitetura, diagrama arquitetural e documentação estrutural | Concluída |
+| Sprint 7 | 24/05/2026 a 30/05/2026 | Planejamento e validação de testes | Documento de testes, casos de teste, defeitos registrados e evidências | Concluída |
 
 ---
 
