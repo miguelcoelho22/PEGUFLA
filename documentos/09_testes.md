@@ -78,7 +78,10 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 
 ![Evidencia](../docs/images/evidencia5.jpeg)
 
+**Figura 6 –** Evidência do cadastro de veículos via API REST com retorno dos dados associados ao usuário.
 ![Evidencia](../docs/images/evidencia6.jpeg)
+
+**Figura 7 –** Evidência da criação de carona por meio da API REST, incluindo retorno dos dados persistidos.
 
 
 ---
