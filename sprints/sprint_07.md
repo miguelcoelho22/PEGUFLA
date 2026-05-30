@@ -1,4 +1,4 @@
-# 6. Plano de Testes
+# Sprint 07 - Plano de Testes
 
 ## Estratégia de Testes
 
