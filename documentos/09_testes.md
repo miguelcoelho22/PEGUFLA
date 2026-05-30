@@ -60,27 +60,28 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 ![Evidencia](../docs/images/evidencia1.jpeg)
 **Figura 1 –** Evidência de testes e validação das rotas da API REST utilizando cliente HTTP.
 
-![Evidencia](../docs/images/evidencia2.jpeg)
 
+![Evidencia](../docs/images/evidencia2.jpeg)
 **Figura 2 –** Evidência do envio de e-mail de verificação durante o processo de cadastro/autenticação do usuário.
 
-![Evidencia](../docs/images/evidencia3.jpeg)
 
+![Evidencia](../docs/images/evidencia3.jpeg)
 **Figura 3 –** Evidência do envio automático de e-mail relacionado ao cancelamento de reserva de carona.
 
-![Evidencia](../docs/images/evidencia7.jpeg)
 
+![Evidencia](../docs/images/evidencia7.jpeg)
 **Figura 4 –** Evidência do envio de e-mail para recuperação de senha com código de verificação.
 
-![Evidencia](../docs/images/evidencia4.jpeg)
 
+![Evidencia](../docs/images/evidencia4.jpeg)
 **Figura 5 –** Execução dos testes automatizados da camada de serviços do backend utilizando JUnit.
 
+
 ![Evidencia](../docs/images/evidencia5.jpeg)
-
 **Figura 6 –** Evidência do cadastro de veículos via API REST com retorno dos dados associados ao usuário.
-![Evidencia](../docs/images/evidencia6.jpeg)
 
+
+![Evidencia](../docs/images/evidencia6.jpeg)
 **Figura 7 –** Evidência da criação de carona por meio da API REST, incluindo retorno dos dados persistidos.
 
 
