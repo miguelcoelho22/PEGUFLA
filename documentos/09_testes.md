@@ -69,6 +69,7 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 **Figura 3 –** Evidência do envio automático de e-mail relacionado ao cancelamento de reserva de carona.
 
 ![Evidencia](../docs/images/evidencia7.jpeg)
+**Figura 4 –** Evidência do envio de e-mail para recuperação de senha com código de verificação.
 
 ![Evidencia](../docs/images/evidencia4.jpeg)
 
