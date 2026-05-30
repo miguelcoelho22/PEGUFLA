@@ -69,7 +69,7 @@ Também foram aplicados conceitos relacionados à validação de APIs REST, test
 
 ### Tag da sprint
 
-* `sprint-07`
+* `Sprint 7`
 
 ---
 
