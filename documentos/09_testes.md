@@ -1,7 +1,7 @@
 # 09. Testes
 
 ## 1. Estratégia de testes
-A estratégia de validação do backend do PegUFLA baseia-se em três pilares: testes unitários para a lógica de negócio (Service Layer), testes de contrato para validar a interface da API (Controller Layer) e testes de integração para fluxos externos (Mensageria/E-mail). O objetivo é garantir que cada unidade de código seja robusta, que os contratos HTTP sejam respeitados e que a comunicação com o mundo externo funcione como esperado.
+A estratégia de validação do backend do PegUFLA baseia-se em três pilares: testes unitários para a lógica de negócio (Service Layer), testes de API REST para validar a interface da API (Controller Layer) e testes de integração para fluxos externos (Mensageria/E-mail). O objetivo é garantir que cada unidade de código seja robusta, que os contratos HTTP sejam respeitados e que a comunicação com o mundo externo funcione como esperado.
 
 ### Objetivos
 - Garantir a corretude da lógica de domínio através de isolamento.
@@ -22,11 +22,11 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 ## 3. Casos de teste
 | ID | Requisito relacionado | Cenário | Entrada | Resultado esperado | Resultado obtido |
 |---|---|---|---|---|---|
-| CT01 | RF-Auth | Cadastro com e-mail único | DTO de registro válido | Usuário criado, e-mail enviado | [Preencher] |
-| CT02 | RF-Carona | Criação de carona válida | DTO de carona completo | Status 201 Created | [Preencher] |
-| CT03 | RF-Reserva | Reserva em carona disponível | ID usuário e carona | Vaga decrementada | [Preencher] |
-| CT04 | RF-Veiculo | Atualização de modelo | Dados de veículo | Veículo atualizado | [Preencher] |
-| CT05 | RF-Mensagem | Envio de chat | Texto e IDs válidos | Mensagem persistida | [Preencher] |
+| CT01 | RF-Auth | Cadastro com e-mail único | DTO de registro válido | Usuário criado, e-mail enviado | Sucesso |
+| CT02 | RF-Carona | Criação de carona válida | DTO de carona completo | Status 201 Created | Sucesso |
+| CT03 | RF-Reserva | Reserva em carona disponível | ID usuário e carona | Vaga decrementada | Sucesso |
+| CT04 | RF-Veiculo | Atualização de modelo | Dados de veículo | Veículo atualizado | Sucesso |
+| CT05 | RF-Mensagem | Envio de chat | Texto e IDs válidos | Mensagem persistida | Sucesso |
 
 ---
 
