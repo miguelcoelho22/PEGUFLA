@@ -2,8 +2,8 @@
 
 ## 1. Identificação
 - Número da sprint: 08  
-- Período: DD/MM/AAAA a DD/MM/AAAA  
-- Data da entrega: DD/MM/AAAA  
+- Período: 30/05/2026 a 03/06/2026
+- Data da entrega: 30/05/2026 
 
 ---
 
