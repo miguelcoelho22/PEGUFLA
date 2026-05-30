@@ -74,6 +74,8 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 
 ![Evidencia](../docs/images/evidencia4.jpeg)
 
+**Figura 5 –** Execução dos testes automatizados da camada de serviços do backend utilizando JUnit.
+
 ![Evidencia](../docs/images/evidencia5.jpeg)
 
 ![Evidencia](../docs/images/evidencia6.jpeg)
