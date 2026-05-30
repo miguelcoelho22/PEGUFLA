@@ -91,7 +91,7 @@ Essa revisão contribuiu para verificar a coerência entre os requisitos definid
   - Atualização do registro da Sprint 08
 
 - Tag da sprint:
-  - sprint-08
+  - Sprint 8
 
 ---
 
