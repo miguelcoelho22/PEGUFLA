@@ -20,13 +20,22 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 ---
 
 ## 3. Casos de teste
+
 | ID | Requisito relacionado | Cenário | Entrada | Resultado esperado | Resultado obtido |
 |---|---|---|---|---|---|
-| CT01 | RF-Auth | Cadastro com e-mail único | DTO de registro válido | Usuário criado, e-mail enviado | Sucesso |
-| CT02 | RF-Carona | Criação de carona válida | DTO de carona completo | Status 201 Created | Sucesso |
-| CT03 | RF-Reserva | Reserva em carona disponível | ID usuário e carona | Vaga decrementada | Sucesso |
-| CT04 | RF-Veiculo | Atualização de modelo | Dados de veículo | Veículo atualizado | Sucesso |
-| CT05 | RF-Mensagem | Envio de chat | Texto e IDs válidos | Mensagem persistida | Sucesso |
+| CT01 | RF01 | Cadastro com e-mail válido | DTO de cadastro válido | Usuário criado e e-mail enviado | Sucesso |
+| CT02 | RF02 | Autenticação de usuário | Credenciais válidas | Login realizado com sucesso | Sucesso |
+| CT03 | RF03 | Criação de carona válida | DTO de carona completo | Carona criada com status `201 Created` | Sucesso |
+| CT04 | RF04 | Consulta/listagem de caronas | Filtros de busca válidos | Lista de caronas retornada | Sucesso |
+| CT05 | RF05 | Reserva em carona disponível | ID do usuário e ID da carona | Reserva criada com status pendente | Sucesso |
+| CT06 | RF06 | Aprovação/rejeição de reserva | ID da reserva e ação escolhida | Status da reserva atualizado | Sucesso |
+| CT07 | RF07 | Consulta de detalhes da carona | ID da carona | Dados detalhados da carona retornados | Sucesso |
+| CT08 | RF08 | Cancelamento de reserva | ID da reserva | Reserva cancelada e vaga liberada | Sucesso |
+| CT09 | RF09 | Exclusão de carona | ID da carona | Carona removida ou marcada como excluída | Sucesso |
+| CT10 | RF10 | Consulta de histórico de caronas | Usuário autenticado | Histórico de caronas retornado | Sucesso |
+| CT11 | RF11 | Envio e consulta de mensagens | Texto, usuário e carona válidos | Mensagem persistida e listada | Sucesso |
+| CT12 | RF12 | Recuperação de senha | E-mail cadastrado e código válido | Código enviado e senha redefinida | Sucesso |
+| CT13 | RF13 | Cadastro e gerenciamento de veículos | Dados válidos do veículo | Veículo cadastrado, listado e gerenciado | Sucesso |
 
 ---
 
