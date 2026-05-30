@@ -2,9 +2,9 @@
 
 ## 1. Identificação
 
--Número da sprint: 07
--Período: 24/05/2026 a 30/05/2026
--Data da entrega: 30/05/2026
+- Número da sprint: 07
+- Período: 24/05/2026 a 30/05/2026
+- Data da entrega: 30/05/2026
 
 ---
 
