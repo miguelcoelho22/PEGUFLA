@@ -23,6 +23,7 @@ Planejar a estratégia de testes do PegUFLA, documentando os critérios de valid
 * US04 – Implementar tela de busca de caronas
 * US05 - Implementar solicitação de vaga em carona
 * US06 - Implementar gerenciamento de solicitações de carona
+* US08 - Implementar cancelamento de participação
 * US09 - Implementar exclusão de carona
 * US10 - Implementar tela de histórico de caronas
 * US11 - Implementar mensagens internas
