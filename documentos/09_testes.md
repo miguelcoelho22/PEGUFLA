@@ -1,4 +1,4 @@
-# 08. Testes
+# 09. Testes
 
 ## 1. Estratégia de testes
 A estratégia de validação do backend do PegUFLA baseia-se em três pilares: testes unitários para a lógica de negócio (Service Layer), testes de contrato para validar a interface da API (Controller Layer) e testes de integração para fluxos externos (Mensageria/E-mail). O objetivo é garantir que cada unidade de código seja robusta, que os contratos HTTP sejam respeitados e que a comunicação com o mundo externo funcione como esperado.
