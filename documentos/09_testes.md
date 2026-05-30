@@ -58,6 +58,7 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 ## 6. Evidências
 
 ![Evidencia](../docs/images/evidencia1.jpeg)
+**Figura 1 –** Evidência de testes e validação das rotas da API REST utilizando cliente HTTP.
 
 ![Evidencia](../docs/images/evidencia2.jpeg)
 
