@@ -16,13 +16,15 @@ Planejar a estratégia de testes do PegUFLA, documentando os critérios de valid
 
 ## 3. Itens do Sprint Backlog
 
-* Elaborar a estratégia de testes da aplicação.
-* Definir os tipos de testes aplicáveis ao backend.
-* Documentar casos de teste para os requisitos funcionais.
-* Revisar critérios de validação da API REST.
-* Registrar defeitos identificados durante a validação.
-* Organizar evidências e documentação dos testes no GitHub.
-
+* TASK - Implementar e validar testes do backend
+* BUG01 - Corrigir status HTTP no cadastro de veículo
+* BUG02 - Corrigir exposição de dados no DTO de carona
+* TASK - Documentar estratégia e evidências de testes
+* US04 – Implementar tela de busca de caronas
+* US09 - Implementar exclusão de carona
+* US10 - Implementar tela de histórico de caronas
+* US11 - Implementar mensagens internas
+* US12 - Implementar recuperação de senha
 ---
 
 ## 4. Relação com o conteúdo da disciplina
