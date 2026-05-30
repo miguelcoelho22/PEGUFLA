@@ -13,16 +13,8 @@ Consolidar os artefatos produzidos ao longo do desenvolvimento do PegUFLA, revis
 ---
 
 ## 3. Itens do Sprint Backlog
-- Revisar documentação final do projeto
-- Consolidar histórico das sprints
-- Revisar incrementos produzidos ao longo do semestre
-- Atualizar Product Backlog final
-- Organizar evidências de testes e validação
-- Revisar documentação de requisitos, modelagem, arquitetura, padrões e testes
-- Preparar versão final da aplicação web para demonstração
-- Atualizar repositório GitHub
-- Criar registro da Sprint 08
-
+* TASK - Documentar entregas incrementais do projeto
+  
 ---
 
 ## 4. Relação com o conteúdo da disciplina
