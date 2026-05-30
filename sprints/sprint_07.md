@@ -137,8 +137,7 @@ Objetivos:
 
 ### Arquivos criados/atualizados
 
-* `documentos/09_plano_de_testes.md`
-* `documentos/10_casos_de_teste.md`
+* `09_testes.md`
 * `docs/sprints/sprint-07.md`
 
 ### Commits relevantes
