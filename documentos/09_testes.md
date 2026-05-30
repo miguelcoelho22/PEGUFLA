@@ -48,7 +48,12 @@ A estratégia de validação do backend do PegUFLA baseia-se em três pilares: t
 
 ## 6. Evidências
 
-
+![Evidencia](../images/evidencia1.jpeg)
+![Evidencia](../images/evidencia2.jpeg)
+![Evidencia](../images/evidencia3.jpeg)
+![Evidencia](../images/evidencia4.jpeg)
+![Evidencia](../images/evidencia5.jpeg)
+![Evidencia](../images/evidencia6.jpeg)
 
 ---
 
