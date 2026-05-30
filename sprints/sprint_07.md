@@ -1,26 +1,27 @@
 # Sprint 07 – Planejamento e Documentação de Testes
 
 ## 1. Identificação
-- Número da sprint: 07 
-- Período: 24/05/2026 a 30/05/2026
-- Data da entrega:  30/05/2026
+
+-Número da sprint: 07
+-Período: 24/05/2026 a 30/05/2026
+-Data da entrega: 30/05/2026
 
 ---
 
 ## 2. Objetivo da sprint
 
-Planejar a estratégia de testes do PegUFLA, documentando os critérios de validação dos principais requisitos do sistema, definindo casos de teste, critérios de aceitação e a relação entre requisitos e verificações.
+Planejar a estratégia de testes do PegUFLA, documentando os critérios de validação dos requisitos funcionais implementados, os tipos de testes aplicáveis, os casos de teste previstos e a rastreabilidade entre requisitos e verificações.
 
 ---
 
 ## 3. Itens do Sprint Backlog
 
-* Elaborar o plano de testes da aplicação.
-* Definir os tipos de teste aplicáveis.
-* Criar casos e cenários de teste.
-* Revisar critérios de aceitação dos requisitos.
-* Elaborar matriz de rastreabilidade entre requisitos e testes.
-* Organizar a documentação dos testes no GitHub.
+* Elaborar a estratégia de testes da aplicação.
+* Definir os tipos de testes aplicáveis ao backend.
+* Documentar casos de teste para os requisitos funcionais.
+* Revisar critérios de validação da API REST.
+* Registrar defeitos identificados durante a validação.
+* Organizar evidências e documentação dos testes no GitHub.
 
 ---
 
@@ -28,108 +29,107 @@ Planejar a estratégia de testes do PegUFLA, documentando os critérios de valid
 
 Esta sprint está relacionada ao conteúdo de Testes de Software, abordando planejamento de testes, definição de estratégias de validação, elaboração de casos de teste, critérios de aceitação e rastreabilidade entre requisitos e testes.
 
-Também foram aplicados conceitos relacionados à validação de APIs REST, testes de integração entre componentes e verificação dos requisitos funcionais definidos ao longo do projeto.
+Também foram aplicados conceitos relacionados à validação de APIs REST, testes unitários, testes de integração e verificação dos requisitos funcionais definidos ao longo do projeto.
 
 ---
 
 ## 5. Artefatos produzidos
 
 * Plano de Testes.
-* Casos de Teste.
-* Critérios de Aceitação Revisados.
+* Estratégia de Testes.
+* Casos de Teste (CT01 a CT13).
+* Critérios de Validação.
+* Registro de Defeitos.
+* Evidências de Teste.
 * Matriz de Rastreabilidade.
-* Registro da Sprint 07.
-* Documentação de testes no GitHub.
+* Documentação de Testes no GitHub.
 * Arquivo `docs/sprints/sprint-07.md`.
 
-### Plano de Testes
+### Estratégia de Testes
 
-#### Estratégia de Testes
+A estratégia de validação do backend do PegUFLA baseia-se em três pilares: testes unitários para a lógica de negócio (Service Layer), testes de API REST para validar a interface da API (Controller Layer) e testes de integração para fluxos externos (Mensageria/E-mail).
 
-A estratégia de validação do PegUFLA foi definida considerando a arquitetura da aplicação documentada na Sprint 06, composta por frontend React, backend Spring Boot, API REST e banco de dados relacional.
+O objetivo é garantir que cada unidade de código seja robusta, que os contratos HTTP sejam respeitados e que a comunicação com o mundo externo funcione como esperado.
 
-O planejamento de testes busca validar não apenas as funcionalidades implementadas, mas também a comunicação entre os componentes da arquitetura, garantindo que os requisitos funcionais sejam atendidos de forma consistente.
+#### Objetivos
 
-A estratégia está baseada em três níveis principais:
-
-##### Testes Unitários
-
-Aplicados à camada de serviços (Service Layer), com foco na validação das regras de negócio da aplicação.
-
-Objetivos:
-
-* Validar regras de criação de caronas.
-* Verificar gerenciamento de reservas.
-* Validar operações relacionadas aos veículos.
-* Garantir consistência dos dados manipulados pelo sistema.
-
-##### Testes de Contrato/API
-
-Aplicados aos endpoints REST expostos pelo backend.
-
-Objetivos:
-
-* Verificar códigos de status HTTP.
-* Validar estrutura dos DTOs de entrada e saída.
-* Garantir conformidade entre frontend e backend.
-* Validar tratamento de erros.
-
-##### Testes de Integração
-
-Aplicados aos fluxos que envolvem múltiplos componentes da arquitetura.
-
-Objetivos:
-
-* Validar comunicação entre frontend, backend e banco de dados.
-* Verificar persistência correta dos dados.
-* Validar funcionamento do módulo de mensagens.
-* Garantir integridade das operações executadas pelo usuário.
+* Garantir a correção da lógica de domínio através do isolamento.
+* Validar a conformidade das respostas da API (código de status e estrutura JSON).
+* Confirmar a integridade da entrega de notificações ao usuário final.
 
 ### Tipos de Teste Previstos
 
-| Tipo de teste       | Objetivo                                     | Evidência esperada                       |
-| ------------------- | -------------------------------------------- | ---------------------------------------- |
-| Teste Unitário      | Validar regras de negócio isoladamente       | Execução bem-sucedida da suíte de testes |
-| Teste de API        | Validar contratos REST, DTOs e códigos HTTP  | Logs de requisições e respostas          |
-| Teste de Integração | Validar comunicação entre módulos do sistema | Persistência correta dos dados           |
-| Teste Funcional     | Validar requisitos funcionais implementados  | Fluxos completos executados com sucesso  |
-| Teste de Interface  | Validar navegação e comportamento das telas  | Navegação consistente entre páginas      |
+| Tipo de teste       | Objetivo                                      | Evidência esperada                       |
+| ------------------- | --------------------------------------------- | ---------------------------------------- |
+| Teste unitário      | Validar regras de negócio e cálculos isolados | Relatório de execução da suíte de testes |
+| Teste de API REST   | Validar estrutura de dados e status HTTP      | Logs de requisição e resposta            |
+| Teste de integração | Validar comunicação com serviços externos     | Logs de envio e notificação de eventos   |
 
 ### Casos de Teste
 
-| ID   | Requisito Relacionado      | Cenário                       | Entrada                | Resultado Esperado               | Resultado Obtido |
-| ---- | -------------------------- | ----------------------------- | ---------------------- | -------------------------------- | ---------------- |
-| CT01 | RF01 – Cadastro de Usuário | Cadastro com dados válidos    | DTO de cadastro        | Usuário criado e persistido      | [Preencher]      |
-| CT02 | RF02 – Login               | Login com credenciais válidas | E-mail e senha         | Usuário autenticado              | [Preencher]      |
-| CT03 | RF03 – Criação de Carona   | Cadastro de carona válida     | DTO completo da carona | Status 201 Created               | [Preencher]      |
-| CT04 | RF04 – Consulta de Caronas | Busca de caronas disponíveis  | Requisição GET         | Lista retornada corretamente     | [Preencher]      |
-| CT05 | RF05 – Reserva de Carona   | Reserva de vaga disponível    | ID do usuário e carona | Reserva criada e vaga atualizada | [Preencher]      |
-| CT06 | RF06 – Veículos            | Cadastro de veículo           | DTO de veículo         | Veículo persistido               | [Preencher]      |
-| CT07 | RF07 – Histórico           | Consulta do histórico         | ID do usuário          | Histórico retornado              | [Preencher]      |
-| CT08 | RF08 – Mensagens Internas  | Envio de mensagem             | Texto e IDs válidos    | Mensagem registrada              | [Preencher]      |
+| ID   | Requisito Relacionado | Cenário                              | Entrada                           | Resultado Esperado                       |
+| ---- | --------------------- | ------------------------------------ | --------------------------------- | ---------------------------------------- |
+| CT01 | RF01                  | Cadastro com e-mail único            | DTO de cadastro                   | Usuário criado e e-mail enviado          |
+| CT02 | RF02                  | Autenticação de usuário              | Credenciais válidas               | Login realizado com sucesso              |
+| CT03 | RF03                  | Criação de carona válida             | DTO completo da carona            | Carona criada com status 201 Created     |
+| CT04 | RF04                  | Consulta/listagem de caronas         | Filtros de busca válidos          | Lista de caronas retornada               |
+| CT05 | RF05                  | Reserva em carona disponível         | ID do usuário e ID da carona      | Reserva criada com status pendente       |
+| CT06 | RF06                  | Aprovação/rejeição de reserva        | ID da reserva e ação escolhida    | Status da reserva atualizado             |
+| CT07 | RF07                  | Consulta de detalhes da carona       | ID da carona                      | Dados detalhados retornados              |
+| CT08 | RF08                  | Cancelamento de reserva              | ID da reserva                     | Reserva cancelada e vaga liberada        |
+| CT09 | RF09                  | Exclusão de carona                   | ID da carona                      | Carona removida ou arquivada             |
+| CT10 | RF10                  | Consulta de histórico de caronas     | Usuário autenticado               | Histórico retornado                      |
+| CT11 | RF11                  | Envio e consulta de mensagens        | Texto, usuário e carona válidos   | Mensagem persistida e listada            |
+| CT12 | RF12                  | Recuperação de senha                 | E-mail cadastrado e código válido | Código enviado e senha redefinida        |
+| CT13 | RF13                  | Cadastro e gerenciamento de veículos | Dados válidos do veículo          | Veículo cadastrado, listado e gerenciado |
 
 ### Matriz de Rastreabilidade
 
-| Requisito | Funcionalidade            | Caso de Teste |
-| --------- | ------------------------- | ------------- |
-| RF01      | Cadastro de usuário       | CT01          |
-| RF02      | Login                     | CT02          |
-| RF03      | Criação de carona         | CT03          |
-| RF04      | Consulta de caronas       | CT04          |
-| RF05      | Reserva de vagas          | CT05          |
-| RF06      | Gerenciamento de veículos | CT06          |
-| RF07      | Histórico de caronas      | CT07          |
-| RF08      | Mensagens internas        | CT08          |
+| Requisito | Funcionalidade                 | Caso de Teste |
+| --------- | ------------------------------ | ------------- |
+| RF01      | Cadastro de usuário            | CT01          |
+| RF02      | Login                          | CT02          |
+| RF03      | Criação de carona              | CT03          |
+| RF04      | Consulta de caronas            | CT04          |
+| RF05      | Reserva de vagas               | CT05          |
+| RF06      | Aprovação/Rejeição de reservas | CT06          |
+| RF07      | Detalhes da carona             | CT07          |
+| RF08      | Cancelamento de reserva        | CT08          |
+| RF09      | Exclusão de carona             | CT09          |
+| RF10      | Histórico de caronas           | CT10          |
+| RF11      | Mensagens internas             | CT11          |
+| RF12      | Recuperação de senha           | CT12          |
+| RF13      | Gerenciamento de veículos      | CT13          |
 
-### Critérios de Aceitação Revisados
+### Critérios de Validação
 
-* Execução correta do fluxo principal da funcionalidade.
-* Retorno dos códigos HTTP esperados (200, 201 e 204).
-* Persistência correta dos dados no banco.
-* Estrutura dos DTOs compatível com o contrato da API.
-* Ausência de falhas críticas durante a execução.
-* Navegação consistente entre as telas relacionadas.
-* Integração adequada entre frontend e backend.
+* Cobertura mínima da lógica de negócio através de testes unitários.
+* Sucesso nos códigos de status HTTP para operações CRUD (200, 201 e 204).
+* Respeito à estrutura dos DTOs definidos no contrato da API.
+* Registro de logs para falhas de integração identificadas.
+
+### Registro de Defeitos
+
+| ID    | Defeito                                                               | Gravidade | Status    | Ação                               |
+| ----- | --------------------------------------------------------------------- | --------- | --------- | ---------------------------------- |
+| BUG01 | Endpoint de criação de veículo retornava 200 OK em vez de 201 Created | Baixa     | Corrigido | Ajuste no Controller de Veículos   |
+| BUG02 | DTO de carona expunha dados internos desnecessários                   | Alta      | Corrigido | Criação de DTO de saída específico |
+
+### Evidências
+
+As evidências dos testes serão registradas através de:
+
+* Logs de execução do backend.
+* Capturas de tela das funcionalidades.
+* Respostas dos endpoints da API.
+* Histórico de commits relacionados às correções.
+* Documentação armazenada no GitHub.
+
+### Exemplo de Validação
+
+O contrato da API de Caronas será validado através do caso de teste CT03, onde uma requisição POST será enviada ao endpoint responsável pela criação de caronas contendo todos os dados obrigatórios.
+
+Espera-se o retorno do código HTTP 201 Created juntamente com o DTO completo da carona, validando a integridade da comunicação entre Controller, Service, Repository e Banco de Dados.
 
 ---
 
@@ -137,18 +137,18 @@ Objetivos:
 
 ### Arquivos criados/atualizados
 
-* `09_testes.md`
+* `documentos/09_testes.md`
 * `docs/sprints/sprint-07.md`
 
 ### Commits relevantes
 
-* Criação do plano de testes.
-* Documentação dos casos de teste.
-* Revisão dos critérios de aceitação.
+* Criação da documentação de testes.
+* Definição dos casos de teste.
 * Criação da matriz de rastreabilidade.
-* Atualização do registro da Sprint 07.
+* Registro de defeitos identificados.
+* Atualização da Sprint 07.
 
-### Tag da Sprint
+### Tag da sprint
 
 * `sprint-07`
 
@@ -156,20 +156,20 @@ Objetivos:
 
 ## 7. Evolução da aplicação web
 
-Durante esta sprint foi realizada a estruturação da estratégia de testes da aplicação, permitindo relacionar os requisitos funcionais aos mecanismos de validação.
+Durante esta sprint foi produzida a documentação de testes do PegUFLA, definindo a estratégia de validação do backend e sua relação com os requisitos funcionais do sistema.
 
-Também foram definidos casos de teste para os principais fluxos do sistema, incluindo autenticação, gerenciamento de caronas, reservas, veículos, histórico e mensagens internas.
+Foram documentados treze casos de teste cobrindo autenticação, cadastro de usuários, gerenciamento de caronas, reservas, histórico, mensagens internas, recuperação de senha e gerenciamento de veículos.
 
-A documentação produzida servirá como base para validações futuras e para a consolidação da qualidade do sistema.
+Também foram definidos critérios de validação, registros de defeitos e evidências para apoiar futuras execuções dos testes.
 
 ---
 
 ## 8. Dificuldades encontradas
 
-* Definir o nível adequado de detalhamento dos casos de teste.
-* Relacionar requisitos funcionais com cenários de validação.
-* Estruturar a documentação de forma compatível com a arquitetura da aplicação.
-* Garantir alinhamento entre os testes planejados e os requisitos implementados.
+* Definir uma estratégia de testes compatível com a arquitetura Spring Boot da aplicação.
+* Relacionar os requisitos funcionais aos respectivos casos de teste.
+* Garantir cobertura adequada dos principais fluxos do sistema.
+* Estruturar a documentação de forma consistente com os demais artefatos do projeto.
 
 ---
 
@@ -177,27 +177,29 @@ A documentação produzida servirá como base para validações futuras e para a
 
 ### O que foi concluído
 
-* Plano de testes elaborado.
-* Tipos de teste definidos.
-* Casos de teste documentados.
-* Critérios de aceitação revisados.
+* Estratégia de testes definida.
+* Tipos de testes documentados.
+* Casos de teste CT01 a CT13 elaborados.
+* Critérios de validação documentados.
 * Matriz de rastreabilidade criada.
-* Documentação registrada no GitHub.
+* Registro de defeitos elaborado.
+* Evidências de teste organizadas.
+* Documentação disponibilizada no GitHub.
 
 ### O que ficou pendente
 
-* Execução completa dos testes.
-* Registro dos resultados obtidos.
-* Correção de eventuais defeitos identificados.
-* Ampliação dos testes automatizados.
+* Execução prática dos testes.
+* Coleta dos resultados de execução.
+* Ampliação da cobertura de testes automatizados.
+* Correção de defeitos futuros identificados durante as validações.
 
 ---
 
 ## 10. Pendências para a próxima sprint
 
 * Executar os testes planejados.
-* Registrar evidências de validação.
-* Corrigir defeitos encontrados.
+* Registrar os resultados obtidos em cada caso de teste.
+* Corrigir inconsistências identificadas.
 * Consolidar a documentação final do projeto.
 * Preparar a apresentação final da disciplina.
 
@@ -207,16 +209,20 @@ A documentação produzida servirá como base para validações futuras e para a
 
 ### Planejamento
 
-A Sprint 07 foi planejada com foco na organização da estratégia de testes do PegUFLA. Foram analisados os requisitos definidos nas sprints anteriores e identificadas as funcionalidades críticas que deveriam possuir validação documentada.
+A Sprint 07 foi planejada com foco na estruturação da estratégia de testes do PegUFLA, buscando estabelecer mecanismos formais para validação dos requisitos funcionais implementados ao longo do desenvolvimento.
 
 ### Execução
 
-Foram elaborados o plano de testes, os casos de teste, os critérios de aceitação e a matriz de rastreabilidade. Também foi realizada a organização da documentação correspondente no repositório GitHub do projeto.
+Foi produzido o documento de testes contendo a estratégia de validação, os tipos de testes previstos, os casos de teste associados aos requisitos funcionais, os critérios de validação, o registro de defeitos e as evidências esperadas.
+
+Toda a documentação foi organizada e disponibilizada no repositório GitHub do projeto.
 
 ### Dificuldades
 
-As principais dificuldades envolveram a definição de cenários representativos para os requisitos implementados e a elaboração de uma documentação que refletisse adequadamente a arquitetura do sistema.
+As principais dificuldades envolveram a definição da cobertura dos testes para os diversos módulos do sistema, a elaboração de cenários representativos para cada requisito funcional e a organização da documentação de forma compatível com a arquitetura da aplicação.
 
 ### Resultados
 
-Como resultado, o projeto passou a contar com uma estratégia formal de validação, facilitando a verificação dos requisitos funcionais e preparando a equipe para a etapa final de consolidação e apresentação do sistema.
+A Sprint 07 resultou em uma documentação de testes mais completa e alinhada à arquitetura do PegUFLA, permitindo relacionar requisitos, casos de teste e critérios de validação.
+
+Como resultado, o projeto passou a contar com uma base estruturada para as atividades de validação e preparação da entrega final da disciplina.
