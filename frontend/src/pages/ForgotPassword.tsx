@@ -13,32 +13,43 @@ export default function ForgotPassword() {
     e.preventDefault();
     setError('');
     
-    // Regra de Negócio RN01: Validação do e-mail institucional (incluindo estudantes)
-    const emailRegex = /^[\w-.]+@([\w-]+\.)*ufla\.br$/;
+    // Regra espelhada EXATAMENTE com o DTO do Back-end
+    // Não aceita @estudante.ufla.br, apenas @ufla.br
+    const emailRegex = /^[\w.-]+@([\w-]+\.)*ufla\.br$/;
     if (!emailRegex.test(email)) {
-      setError('Por favor, insira um e-mail válido da UFLA (ex: @ufla.br ou @estudante.ufla.br).');
+      setError('O email deve obrigatoriamente pertencer ao domínio @ufla.br');
       return;
     }
 
     try {
       setIsLoading(true);
       
-      // Chamada para a API do Miguel. 
-      // OBS: Confirme com ele se a rota será exatamente '/auth/forgot-password'
-      await api.post('/auth/forgot-password', { email });
+      await api.post('/auth/recover', 
+        { email: email }, 
+        {
+          headers: {
+            Authorization: null 
+          }
+        }
+      );
 
       setIsSent(true); 
 
-      // Após 3 segundos lendo a mensagem, redireciona o usuário para digitar o código
       setTimeout(() => {
-        navigate('/verify-email', { state: { userEmail: email } });
+        navigate('/verify-email', { 
+          state: { 
+            userEmail: email,
+            isPasswordReset: true 
+          } 
+        });
       }, 3000);
 
     } catch (err: any) {
       if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Erro ao solicitar recuperação de senha.');
+        // Se o back-end retornar uma mensagem de erro específica (ex: email não encontrado)
+        setError(err.response.data.message || err.response.data || 'Erro ao solicitar recuperação de senha.');
       } else {
-        setError('Não foi possível conectar ao servidor.');
+        setError('Não foi possível conectar ao servidor. Verifique sua conexão.');
       }
     } finally {
       setIsLoading(false);
@@ -48,7 +59,6 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col items-center justify-center p-4 relative font-sans">
       
-      {/* Logo no canto superior direito */}
       <div className="absolute top-8 right-8">
         <img 
           src="/src/assets/logo_PegUfla.png" 
@@ -59,14 +69,12 @@ export default function ForgotPassword() {
         <div className="text-gray-600 text-[10px] text-right uppercase tracking-widest">Logo Area</div>
       </div>
 
-      {/* Card de Recuperação de Senha */}
       <div className="w-full max-w-md bg-[#1E1E1E] rounded-2xl p-10 shadow-2xl border border-gray-800/50">
         <h1 className="text-3xl font-bold text-white mb-2">Esqueceu a senha?</h1>
         <p className="text-gray-400 mb-8 text-sm leading-relaxed">
           Enviaremos um e-mail para você com instruções de como redefinir a sua senha.
         </p>
 
-        {/* Renderização condicional: Mostra o form ou a mensagem de sucesso */}
         {!isSent ? (
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
@@ -76,14 +84,13 @@ export default function ForgotPassword() {
               <input
                 type="email"
                 required
-                placeholder="usuario@estudante.ufla.br"
+                placeholder="usuario@ufla.br"
                 className="w-full bg-[#2A2A2A] border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition placeholder:text-gray-600"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            {/* Exibição de Erros */}
             {error && (
               <p className="text-red-500 text-sm mt-2">{error}</p>
             )}
@@ -97,7 +104,6 @@ export default function ForgotPassword() {
             </button>
           </form>
         ) : (
-          /* Mensagem pós-envio com foco em segurança (Prevenção de User Enumeration) */
           <div className="bg-[#2A2A2A] border border-blue-500/30 rounded-lg p-6 text-center mb-6">
             <p className="text-gray-300 text-sm">
               Se o e-mail <span className="text-white font-semibold">{email}</span> estiver cadastrado em nossa base, você receberá as instruções em breve.
@@ -107,7 +113,6 @@ export default function ForgotPassword() {
           </div>
         )}
 
-        {/* Link para voltar ao Login */}
         <div className="mt-8 text-center border-t border-gray-800 pt-6">
           <p className="text-gray-400 text-sm">
             Lembrou a senha?{' '}

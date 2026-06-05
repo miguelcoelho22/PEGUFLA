@@ -12,12 +12,13 @@ export default function EmailVerification() {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Pega o e-mail passado pelas telas de Cadastro ou Esqueci a Senha
+  // Pega o e-mail e a flag para saber de qual fluxo viemos
   const userEmail = location.state?.userEmail || "usuario@ufla.br";
+  const isPasswordReset = location.state?.isPasswordReset || false;
 
   const handleChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return;
-    setHasError(false); // Limpa o erro visual ao voltar a digitar
+    setHasError(false); 
 
     const newCode = [...code];
     newCode[index] = value.slice(-1);
@@ -38,29 +39,32 @@ export default function EmailVerification() {
     e.preventDefault();
     const enteredCode = code.join('');
 
-    if (enteredCode.length < 6) return; // Aguarda os 6 dígitos
+    if (enteredCode.length < 6) return;
 
     try {
       setIsLoading(true);
       setHasError(false);
 
-      // Chamada real para o backend Java do PegUFLA
+      // LÓGICA DE ROTEAMENTO
+      if (isPasswordReset) {
+        // Fluxo de Esqueci a Senha: Não ativamos a conta. 
+        // Apenas mandamos o código e e-mail para a tela final de Reset.
+        navigate(`/reset-password?email=${encodeURIComponent(userEmail)}&code=${enteredCode}`);
+        return; 
+      }
+
+      // Fluxo de Cadastro: Chamada real para o backend Java para ativar a conta
       await api.post('/auth/verify', {
         email: userEmail,
         verificationCode: enteredCode
       });
 
-      alert('✅ Código verificado com sucesso!');
-      
-      // Se este componente estiver sendo usado para Cadastro, vai para o /login
-      // Se for para Esqueci a Senha, vai para o /reset-password
-      // Por padrão, para ativação de conta:
+      alert('✅ Conta verificada com sucesso! Você já pode fazer login.');
       navigate('/login'); 
       
     } catch (err: any) {
       setHasError(true);
       
-      // Captura a mensagem real de erro do Spring Boot (ex: "Código expirado")
       if (err.response && err.response.data) {
         setErrorMessage(
           typeof err.response.data === 'string' 
@@ -72,7 +76,7 @@ export default function EmailVerification() {
       }
       
       setCode(['', '', '', '', '', '']);
-      inputs.current[0]?.focus(); // Volta o foco para o início em caso de erro
+      inputs.current[0]?.focus(); 
     } finally {
       setIsLoading(false);
     }
@@ -113,7 +117,6 @@ export default function EmailVerification() {
             ))}
           </div>
 
-          {/* Exibição dinâmica da mensagem de erro da API */}
           {hasError && (
             <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
           )}
@@ -123,7 +126,7 @@ export default function EmailVerification() {
             disabled={isLoading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-900/20"
           >
-            {isLoading ? 'Verificando...' : 'Verificar'}
+            {isLoading ? 'Verificando...' : (isPasswordReset ? 'Continuar' : 'Verificar')}
           </button>
         </form>
 
