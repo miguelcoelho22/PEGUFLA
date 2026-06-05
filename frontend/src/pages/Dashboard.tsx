@@ -8,6 +8,12 @@ export default function Dashboard() {
   const navigate = useNavigate();
   
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  
+  // Novos estados para capturar os textos digitados
+  const [origemBusca, setOrigemBusca] = useState('');
+  const [destinoBusca, setDestinoBusca] = useState('');
+  const [vagas, setVagas] = useState('1');
+
   const [caronas, setCaronas] = useState<Carona[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +36,7 @@ export default function Dashboard() {
     return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   };
 
-  // Busca os dados reais da API
+  // Busca os dados reais da API e aplica os filtros
   const fetchCaronas = async () => {
     setLoading(true);
     setError(null);
@@ -45,11 +51,41 @@ export default function Dashboard() {
         listaBruta = response.data.content; 
       }
 
-      // MODIFICADO: Filtra para exibir no Dashboard apenas caronas que estão ativas ('CRIADA')
-      // Isso vai sumir automaticamente com as caronas que você cancelou na outra tela!
-      const apenasAtivas = listaBruta.filter((carona: any) => carona.statusViagem === 'CRIADA');
+      // Pega a data e hora atual do sistema do usuário
+      const agora = new Date();
+
+      // Filtra por status, data selecionada, data/hora futura e textos
+      const filtradas = listaBruta.filter((carona: any) => {
+        const isAtiva = carona.statusViagem === 'CRIADA';
+        
+        // Converte o horário de saída da carona em um objeto Date
+        const dataCarona = new Date(carona.horarioSaida);
+
+        // REGRA NOVA 1: A carona tem que ser no futuro (maior que o momento atual)
+        const isFutura = dataCarona > agora;
+
+        // REGRA NOVA 2: A carona tem que acontecer no dia selecionado no calendário
+        // Extrai o formato YYYY-MM-DD ajustado para o fuso local
+        const ano = dataCarona.getFullYear();
+        const mes = String(dataCarona.getMonth() + 1).padStart(2, '0');
+        const dia = String(dataCarona.getDate()).padStart(2, '0');
+        const dataCaronaString = `${ano}-${mes}-${dia}`;
+        const matchData = dataCaronaString === selectedDate;
+        
+        // Verifica se a string digitada está contida na origem/destino da carona (case-insensitive)
+        const matchOrigem = origemBusca 
+          ? carona.origem.toLowerCase().includes(origemBusca.toLowerCase()) 
+          : true;
+          
+        const matchDestino = destinoBusca 
+          ? carona.destino.toLowerCase().includes(destinoBusca.toLowerCase()) 
+          : true;
+
+        // Só exibe o card se passar em TODOS os testes
+        return isAtiva && isFutura && matchData && matchOrigem && matchDestino;
+      });
       
-      setCaronas(apenasAtivas);
+      setCaronas(filtradas);
     } catch (err) {
       console.error("Erro ao buscar caronas:", err);
       setError("Não foi possível carregar as caronas disponíveis.");
@@ -67,7 +103,6 @@ export default function Dashboard() {
     <div className="min-h-screen bg-[#f4f6fb] pb-24 font-sans">
       {/* Header Simples */}
       <div className="p-4 pt-6">
-        <h1 className="text-gray-400 font-semibold text-lg">Dashboard</h1>
       </div>
 
       <div className="px-5">
@@ -86,16 +121,24 @@ export default function Dashboard() {
           <form className="flex flex-col gap-3" onSubmit={(e) => { e.preventDefault(); fetchCaronas(); }}>
             <div>
               <label className="text-xs font-bold text-gray-900 mb-1 block">ORIGEM</label>
-              <select className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none">
-                <option>Portaria Principal UFLA</option>
-              </select>
+              <input 
+                type="text" 
+                placeholder="Ex: Portaria Principal UFLA"
+                value={origemBusca}
+                onChange={(e) => setOrigemBusca(e.target.value)}
+                className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none focus:border-blue-500 transition-colors"
+              />
             </div>
 
             <div>
               <label className="text-xs font-bold text-gray-900 mb-1 block">DESTINO</label>
-              <select className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none">
-                <option>Selecione o destino</option>
-              </select>
+              <input 
+                type="text" 
+                placeholder="Ex: Centro de Lavras"
+                value={destinoBusca}
+                onChange={(e) => setDestinoBusca(e.target.value)}
+                className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none focus:border-blue-500 transition-colors"
+              />
             </div>
 
             <div className="flex gap-3">
@@ -105,14 +148,20 @@ export default function Dashboard() {
                   type="date" 
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none"
+                  className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none focus:border-blue-500 transition-colors"
                 />
               </div>
               <div className="w-1/2">
                 <label className="text-xs font-bold text-gray-900 mb-1 block">LUGARES</label>
-                <select className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none">
-                  <option>1 Lugar</option>
-                  <option>2 Lugares</option>
+                <select 
+                  value={vagas}
+                  onChange={(e) => setVagas(e.target.value)}
+                  className="bg-white border border-gray-300 text-gray-700 text-sm rounded-md w-full p-2 outline-none focus:border-blue-500 transition-colors"
+                >
+                  <option value="1">1 Lugar</option>
+                  <option value="2">2 Lugares</option>
+                  <option value="3">3 Lugares</option>
+                  <option value="4">4 Lugares</option>
                 </select>
               </div>
             </div>
@@ -131,47 +180,46 @@ export default function Dashboard() {
         {error && <p className="text-center text-sm text-red-500 py-4">{error}</p>}
         
         <div className="flex flex-col gap-4">
-  {caronas.length > 0 ? (
-    caronas.map((carona) => (
-      <div key={carona.id} className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
-        <div className="flex items-start justify-between mb-4 relative pl-1">
-          <div className="absolute left-[4px] top-2 bottom-2 w-[1.5px] bg-gray-400"></div>
-          <div className="flex flex-col gap-4 w-full pl-4">
-            <div className="flex justify-between items-center">
-              <span className="text-[13px] text-gray-800 font-medium">{carona.origem}</span>
-              <span className="text-xs font-bold text-gray-700">{formatTime(carona.horarioSaida)}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-[13px] text-gray-800 font-medium">{carona.destino}</span>
-            </div>
-          </div>
-        </div>
+          {caronas.length > 0 ? (
+            caronas.map((carona) => (
+              <div key={carona.id} className="bg-[#f2f2f2] rounded-xl border border-gray-300 p-4 shadow-sm">
+                <div className="flex items-start justify-between mb-4 relative pl-1">
+                  <div className="absolute left-[4px] top-2 bottom-2 w-[1.5px] bg-gray-400"></div>
+                  <div className="flex flex-col gap-4 w-full pl-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[13px] text-gray-800 font-medium">{carona.origem}</span>
+                      <span className="text-xs font-bold text-gray-700">{formatTime(carona.horarioSaida)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[13px] text-gray-800 font-medium">{carona.destino}</span>
+                    </div>
+                  </div>
+                </div>
 
-        <div className="flex items-center justify-between border-t border-gray-300 pt-4 mt-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-gray-200 rounded-md p-1.5">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <span className="text-[13px] font-bold text-gray-800">
-              {carona.user.name} {carona.user.lastName}
-            </span>
-          </div>
-          <button 
-            onClick={() => navigate(`/detalhes-carona/${carona.id}`)} 
-            className="bg-[#318337] hover:bg-green-800 text-white font-bold text-xs py-1.5 px-5 rounded-md transition-all active:scale-95"
-          >
-            Verificar
-          </button>
+                <div className="flex items-center justify-between border-t border-gray-300 pt-4 mt-2">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-gray-200 rounded-md p-1.5">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <span className="text-[13px] font-bold text-gray-800">
+                      {carona.user.name} {carona.user.lastName}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => navigate(`/detalhes-carona/${carona.id}`)} 
+                    className="bg-[#318337] hover:bg-green-800 text-white font-bold text-xs py-1.5 px-5 rounded-md transition-all active:scale-95"
+                  >
+                    Verificar
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : !loading ? (
+            <p className="text-sm text-gray-500 italic text-center py-4">
+              Nenhuma carona encontrada para esta pesquisa.
+            </p>
+          ) : null}
         </div>
-      </div>
-    ))
-  ) : !loading ? (
-    // CORRIGIDO: Sem as chaves internas, apenas o retorno direto do JSX se não estiver carregando
-    <p className="text-sm text-gray-500 italic text-center py-4">
-      Nenhuma carona disponível para esta data.
-    </p>
-  ) : null}
-</div>
       </div>
 
       <Navbar />
