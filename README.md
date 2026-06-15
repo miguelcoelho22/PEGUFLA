@@ -93,3 +93,40 @@ O trabalho será dividido em sprints semanais, com planejamento, execução e re
 * Tempo limitado de desenvolvimento
 
 O objetivo é entregar uma versão funcional básica do sistema.
+
+## 8. Instruções para Execução do Projeto
+
+Esta seção descreve os procedimentos necessários para clonar, configurar e executar a aplicação em ambiente de desenvolvimento local.
+
+### Pré-requisitos
+Antes de iniciar, certifique-se de ter instalado em sua máquina:
+* **Docker** e **Docker Compose**
+* **Node.js** (versão LTS) e gerenciador de pacotes **npm**
+
+### Passo 1: Configuração e Execução do Back-end
+O banco de dados da aplicação está conteinerizado. Para construir a imagem e iniciar os serviços em segundo plano, execute os seguintes comandos a partir da raiz do projeto:
+
+```bash
+# Navegar até o diretório do back-end
+cd backend/PEGUFLA
+
+# Construir e iniciar os containers em modo daemon
+docker compose up -d --build
+```
+
+Agora é possivel rodar o backend.
+
+###Passo 2: Configuração e Execução do Front-end
+
+Com os serviços do back-end operando, execute os comandos abaixo para instalar as dependências necessárias e iniciar o servidor de desenvolvimento do front-end:
+
+```bash
+# Retornar à raiz e acessar a pasta do front-end
+cd ../../frontend
+
+# Instalar as dependências do projeto (necessário apenas na primeira execução)
+npm install
+
+# Iniciar o ambiente de desenvolvimento
+npm run dev
+
