@@ -4,7 +4,7 @@
 
 Apresentar o problema escolhido pelo grupo, a solução desenvolvida, a evolução incremental do PegUFLA ao longo das sprints e a aplicação prática dos conceitos estudados na disciplina de Engenharia de Software.
 
-A apresentação tem como objetivo demonstrar como o grupo aplicou práticas de Scrum, levantamento de requisitos, modelagem, arquitetura de software, padrões de projeto, testes e validação no desenvolvimento de uma aplicação web para organização de caronas universitárias.
+A apresentação tem como objetivo demonstrar como o grupo aplicou práticas de Scrum, levantamento de requisitos, modelagem, arquitetura de software, padrões de projeto, testes e validação no desenvolvimento de uma aplicação web para organização de caronas universitárias. A apresentação geral será conduzida por Gracielle Ázara, com demonstração prática da aplicação apresentada por Miguel Coelho.
 
 ---
 
@@ -29,11 +29,13 @@ A apresentação tem como objetivo demonstrar como o grupo aplicou práticas de 
 
 ### Abertura
 
-Apresentar o contexto do problema identificado: a dificuldade de estudantes da UFLA em organizar, encontrar e gerenciar caronas de forma centralizada, segura e prática.
+Apresentar o projeto PegUFLA, desenvolvido pelo grupo formado por Gracielle Ázara, Matheus Cunha, Miguel Coelho e Nicolas Matheus.
+
+Contextualizar o problema identificado: a dificuldade de estudantes da UFLA em organizar, encontrar e gerenciar caronas de forma centralizada, segura e prática.
 
 Explicar que, atualmente, muitas combinações de carona ocorrem por meios informais, como grupos de mensagens, o que pode dificultar a busca, o controle de vagas, a comunicação entre usuários e o acompanhamento das viagens.
 
-Em seguida, apresentar o PegUFLA como uma proposta de aplicação web voltada à organização de caronas universitárias, permitindo que usuários cadastrem, busquem, solicitem e gerenciem caronas dentro da comunidade acadêmica.
+Em seguida, apresentar o PegUFLA como uma proposta de aplicação web voltada à organização de caronas universitárias. A demonstração prática da aplicação será apresentada pelo Miguel ao longo do vídeo.
 
 ---
 
@@ -51,7 +53,7 @@ Também devem ser apresentados os padrões de projeto identificados e utilizados
 
 Na sequência, mostrar a estratégia de testes, incluindo testes unitários, testes de API REST, validações de integração e evidências coletadas, como execução de testes, chamadas de API, envio de e-mails e validação das principais funcionalidades.
 
-Por fim, realizar a demonstração do produto ou incremento, apresentando as funcionalidades implementadas ou parcialmente integradas, como cadastro/login, criação de caronas, visualização de caronas, gerenciamento de veículos, reservas, histórico e perfil.
+Por fim, a demonstração prática do produto será apresentada pelo Miguel, mostrando as principais funcionalidades implementadas, como cadastro/login, criação e visualização de caronas, gerenciamento de veículos, reservas, histórico e perfil.
 
 ---
 
@@ -83,7 +85,7 @@ Como próximos passos, indicar a continuidade da integração entre frontend e b
 
 ## 5. Checklist final
 
-* [x] Todos os integrantes sabem apresentar sua parte;
+* [x] Apresentadores sabem conduzir suas partes;
 * [x] Slides revisados;
 * [x] Links funcionando;
 * [x] Repositório GitHub atualizado;
