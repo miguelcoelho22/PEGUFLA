@@ -51,7 +51,7 @@ A proposta é criar uma plataforma simples, intuitiva e acessível.
 ## 5. Composição do grupo
 
 * Gracielle Ázara — Product Owner
-* Matheus Cunha — Scrum Master
+* Matheus Cunha — Scrum Master e Designer
 * Miguel Coelho — Desenvolvedor Back-end
 * Nicolas Matheus — Desenvolvedor Front-end
 
